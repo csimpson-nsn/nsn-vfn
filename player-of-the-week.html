@@ -173,8 +173,8 @@ function showTab(group, val, btn){
 
 <section class="page-sponsor-banner">
   <div class="wrap inner">
-    <div><span class="ts-tag">Player of the Week Sponsor</span><span class="ts-name">Crosstown Motors</span></div>
-    <a href="#" class="section-link">Inquire About Sponsoring This Slot &rarr;</a>
+    <div><span class="ts-tag">Player of the Week Program Sponsors</span><span class="ts-name">3 Division Slots Available</span></div>
+    <a href="#" class="section-link">Inquire About Sponsoring a Division Slot &rarr;</a>
   </div>
 </section>
 
@@ -182,16 +182,42 @@ function showTab(group, val, btn){
 <section class="section">
   <div class="wrap">
     <div class="section-head">
-      <div><span class="eyebrow">Week 7</span><h2>This Week's Honoree</h2></div>
+      <div><span class="eyebrow">Week 7</span><h2>This Week's Honorees</h2></div>
     </div>
-    <div class="potw-feature">
-      <div class="potw-photo-lg"></div>
-      <div>
-        <h3>Jordan Mercier</h3>
-        <div class="pos">RB &middot; St. Johnsbury &middot; Senior</div>
-        <div class="stat-line">198 yds &middot; 3 TD vs. Lyndon Institute</div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:18px;">
+      <div class="potw-feature" style="flex-direction:column; align-items:flex-start; gap:14px;">
+      <span class="ts-tag">Division I &middot; Presented by Crosstown Motors</span>
+      <div style="display:flex; gap:20px; align-items:center; width:100%;">
+        <div class="potw-photo-lg" style="width:90px; height:90px;"></div>
+        <div>
+          <h3 style="font-size:1.2rem;">Jordan Mercier</h3>
+          <div class="pos">RB &middot; St. Johnsbury &middot; Sr.</div>
+          <div class="stat-line" style="font-size:0.85rem;">198 yds &middot; 3 TD vs. Lyndon Institute</div>
+        </div>
+      </div>
+    </div><div class="potw-feature" style="flex-direction:column; align-items:flex-start; gap:14px;">
+      <span class="ts-tag">Division II &middot; Presented by Capital City GMC</span>
+      <div style="display:flex; gap:20px; align-items:center; width:100%;">
+        <div class="potw-photo-lg" style="width:90px; height:90px;"></div>
+        <div>
+          <h3 style="font-size:1.2rem;">Caleb Reyes</h3>
+          <div class="pos">QB &middot; Hartford &middot; Jr.</div>
+          <div class="stat-line" style="font-size:0.85rem;">312 yds passing &middot; 4 TD vs. Woodstock</div>
+        </div>
+      </div>
+    </div><div class="potw-feature" style="flex-direction:column; align-items:flex-start; gap:14px;">
+      <span class="ts-tag">Division III &middot; Presented by [Open Slot]</span>
+      <div style="display:flex; gap:20px; align-items:center; width:100%;">
+        <div class="potw-photo-lg" style="width:90px; height:90px;"></div>
+        <div>
+          <h3 style="font-size:1.2rem;">Owen Beaudry</h3>
+          <div class="pos">WR &middot; Mt. Abraham &middot; Sr.</div>
+          <div class="stat-line" style="font-size:0.85rem;">9 rec &middot; 165 yds &middot; 2 TD vs. Otter Valley</div>
+        </div>
       </div>
     </div>
+    </div>
+    <p style="color:var(--steel); font-size:0.85rem; margin-top:18px;">One honoree is recognized per division each week. Division III's slot is open &mdash; inquire above to sponsor it.</p>
   </div>
 </section>
 
@@ -201,13 +227,19 @@ function showTab(group, val, btn){
       <div><span class="eyebrow">Season Archive</span><h2>Past Recipients</h2></div>
     </div>
     <table class="potw-archive-table">
-      <thead><tr><th>Week</th><th>Player</th><th>Position</th><th>Performance</th></tr></thead>
-      <tbody><tr><td>Week 6</td><td><span class="potw-thumb-sm"></span>Jordan Mercier</td><td>RB &middot; St. Johnsbury &middot; Sr.</td><td>198 yds &middot; 3 TD vs. Lyndon</td></tr>
-<tr><td>Week 5</td><td><span class="potw-thumb-sm"></span>Caleb Reyes</td><td>QB &middot; Hartford &middot; Jr.</td><td>312 yds passing &middot; 4 TD vs. Woodstock</td></tr>
-<tr><td>Week 4</td><td><span class="potw-thumb-sm"></span>Tucker Lavoie</td><td>LB &middot; Mt. Mansfield &middot; Sr.</td><td>14 tackles &middot; 2 sacks vs. Essex</td></tr>
-<tr><td>Week 3</td><td><span class="potw-thumb-sm"></span>Owen Beaudry</td><td>WR &middot; CVU &middot; Sr.</td><td>9 rec &middot; 165 yds &middot; 2 TD vs. South Burlington</td></tr>
-<tr><td>Week 2</td><td><span class="potw-thumb-sm"></span>Mason Fitch</td><td>RB &middot; BFA St. Albans &middot; Jr.</td><td>210 yds &middot; 3 TD vs. Milton</td></tr>
-<tr><td>Week 1</td><td><span class="potw-thumb-sm"></span>Drew Whitcomb</td><td>QB &middot; Rutland &middot; Sr.</td><td>4 TD total vs. BFA St. Albans</td></tr></tbody>
+      <thead><tr><th>Week</th><th>Division</th><th>Player</th><th>Position</th><th>Performance</th></tr></thead>
+      <tbody>
+<tr><td>Week 6</td><td>Division I</td><td><span class="potw-thumb-sm"></span>Jordan Mercier</td><td>RB &middot; St. Johnsbury &middot; Sr.</td><td>198 yds &middot; 3 TD vs. Lyndon</td></tr>
+<tr><td>Week 6</td><td>Division II</td><td><span class="potw-thumb-sm"></span>Caleb Reyes</td><td>QB &middot; Hartford &middot; Jr.</td><td>312 yds passing &middot; 4 TD vs. Woodstock</td></tr>
+<tr><td>Week 6</td><td>Division III</td><td><span class="potw-thumb-sm"></span>Owen Beaudry</td><td>WR &middot; Mt. Abraham &middot; Sr.</td><td>9 rec &middot; 165 yds &middot; 2 TD vs. Otter Valley</td></tr>
+<tr><td>Week 5</td><td>Division I</td><td><span class="potw-thumb-sm"></span>Tucker Lavoie</td><td>LB &middot; Mt. Mansfield &middot; Sr.</td><td>14 tackles &middot; 2 sacks vs. Essex</td></tr>
+<tr><td>Week 5</td><td>Division II</td><td><span class="potw-thumb-sm"></span>Mason Fitch</td><td>RB &middot; Milton &middot; Jr.</td><td>178 yds &middot; 2 TD vs. Brattleboro</td></tr>
+<tr><td>Week 5</td><td>Division III</td><td><span class="potw-thumb-sm"></span>Drew Whitcomb</td><td>QB &middot; Springfield &middot; Sr.</td><td>3 TD total vs. Woodstock</td></tr>
+<tr><td>Week 4</td><td>Division I</td><td><span class="potw-thumb-sm"></span>Owen Beaudry</td><td>WR &middot; CVU &middot; Sr.</td><td>9 rec &middot; 165 yds &middot; 2 TD vs. South Burlington</td></tr>
+<tr><td>Week 4</td><td>Division II</td><td><span class="potw-thumb-sm"></span>Riley Tatro</td><td>DB &middot; Fair Haven &middot; Jr.</td><td>2 INT &middot; 1 TD return vs. Lyndon</td></tr>
+<tr><td>Week 4</td><td>Division III</td><td><span class="potw-thumb-sm"></span>Mason Fitch</td><td>RB &middot; BFA St. Albans &middot; Jr.</td><td>210 yds &middot; 3 TD vs. Milton</td></tr>
+
+      </tbody>
     </table>
   </div>
 </section>

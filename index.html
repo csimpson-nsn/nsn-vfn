@@ -368,27 +368,49 @@ document.addEventListener('DOMContentLoaded', renderHomeSchedule);
 <section class="section" id="potw-preview" style="background:var(--slate); border-top:1px solid #262c2e; border-bottom:1px solid #262c2e;">
   <div class="wrap">
     <div class="section-head">
-      <div><span class="eyebrow">This Week's Honoree</span><h2>Player of the Week</h2></div>
+      <div><span class="eyebrow">This Week's Honorees</span><h2>Player of the Week</h2></div>
       <a href="player-of-the-week.html" class="section-link">Past Recipients &rarr;</a>
     </div>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
-      <div class="potw-feature" style="padding:24px;">
-        <div class="potw-photo-lg" style="width:84px; height:84px;"></div>
-        <div>
-          <h3 style="font-size:1.1rem;">Jordan Mercier</h3>
-          <div class="pos">RB &middot; St. Johnsbury &middot; Sr.</div>
-          <div class="stat-line" style="font-size:0.85rem;">198 yds &middot; 3 TD vs. Lyndon</div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:18px;">
+      <div class="potw-feature" style="padding:20px; flex-direction:column; align-items:flex-start; gap:12px;">
+        <span class="ts-tag" style="font-size:0.62rem;">Division I</span>
+        <div style="display:flex; gap:14px; align-items:center;">
+          <div class="potw-photo-lg" style="width:64px; height:64px;"></div>
+          <div>
+            <h3 style="font-size:1rem;">Jordan Mercier</h3>
+            <div class="pos" style="font-size:0.78rem;">RB &middot; St. Johnsbury &middot; Sr.</div>
+          </div>
         </div>
       </div>
-      <div style="background:var(--granite); border:1px solid #2a3133; padding:24px; display:flex; gap:20px; align-items:center;">
-        <div style="width:84px; height:84px; flex-shrink:0; background:linear-gradient(135deg,var(--field-green),#14181a); display:flex; align-items:center; justify-content:center; font-family:'Anton',sans-serif; font-size:0.95rem;">VFN<br>POD</div>
-        <div>
-          <h3 style="font-size:1.05rem;">The VFN Sideline Podcast</h3>
-          <p style="font-size:0.82rem; color:var(--steel); margin-top:6px; line-height:1.5;">Weekly breakdowns, coach interviews, and predictions.</p>
-          <div style="display:flex; gap:12px; margin-top:10px; flex-wrap:wrap;">
-            <a href="#" class="section-link" style="font-size:0.72rem;">Apple</a>
-            <a href="#" class="section-link" style="font-size:0.72rem;">Spotify</a>
+      <div class="potw-feature" style="padding:20px; flex-direction:column; align-items:flex-start; gap:12px;">
+        <span class="ts-tag" style="font-size:0.62rem;">Division II</span>
+        <div style="display:flex; gap:14px; align-items:center;">
+          <div class="potw-photo-lg" style="width:64px; height:64px;"></div>
+          <div>
+            <h3 style="font-size:1rem;">Caleb Reyes</h3>
+            <div class="pos" style="font-size:0.78rem;">QB &middot; Hartford &middot; Jr.</div>
           </div>
+        </div>
+      </div>
+      <div class="potw-feature" style="padding:20px; flex-direction:column; align-items:flex-start; gap:12px;">
+        <span class="ts-tag" style="font-size:0.62rem;">Division III</span>
+        <div style="display:flex; gap:14px; align-items:center;">
+          <div class="potw-photo-lg" style="width:64px; height:64px;"></div>
+          <div>
+            <h3 style="font-size:1rem;">Owen Beaudry</h3>
+            <div class="pos" style="font-size:0.78rem;">WR &middot; Mt. Abraham &middot; Sr.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="background:var(--granite); border:1px solid #2a3133; padding:24px; display:flex; gap:20px; align-items:center;">
+      <div style="width:64px; height:64px; flex-shrink:0; background:linear-gradient(135deg,var(--field-green),#14181a); display:flex; align-items:center; justify-content:center; font-family:'Anton',sans-serif; font-size:0.85rem;">VFN<br>POD</div>
+      <div>
+        <h3 style="font-size:1.05rem;">The VFN Sideline Podcast</h3>
+        <p style="font-size:0.82rem; color:var(--steel); margin-top:6px; line-height:1.5;">Weekly breakdowns, coach interviews, and predictions.</p>
+        <div style="display:flex; gap:12px; margin-top:10px; flex-wrap:wrap;">
+          <a href="#" class="section-link" style="font-size:0.72rem;">Apple</a>
+          <a href="#" class="section-link" style="font-size:0.72rem;">Spotify</a>
         </div>
       </div>
     </div>
