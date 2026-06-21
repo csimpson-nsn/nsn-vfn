@@ -197,37 +197,104 @@ function showTab(group, val, btn){
 </section>
 
 
-<section class="section" id="schedule-preview">
+<section class="section" id="schedule-preview"><script>
+const VFN_GAMES = [
+  {date:"2026-09-04", time:"7:00 PM", t1:"Essex", t2:"St. Johnsbury", meta:"St. Johnsbury HS &middot; Division I"},
+  {date:"2026-09-04", time:"7:00 PM", t1:"Rutland", t2:"BFA St. Albans", meta:"BFA St. Albans &middot; Division I"},
+  {date:"2026-09-04", time:"7:00 PM", t1:"Mt. Anthony", t2:"Seawolves", meta:"Division I"},
+  {date:"2026-09-05", time:"7:00 PM", t1:"Middlebury", t2:"Burr & Burton Academy", meta:"Division I"},
+  {date:"2026-09-05", time:"1:00 PM", t1:"Hartford", t2:"Champlain Valley", meta:"CVU Field &middot; D-I/D-II Crossover"},
+  {date:"2026-09-04", time:"7:00 PM", t1:"Mt. Mansfield", t2:"Colchester", meta:"D-I/D-II Crossover"},
+  {date:"2026-09-10", time:"7:00 PM", t1:"Seawolves", t2:"BFA St. Albans", meta:"Division I"},
+  {date:"2026-09-11", time:"7:00 PM", t1:"Burr & Burton Academy", t2:"Mt. Anthony", meta:"Division I"},
+  {date:"2026-09-12", time:"1:00 PM", t1:"Champlain Valley", t2:"Middlebury", meta:"Division I"},
+  {date:"2026-09-10", time:"7:00 PM", t1:"Colchester", t2:"Essex", meta:"D-I/D-II Crossover"},
+  {date:"2026-09-11", time:"7:00 PM", t1:"Rutland", t2:"Hartford", meta:"D-I/D-II Crossover"},
+  {date:"2026-09-18", time:"7:00 PM", t1:"Essex", t2:"BFA St. Albans", meta:"Division I"},
+  {date:"2026-09-19", time:"1:00 PM", t1:"Burr & Burton Academy", t2:"Hartford", meta:"D-I/D-II Crossover"},
+  {date:"2026-09-18", time:"7:00 PM", t1:"Seawolves", t2:"Champlain Valley", meta:"Division I"},
+  {date:"2026-09-18", time:"7:00 PM", t1:"St. Johnsbury", t2:"Middlebury", meta:"Division I"},
+  {date:"2026-09-18", time:"7:00 PM", t1:"Rutland", t2:"Mt. Anthony", meta:"Division I"},
+];
+
+const VFN_LOGOS = {
+  "BFA St. Albans": "assets/logos/BFA_SA.png",
+  "Mt. Mansfield": "assets/logos/MMU.png",
+  "Burr & Burton Academy": "assets/logos/burr_and_burton.png",
+  "Champlain Valley": "assets/logos/Champlain_Valley.png",
+  "Essex": "assets/logos/Essex_High_School.png",
+  "Middlebury": "assets/logos/Middlebury.png",
+  "Mt. Anthony": "assets/logos/MAUlogo.png",
+  "Colchester": "assets/logos/colchester_logo_23.png",
+  "Fair Haven": "assets/logos/FairHaven.png",
+  "Hartford": "assets/logos/Hartford.png",
+  "Lyndon Institute": "assets/logos/LIlogo.png",
+  "Milton": "assets/logos/Milton_.png",
+  "Brattleboro": "assets/logos/brattleboro_bears.png",
+  "North Country": "assets/logos/North_Country_Falcons.png",
+  "Bellows Falls": "assets/logos/Bellows_Falls.png",
+  "BFA Fairfax": "assets/logos/bfa_fairfax_logo.png",
+  "Mill River": "assets/logos/Mill_River_Minutemen_.png",
+  "Missisquoi": "assets/logos/mvulogo.png",
+  "Mt. Abraham": "assets/logos/Mt__Abraham.png",
+  "Otter Valley": "assets/logos/Otter_Valley.png",
+  "Poultney": "assets/logos/Poultney.png",
+  "Rice Memorial": "assets/logos/Rice.png",
+  "Rutland": "assets/logos/rutland_copy.png",
+  "Spaulding": "assets/logos/shs.png",
+  "Springfield": "assets/logos/Springfield.png",
+  "St. Johnsbury": "assets/logos/stja.png",
+  "Union-32": "assets/logos/U-32_Athletics_Logo.png",
+  "Windsor": "assets/logos/Windsor.png",
+  "Woodstock": "assets/logos/woodstock_wasps.png"
+};
+
+function vfnCrest(team){
+  const path = VFN_LOGOS[team];
+  if(path){
+    return `<img src="${path}" alt="${team}" style="width:20px;height:20px;object-fit:contain;background:#fff;border-radius:4px;padding:2px;">`;
+  }
+  return `<span class="team-dot c1"></span>`;
+}
+
+function renderHomeSchedule(){
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const future = VFN_GAMES.filter(g => new Date(g.date + "T00:00:00") >= today);
+  let pool, label;
+  if(future.length > 0){
+    const nextDate = future.reduce((min,g) => g.date < min ? g.date : min, future[0].date);
+    pool = future.filter(g => g.date === nextDate);
+    label = "Upcoming &middot; " + new Date(nextDate + "T00:00:00").toLocaleDateString('en-US', {weekday:'long', month:'short', day:'numeric'});
+  } else {
+    const lastDate = VFN_GAMES.reduce((max,g) => g.date > max ? g.date : max, VFN_GAMES[0].date);
+    pool = VFN_GAMES.filter(g => g.date === lastDate);
+    label = "Most Recent &middot; " + new Date(lastDate + "T00:00:00").toLocaleDateString('en-US', {weekday:'long', month:'short', day:'numeric'});
+  }
+  const grid = document.getElementById('homeScheduleGrid');
+  const labelEl = document.getElementById('homeScheduleLabel');
+  if(labelEl) labelEl.innerHTML = label;
+  if(!grid) return;
+  grid.innerHTML = pool.slice(0,6).map(g => `
+    <div class="game-card">
+      <span class="game-status">${new Date(g.date+"T00:00:00").toLocaleDateString('en-US',{weekday:'short',month:'numeric',day:'numeric'})} &middot; ${g.time}</span>
+      <div class="matchup">
+        <div class="team-row"><div class="team">${vfnCrest(g.t1)}${g.t1}</div><span class="score">&mdash;</span></div>
+        <div class="team-row"><div class="team">${vfnCrest(g.t2)}${g.t2}</div><span class="score">&mdash;</span></div>
+      </div>
+      <div class="game-meta">${g.meta}</div>
+    </div>
+  `).join('');
+}
+document.addEventListener('DOMContentLoaded', renderHomeSchedule);
+</script>
   <div class="wrap">
     <div class="section-head">
-      <div><span class="eyebrow">Week 1 &middot; 9/4&ndash;9/5</span><h2>This Week's Games</h2></div>
+      <div><span class="eyebrow" id="homeScheduleLabel">Loading&hellip;</span><h2>This Week's Games</h2></div>
       <a href="schedule.html" class="section-link">Full Schedule &rarr;</a>
     </div>
-    <div class="games-grid">
-      <div class="game-card">
-        <span class="game-status">Fri 9/4 &middot; 7:00 PM</span>
-        <div class="matchup">
-          <div class="team-row"><div class="team"><span class="team-dot c1"></span>Essex</div><span class="score">&mdash;</span></div>
-          <div class="team-row"><div class="team"><span class="team-dot c2"></span>St. Johnsbury</div><span class="score">&mdash;</span></div>
-        </div>
-        <div class="game-meta">St. Johnsbury HS &middot; Division I</div>
-      </div>
-      <div class="game-card">
-        <span class="game-status">Fri 9/4 &middot; 7:00 PM</span>
-        <div class="matchup">
-          <div class="team-row"><div class="team"><span class="team-dot c3"></span>Rutland</div><span class="score">&mdash;</span></div>
-          <div class="team-row"><div class="team"><span class="team-dot c4"></span>BFA St. Albans</div><span class="score">&mdash;</span></div>
-        </div>
-        <div class="game-meta">BFA St. Albans &middot; Division I</div>
-      </div>
-      <div class="game-card">
-        <span class="game-status">Sat 9/5 &middot; 1:00 PM</span>
-        <div class="matchup">
-          <div class="team-row"><div class="team"><span class="team-dot c5"></span>Hartford</div><span class="score">&mdash;</span></div>
-          <div class="team-row"><div class="team"><span class="team-dot c6"></span>Champlain Valley</div><span class="score">&mdash;</span></div>
-        </div>
-        <div class="game-meta">CVU Field &middot; D-I/D-II Crossover</div>
-      </div>
+    <div class="games-grid" id="homeScheduleGrid">
+      <div class="game-card"><span class="game-status">Loading&hellip;</span></div>
     </div>
   </div>
 </section>
