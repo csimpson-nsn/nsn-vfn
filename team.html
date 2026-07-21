@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team | Vermont Football Network</title>
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap');
+:root{
+  --granite:#14181a; --slate:#1f2628; --field-green:#1f5c3a; --field-green-light:#2f7a4f;
+  --broadcast-red:#d6332e; --snow:#f3f5f3; --steel:#8b969a; --gold:#d9a13a;
+  --team-primary: var(--gold); --team-secondary: var(--field-green-light);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--granite); color:var(--snow); font-family:'Barlow',sans-serif; -webkit-font-smoothing:antialiased;}
+h1,h2,h3,.display{font-family:'Anton',sans-serif; text-transform:uppercase; letter-spacing:0.02em;}
+.eyebrow{font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.18em; font-size:0.72rem;}
+a{color:inherit; text-decoration:none;}
+img{max-width:100%; display:block;}
+.wrap{max-width:1280px; margin:0 auto; padding:0 28px;}
+:focus-visible{outline:3px solid var(--gold); outline-offset:2px;}
+
+header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); position:sticky; top:0; z-index:50;}
+.nav{display:flex; align-items:center; justify-content:space-between; padding:16px 28px;}
+.logo{display:flex; align-items:center; gap:10px; font-family:'Anton',sans-serif; font-size:1.5rem;}
+.logo img{height:40px; width:40px; object-fit:contain;}
+.logo span.net{color:var(--steel); font-size:0.95rem; margin-left:2px;}
+nav.links{display:flex; gap:26px;}
+nav.links a{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.85rem; color:var(--snow); padding:6px 2px; border-bottom:2px solid transparent; transition:border-color .15s;}
+nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
+.watch-btn{display:inline-block; background:var(--broadcast-red); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.85rem; padding:11px 22px; border:none; cursor:pointer; transform:skew(-6deg);}
+.watch-btn span{display:block; transform:skew(6deg);}
+.watch-btn:hover{background:#b9261f;}
+.menu-toggle{display:none; background:none; border:none; color:var(--snow); font-size:1.6rem; cursor:pointer;}
+@media (max-width:900px){nav.links{display:none;} .menu-toggle{display:block;}}
+
+.page-hero{
+  padding:44px 28px 34px; border-bottom:3px solid var(--team-primary);
+  background:linear-gradient(135deg, color-mix(in srgb, var(--team-primary) 22%, transparent), transparent 60%), var(--slate);
+}
+.team-hero-top{display:flex; align-items:center; gap:20px; flex-wrap:wrap;}
+.team-hero-crest{width:74px; height:74px; border-radius:10px; background:#fff; padding:6px; object-fit:contain; flex-shrink:0; border:2px solid var(--team-primary);}
+.page-hero .eyebrow{color:var(--team-primary); display:flex; align-items:center; gap:10px; margin-bottom:10px;}
+.page-hero .eyebrow::before{content:""; width:28px; height:2px; background:var(--team-primary);}
+.page-hero h1{font-size:clamp(1.9rem,5vw,3.1rem);}
+.team-record{font-family:'Barlow Condensed',sans-serif; color:var(--steel); font-size:1rem; margin-top:6px;}
+.team-record strong{color:var(--snow);}
+.cancelled-banner{background:var(--broadcast-red); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:0.85rem; padding:12px 20px; margin:0 0 18px;}
+
+.section{padding:46px 28px;}
+.section-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; border-bottom:1px solid #262c2e; padding-bottom:16px;}
+.section-head .eyebrow{color:var(--team-secondary); margin-bottom:6px; display:block;}
+.section-head h2{font-size:clamp(1.4rem,3vw,2rem);}
+
+/* leaders */
+.leaders-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:16px;}
+@media (max-width:980px){.leaders-grid{grid-template-columns:repeat(3,1fr);}}
+@media (max-width:640px){.leaders-grid{grid-template-columns:repeat(2,1fr);}}
+.leader-card{background:var(--slate); border:1px solid #262c2e; padding:18px; border-top:3px solid var(--team-primary);}
+.leader-card .cat{font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; font-size:0.7rem; color:var(--team-primary); margin-bottom:8px;}
+.leader-card .pname{font-size:1rem; font-weight:600;}
+.leader-card .pline{font-family:'Barlow Condensed',sans-serif; font-size:0.82rem; color:var(--steel); margin-top:4px;}
+.leader-card .none{color:var(--steel); font-size:0.85rem;}
+
+/* tables (roster + schedule) */
+.data-table{width:100%; border-collapse:collapse; font-family:'Barlow Condensed',sans-serif; margin-bottom:8px;}
+.data-table th{text-align:left; font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--steel); padding:10px 14px; border-bottom:1px solid #262c2e;}
+.data-table td{padding:13px 14px; border-bottom:1px solid #1d2224; font-weight:500; font-size:0.92rem;}
+.data-table tr:hover td{background:#1c2123;}
+.result-w{color:var(--field-green-light); font-weight:700;}
+.result-l{color:var(--broadcast-red); font-weight:700;}
+.result-u{color:var(--steel);}
+
+.empty-note{color:var(--steel); font-size:0.88rem; padding:16px 0;}
+
+footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--broadcast-red);}
+.footer-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr 1fr; gap:28px; padding-bottom:28px;}
+@media (max-width:980px){.footer-grid{grid-template-columns:1fr 1fr 1fr;}}
+@media (max-width:640px){.footer-grid{grid-template-columns:1fr 1fr;}}
+.footer-col h4{font-family:'Barlow Condensed',sans-serif; font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--steel); margin-bottom:14px;}
+.footer-col a{display:block; font-size:0.92rem; color:var(--snow); margin-bottom:10px; opacity:0.85;}
+.footer-col a:hover{opacity:1; color:var(--field-green-light);}
+.footer-bottom{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; border-top:1px solid #1d2224; padding-top:20px; font-family:'Barlow Condensed',sans-serif; font-size:0.78rem; color:var(--steel);}
+.nsn-subfooter{display:flex; align-items:center; gap:18px; margin-top:22px; padding-top:20px; border-top:1px solid #1d2224; flex-wrap:wrap;}
+.nsn-logo-video{width:70px; height:70px; object-fit:cover; border-radius:6px; background:#000; flex-shrink:0;}
+.nsn-subfooter-text .nsn-name{font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; font-size:0.85rem; color:var(--snow);}
+.nsn-subfooter-text a{font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.85rem; color:var(--gold);}
+.nsn-subfooter-text a:hover{color:var(--snow);}
+.nsn-subfooter-text .nsn-tagline{font-size:0.78rem; color:var(--steel); margin-top:4px; max-width:520px; line-height:1.4;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="index.html" class="logo"><img src="assets/vfn-logo.jpg" alt="Vermont Football Network"> VERMONT FOOTBALL <span class="net">NETWORK</span></a>
+    <nav class="links">
+      <a href="index.html" class="">Home</a>
+      <a href="schedule.html" class="">Schedule</a>
+      <a href="standings.html" class="">Standings</a>
+      <a href="teams.html" class="active">Teams</a>
+      <a href="statistics.html" class="">Statistics</a>
+      <a href="player-of-the-week.html" class="">Player of the Week</a>
+    </nav>
+    <a href="https://www.nsnsports.net" target="_blank" rel="noopener" class="watch-btn"><span>Watch Live</span></a>
+    <button class="menu-toggle" aria-label="Open menu">&#9776;</button>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="wrap">
+    <div id="cancelledBanner"></div>
+    <span class="eyebrow" id="teamDivLabel">Team</span>
+    <div class="team-hero-top">
+      <img id="teamCrest" class="team-hero-crest" src="" alt="" style="display:none;">
+      <div>
+        <h1 id="teamName">Loading&hellip;</h1>
+        <div class="team-record" id="teamRecord"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <div><span class="eyebrow">Season Leaders</span><h2>Team Leaders</h2></div>
+    </div>
+    <div class="leaders-grid" id="leadersGrid"></div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head">
+      <div><span class="eyebrow">Full Roster</span><h2>Roster</h2></div>
+    </div>
+    <div id="rosterWrap"></div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head">
+      <div><span class="eyebrow">2026 VIFL Season</span><h2>Schedule</h2></div>
+    </div>
+    <div id="scheduleWrap"></div>
+  </div>
+</section>
+
+<script>
+// Team name -> {logo file, division label} lookup, shared source of truth for this page
+const TEAMS = {
+  "BFA St. Albans": {logo:"assets/logos/BFA_SA.png", div:"Division I", c1:"#204030", c2:"#f0a020"},
+  "Mt. Mansfield": {logo:"assets/logos/MMU.png", div:"Division I", c1:"#a0c0e0", c2:"#002040"},
+  "Burr & Burton Academy": {logo:"assets/logos/burr_and_burton.png", div:"Division I", c1:"#f0c000", c2:"#005020"},
+  "Champlain Valley": {logo:"assets/logos/Champlain_Valley.png", div:"Division I", c1:"#e01020", c2:"#200000"},
+  "Essex": {logo:"assets/logos/Essex_High_School.png", div:"Division I", c1:"#d0a070", c2:"#104070"},
+  "Middlebury": {logo:"assets/logos/Middlebury.png", div:"Division I", c1:"#f07010", c2:"#301000"},
+  "Mt. Anthony": {logo:"assets/logos/MAUlogo.png", div:"Division I", c1:"#000080", c2:"#e00000"},
+  "Rutland": {logo:"assets/logos/rutland_copy.png", div:"Division I", c1:"#a00010", c2:"#f0d0e0"},
+  "Seawolves": {logo:"", div:"Division I", c1:"#2f7a4f", c2:"#1f2628"},
+  "St. Johnsbury": {logo:"assets/logos/stja.png", div:"Division I", c1:"#006020", c2:"#307040"},
+  "Colchester": {logo:"assets/logos/colchester_logo_23.png", div:"Division II", c1:"#006030", c2:"#005090"},
+  "Fair Haven": {logo:"assets/logos/FairHaven.png", div:"Division II", c1:"#002050", c2:"#8090a0"},
+  "Hartford": {logo:"assets/logos/Hartford.png", div:"Division II", c1:"#204090", c2:"#b01020"},
+  "Lyndon Institute": {logo:"assets/logos/LIlogo.png", div:"Division II", c1:"#301010", c2:"#c0a080"},
+  "Brattleboro": {logo:"assets/logos/brattleboro_bears.png", div:"Division II", c1:"#602090", c2:"#8060a0"},
+  "North Country": {logo:"assets/logos/North_Country_Falcons.png", div:"Division II", c1:"#500000", c2:"#2080b0"},
+  "Rice Memorial": {logo:"assets/logos/Rice.png", div:"Division II", c1:"#305040", c2:"#507060"},
+  "Spaulding": {logo:"assets/logos/shs.png", div:"Division II", c1:"#800010", c2:"#c03030"},
+  "Union-32": {logo:"assets/logos/U-32_Athletics_Logo.png", div:"Division II", c1:"#0020f0", c2:"#d0e0f0"},
+  "Bellows Falls": {logo:"assets/logos/Bellows_Falls.png", div:"Division III", c1:"#1f5c3a", c2:"#d9a13a"},
+  "Fairfax/Lamoille": {logo:"assets/logos/bfa_fairfax_logo.png", div:"Division III", c1:"#502020", c2:"#604050"},
+  "Mill River": {logo:"assets/logos/Mill_River_Minutemen_.png", div:"Division III", c1:"#002050", c2:"#d02040"},
+  "Milton": {logo:"assets/logos/Milton_.png", div:"Division III", c1:"#000080", c2:"#f0b000"},
+  "Missisquoi": {logo:"assets/logos/mvulogo.png", div:"Division III", c1:"#203090", c2:"#6060a0"},
+  "Mt. Abraham": {logo:"assets/logos/Mt__Abraham.png", div:"Division III", c1:"#600000", c2:"#200000"},
+  "Otter Valley": {logo:"assets/logos/Otter_Valley.png", div:"Division III", c1:"#000080", c2:"#c0c0e0"},
+  "Poultney": {logo:"assets/logos/Poultney.png", div:"Division III", c1:"#204080", c2:"#203050", cancelled:true},
+  "Springfield": {logo:"assets/logos/Springfield.png", div:"Division III", c1:"#007030", c2:"#c0e0d0"},
+  "Windsor": {logo:"assets/logos/Windsor.png", div:"Division III", c1:"#f0c010", c2:"#105030"},
+  "Woodstock": {logo:"assets/logos/woodstock_wasps.png", div:"Division III", c1:"#105020", c2:"#608060"},
+};
+
+const DATA_CSV_URLS = {
+  roster:    "data/Roster.csv",
+  schedule:  "data/Schedule.csv",
+  passing:   "data/Passing.csv",
+  rushing:   "data/Rushing.csv",
+  receiving: "data/Receiving.csv",
+  defense:   "data/Defense.csv",
+  kicking:   "data/Kicking.csv",
+};
+
+function parseCSV(text){
+  const lines = text.trim().split(/\r?\n/);
+  const headers = lines[0].split(",");
+  return lines.slice(1).filter(l => l.trim().length).map(line => {
+    const cells = line.split(",");
+    const row = {};
+    headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
+    return row;
+  });
+}
+function num(v){ return parseFloat(v) || 0; }
+function fmt1(n){ return (Math.round(n*10)/10).toFixed(1); }
+
+async function loadCSV(url){
+  const r = await fetch(url);
+  if(!r.ok) throw new Error("Could not load " + url);
+  return parseCSV(await r.text());
+}
+
+function aggregateByPlayer(rows, team, sumFields){
+  const players = {};
+  rows.filter(r => r["Team"] === team).forEach(r => {
+    const key = r["Player Name"];
+    if(!key) return;
+    if(!players[key]){
+      players[key] = {name: r["Player Name"]};
+      sumFields.forEach(f => players[key][f] = 0);
+    }
+    sumFields.forEach(f => players[key][f] += num(r[f]));
+  });
+  return Object.values(players);
+}
+
+function topPlayer(rows, sortKey){
+  if(!rows.length) return null;
+  return rows.slice().sort((a,b) => b[sortKey]-a[sortKey])[0];
+}
+
+function resultClass(r){
+  if(r === "W") return "result-w";
+  if(r === "L") return "result-l";
+  return "result-u";
+}
+
+async function init(){
+  const params = new URLSearchParams(window.location.search);
+  const team = params.get("team");
+
+  if(!team || !TEAMS[team]){
+    document.getElementById('teamName').textContent = "Team Not Found";
+    document.getElementById('teamDivLabel').textContent = "";
+    document.getElementById('rosterWrap').innerHTML = '<p class="empty-note">No team was specified in the link, or the team name doesn\'t match our records. Go back to the <a href="teams.html" style="color:var(--gold); text-decoration:underline;">Teams page</a> and select a team.</p>';
+    return;
+  }
+
+  const info = TEAMS[team];
+  document.title = team + " | Vermont Football Network";
+  document.getElementById('teamName').textContent = team;
+  document.getElementById('teamDivLabel').textContent = info.div;
+  document.documentElement.style.setProperty('--team-primary', info.c1 || 'var(--gold)');
+  document.documentElement.style.setProperty('--team-secondary', info.c2 || 'var(--field-green-light)');
+  if(info.logo){
+    const crest = document.getElementById('teamCrest');
+    crest.src = info.logo;
+    crest.alt = team;
+    crest.style.display = '';
+  }
+  if(info.cancelled){
+    document.getElementById('cancelledBanner').innerHTML = '<div class="cancelled-banner">2026 Season Cancelled &mdash; No Games, Roster, or Stats This Year</div>';
+  }
+
+  try {
+    const [rosterRows, scheduleRows, passingRows, rushingRows, receivingRows, defenseRows, kickingRows] = await Promise.all([
+      loadCSV(DATA_CSV_URLS.roster),
+      loadCSV(DATA_CSV_URLS.schedule),
+      loadCSV(DATA_CSV_URLS.passing),
+      loadCSV(DATA_CSV_URLS.rushing),
+      loadCSV(DATA_CSV_URLS.receiving),
+      loadCSV(DATA_CSV_URLS.defense),
+      loadCSV(DATA_CSV_URLS.kicking),
+    ]);
+
+    // --- Schedule + record ---
+    const games = scheduleRows.filter(r => r["Team1"] === team || r["Team2"] === team);
+    let wins = 0, losses = 0;
+    let schedHTML = '<table class="data-table"><thead><tr><th>Week</th><th>Date</th><th>Opponent</th><th>Result</th><th>Score</th></tr></thead><tbody>';
+    games.sort((a,b) => num(a["Week"]) - num(b["Week"])).forEach(g => {
+      const isTeam1 = g["Team1"] === team;
+      const opponent = isTeam1 ? g["Team2"] : g["Team1"];
+      const myScoreStr = isTeam1 ? g["Team1Score"] : g["Team2Score"];
+      const oppScoreStr = isTeam1 ? g["Team2Score"] : g["Team1Score"];
+      let result = "—", scoreLine = "—";
+      if(myScoreStr !== "" && oppScoreStr !== ""){
+        const my = num(myScoreStr), opp = num(oppScoreStr);
+        result = my > opp ? "W" : (my < opp ? "L" : "T");
+        scoreLine = my + "-" + opp;
+        if(result === "W") wins++;
+        if(result === "L") losses++;
+      }
+      schedHTML += `<tr><td>${g["Week"]}</td><td>${g["Date"]}</td><td>${opponent}</td><td class="${resultClass(result)}">${result}</td><td>${scoreLine}</td></tr>`;
+    });
+    schedHTML += '</tbody></table>';
+    document.getElementById('scheduleWrap').innerHTML = games.length ? schedHTML : '<p class="empty-note">No games found for this team in the schedule data yet.</p>';
+    document.getElementById('teamRecord').innerHTML = `Record: <strong>${wins}-${losses}</strong>`;
+
+    // --- Roster ---
+    const roster = rosterRows.filter(r => r["Team"] === team && r["Player Name"]);
+    let rosterHTML = '<table class="data-table"><thead><tr><th>#</th><th>Name</th><th>Off. Position</th><th>Def. Position</th></tr></thead><tbody>';
+    roster.forEach(p => {
+      rosterHTML += `<tr><td>${p["Number"]}</td><td>${p["Player Name"]}</td><td>${p["Off Position"]}</td><td>${p["Def Position"]}</td></tr>`;
+    });
+    rosterHTML += '</tbody></table>';
+    document.getElementById('rosterWrap').innerHTML = roster.length ? rosterHTML : '<p class="empty-note">Roster hasn\'t been entered for this team yet.</p>';
+
+    // --- Team Leaders ---
+    const passing = aggregateByPlayer(passingRows, team, ["Att","Comp","Yds","TD","INT"]);
+    const rushing = aggregateByPlayer(rushingRows, team, ["Att","Yds","TD"]);
+    const receiving = aggregateByPlayer(receivingRows, team, ["Rec","Yds","TD"]);
+    const defense = aggregateByPlayer(defenseRows, team, ["Tackles","Sacks","INT"]);
+    const kicking = aggregateByPlayer(kickingRows, team, ["PAT Made","FG Made Under30","FG Made 30-39","FG Made 40-49","FG Made 50Plus"]);
+    kicking.forEach(k => k["FG Total"] = k["FG Made Under30"]+k["FG Made 30-39"]+k["FG Made 40-49"]+k["FG Made 50Plus"]);
+
+    const leaders = [
+      {cat:"Top Passer", p: topPlayer(passing,"Yds"), line: p => `${p.Yds} yds, ${p.TD} TD, ${p.Comp}/${p.Att} comp`},
+      {cat:"Top Rusher", p: topPlayer(rushing,"Yds"), line: p => `${p.Yds} yds, ${p.TD} TD, ${p.Att} att`},
+      {cat:"Top Receiver", p: topPlayer(receiving,"Yds"), line: p => `${p.Yds} yds, ${p.TD} TD, ${p.Rec} rec`},
+      {cat:"Top Defender", p: topPlayer(defense,"Tackles"), line: p => `${p.Tackles} tkl, ${p.Sacks} sacks, ${p.INT} INT`},
+      {cat:"Top Kicker", p: topPlayer(kicking,"FG Total"), line: p => `${p["FG Total"]} FG made, ${p["PAT Made"]} PAT`},
+    ];
+
+    document.getElementById('leadersGrid').innerHTML = leaders.map(l => `
+      <div class="leader-card">
+        <div class="cat">${l.cat}</div>
+        ${l.p ? `<div class="pname">${l.p.name}</div><div class="pline">${l.line(l.p)}</div>` : '<div class="none">No data yet</div>'}
+      </div>
+    `).join('');
+
+  } catch(err){
+    document.getElementById('rosterWrap').innerHTML = '<p class="empty-note">Could not load team data. Make sure data/Roster.csv, data/Schedule.csv, and the 5 stat CSVs are uploaded and reachable.</p>';
+    console.error(err);
+  }
+}
+init();
+</script>
+
+<footer id="about">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a href="index.html" class="logo" style="font-size:1.2rem; margin-bottom:14px;"><img src="assets/vfn-logo.jpg" alt="VFN" style="height:28px;width:28px;"> VERMONT FOOTBALL <span class="net">NETWORK</span></a>
+        <p style="color:var(--steel); font-size:0.88rem; max-width:280px; line-height:1.6; margin-top:14px;">A Northeast Sports Network production. Bringing Vermont high school football to every living room, every Friday night.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Watch</h4>
+        <a href="schedule.html">Full Schedule</a>
+        <a href="index.html#video-archive">Video Archive</a>
+        <a href="index.html#highlights">Highlights</a>
+      </div>
+      <div class="footer-col">
+        <h4>Network</h4>
+        <a href="standings.html">Standings &amp; RPI</a>
+        <a href="teams.html">All Teams</a>
+        <a href="statistics.html">Statistics</a>
+        <a href="player-of-the-week.html">Player of the Week</a>
+      </div>
+      <div class="footer-col">
+        <h4>League Resources</h4>
+        <a href="https://www.vfca-vt.org/" target="_blank" rel="noopener">VT Football Coaches Assoc.</a>
+        <a href="https://docs.google.com/document/d/1xGVxHfAktN-xCC3d6qNRXsPPTrmvjqp6/edit" target="_blank" rel="noopener">VPA Football Guide</a>
+        <a href="https://nfhs.org/sports/football/rules" target="_blank" rel="noopener">NFHS Rules</a>
+      </div>
+      <div class="footer-col">
+        <h4>Partner With Us</h4>
+        <a href="#">Sponsorship Packages</a>
+        <a href="#">Title Sponsor Inquiry</a>
+        <a href="#">Media Kit</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Northeast Sports Network. All rights reserved.</span>
+      <span>VFN — Vermont Football Network</span>
+    </div>
+    <div class="nsn-subfooter">
+      <video autoplay muted loop playsinline class="nsn-logo-video">
+        <source src="assets/nsn-logo.mp4" type="video/mp4">
+      </video>
+      <div class="nsn-subfooter-text">
+        <div class="nsn-name">Northeast Sports Network</div>
+        <a href="https://www.nsnsports.net" target="_blank" rel="noopener">www.nsnsports.net</a>
+        <div class="nsn-tagline">Live &amp; on-demand high school and college sports coverage across Vermont, New Hampshire &amp; New England</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
