@@ -49,46 +49,19 @@ nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
 .section-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:28px; flex-wrap:wrap; gap:12px; border-bottom:1px solid #262c2e; padding-bottom:16px;}
 .section-head .eyebrow{color:var(--field-green-light); margin-bottom:6px; display:block;}
 .section-head h2{font-size:clamp(1.5rem,3vw,2.2rem);}
-.section-link{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.85rem; color:var(--gold); border-bottom:1px solid var(--gold); padding-bottom:3px; white-space:nowrap;}
-.section-link:hover{color:var(--snow); border-color:var(--snow);}
 
-/* sponsor banner — page specific */
 .page-sponsor-banner{background:var(--slate); border-top:1px solid #262c2e; border-bottom:1px solid #262c2e; padding:20px 28px;}
 .page-sponsor-banner .inner{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;}
 .ts-tag{background:var(--gold); color:var(--granite); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; padding:6px 10px; display:inline-block;}
 .ts-name{font-family:'Anton',sans-serif; font-size:1.05rem; margin-left:12px;}
+.section-link{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.85rem; color:var(--gold); border-bottom:1px solid var(--gold); padding-bottom:3px; white-space:nowrap;}
+.section-link:hover{color:var(--snow); border-color:var(--snow);}
 
-/* tabs */
 .tab-row{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:24px;}
 .tab-btn{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.8rem; color:var(--steel); background:var(--slate); border:1px solid #262c2e; padding:9px 18px; cursor:pointer; transition:all .15s;}
 .tab-btn:hover{color:var(--snow); border-color:#3a4244;}
 .tab-btn.active{background:var(--field-green); color:var(--snow); border-color:var(--field-green);}
 
-/* team cards (Teams directory) */
-.teams-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
-@media (max-width:980px){.teams-grid{grid-template-columns:repeat(3,1fr);}}
-@media (max-width:720px){.teams-grid{grid-template-columns:repeat(2,1fr);}}
-@media (max-width:480px){.teams-grid{grid-template-columns:1fr;}}
-.team-card{background:var(--slate); border:1px solid #262c2e; padding:18px; transition:border-color .15s, transform .15s; display:flex; flex-direction:column; gap:10px;}
-.team-card:hover{border-color:var(--field-green-light); transform:translateY(-2px);}
-.team-card-top{display:flex; align-items:center; gap:12px;}
-.team-crest{width:42px; height:42px; border-radius:6px; flex-shrink:0;}
-.team-card h3{font-size:0.98rem; letter-spacing:0;}
-.team-card .div-tag{font-family:'Barlow Condensed',sans-serif; font-size:0.7rem; color:var(--steel); letter-spacing:0.06em; text-transform:uppercase; margin-top:2px;}
-.team-card .record-row{display:flex; justify-content:space-between; font-family:'Barlow Condensed',sans-serif; font-size:0.8rem; color:var(--steel); border-top:1px solid #262c2e; padding-top:10px;}
-.team-card a.profile-link{font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.75rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--gold);}
-.team-card a.profile-link:hover{color:var(--snow);}
-
-/* standings tables */
-.standings-table{width:100%; border-collapse:collapse; font-family:'Barlow Condensed',sans-serif; margin-bottom:8px;}
-.standings-table th{text-align:left; font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--steel); padding:10px 14px; border-bottom:1px solid #262c2e;}
-.standings-table td{padding:13px 14px; border-bottom:1px solid #1d2224; font-weight:500; font-size:0.92rem;}
-.standings-table tr:hover td{background:#1c2123;}
-.rank{color:var(--steel); width:30px;}
-.team-cell{display:flex; align-items:center; gap:10px; font-weight:600;}
-.team-dot{width:18px; height:18px; border-radius:4px; flex-shrink:0;}
-
-/* schedule */
 .week-block{margin-bottom:36px;}
 .week-block h3{font-size:1.05rem; color:var(--gold); letter-spacing:0.04em; margin-bottom:14px; font-family:'Barlow Condensed',sans-serif; text-transform:uppercase;}
 .games-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
@@ -100,20 +73,11 @@ nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
 .matchup{display:flex; flex-direction:column; gap:8px;}
 .team-row{display:flex; align-items:center; justify-content:space-between;}
 .team{display:flex; align-items:center; gap:10px; font-weight:600; font-size:0.92rem;}
+.team:hover{color:var(--gold);}
 .score{font-family:'Anton',sans-serif; font-size:1.1rem; color:var(--steel);}
+.score.final{color:var(--snow);}
 .game-meta{font-family:'Barlow Condensed',sans-serif; font-size:0.76rem; color:var(--steel); border-top:1px solid #262c2e; padding-top:10px;}
-
-/* POTW */
-.potw-feature{background:var(--slate); border:1px solid #262c2e; padding:30px; display:flex; gap:24px; align-items:center; flex-wrap:wrap;}
-.potw-photo-lg{width:120px; height:120px; border-radius:8px; background:linear-gradient(135deg,#3c5a76,#14181a); flex-shrink:0;}
-.potw-feature h3{font-size:1.5rem;}
-.potw-feature .pos{font-family:'Barlow Condensed',sans-serif; color:var(--steel); font-size:0.92rem; margin-top:4px;}
-.potw-feature .stat-line{font-family:'Barlow Condensed',sans-serif; font-size:0.95rem; color:var(--field-green-light); margin-top:10px; font-weight:600;}
-.potw-archive-table{width:100%; border-collapse:collapse; font-family:'Barlow Condensed',sans-serif;}
-.potw-archive-table th{text-align:left; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--steel); padding:10px 14px; border-bottom:1px solid #262c2e;}
-.potw-archive-table td{padding:13px 14px; border-bottom:1px solid #1d2224; font-size:0.9rem;}
-.potw-archive-table tr:hover td{background:#1c2123;}
-.potw-thumb-sm{width:38px; height:38px; border-radius:5px; background:linear-gradient(135deg,#3c5a76,#14181a); display:inline-block; vertical-align:middle; margin-right:10px;}
+.empty-note{color:var(--steel); font-size:0.88rem; padding:16px 0;}
 
 footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--broadcast-red);}
 .footer-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr 1fr; gap:28px; padding-bottom:28px;}
@@ -129,9 +93,6 @@ footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--br
 .nsn-subfooter-text a{font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.85rem; color:var(--gold);}
 .nsn-subfooter-text a:hover{color:var(--snow);}
 .nsn-subfooter-text .nsn-tagline{font-size:0.78rem; color:var(--steel); margin-top:4px; max-width:520px; line-height:1.4;}
-
-.c1{background:#2f7a4f;} .c2{background:#d6332e;} .c3{background:#d9a13a;}
-.c4{background:#3c5a76;} .c5{background:#7a5c3c;} .c6{background:#5c4a7a;}
 </style>
 <script>
 function showTab(group, val, btn){
@@ -155,30 +116,26 @@ function showTab(group, val, btn){
       <a href="teams.html" class="">Teams</a>
       <a href="statistics.html" class="">Statistics</a>
       <a href="player-of-the-week.html" class="">Player of the Week</a>
-      
     </nav>
     <a href="https://www.nsnsports.net" target="_blank" rel="noopener" class="watch-btn"><span>Watch Live</span></a>
     <button class="menu-toggle" aria-label="Open menu">&#9776;</button>
   </div>
 </header>
 
-
 <section class="page-hero">
   <div class="wrap">
-    <span class="eyebrow">2026 Season &middot; Weeks 1&ndash;3 Shown</span>
+    <span class="eyebrow">2026 Season &middot; Weeks 1&ndash;8</span>
     <h1>Schedule</h1>
-    <p>Full VIFL schedule by division. Game times and matchups pulled from the 2026 VIFL master schedule — confirm before publishing live.</p>
+    <p>Full VIFL schedule by division. Loaded live from the season spreadsheet — scores update automatically once each week's games are entered.</p>
   </div>
 </section>
-
 
 <section class="page-sponsor-banner">
   <div class="wrap inner">
-    <div><span class="ts-tag">Schedule Page Sponsor</span><span class="ts-name">[Open — Inquire About This Placement]</span></div>
+    <div><span class="ts-tag">Schedule Page Sponsor</span><span class="ts-name">[Open &mdash; Inquire About This Placement]</span></div>
     <a href="#" class="section-link">Become a Sponsor &rarr;</a>
   </div>
 </section>
-
 
 <section class="section">
   <div class="wrap">
@@ -186,408 +143,138 @@ function showTab(group, val, btn){
       <div><span class="eyebrow">2026 VIFL</span><h2>Schedule by Division</h2></div>
     </div>
     <div class="tab-row">
-      <button class="tab-btn active" onclick="showTab('schedDiv','sd1',this)">Division I</button>
-      <button class="tab-btn" onclick="showTab('schedDiv','sd2',this)">Division II</button>
-      <button class="tab-btn" onclick="showTab('schedDiv','sd3',this)">Division III</button>
+      <button class="tab-btn active" onclick="showTab('schedDiv','D-I',this)">Division I</button>
+      <button class="tab-btn" onclick="showTab('schedDiv','D-II',this)">Division II</button>
+      <button class="tab-btn" onclick="showTab('schedDiv','D-III',this)">Division III</button>
     </div>
-    <div data-group="schedDiv" data-val="sd1"><div class="week-block"><h3>Week 1 — 9/4 & 9/5</h3><div class="games-grid"><div class="game-card">
-      <span class="game-status">Fri 9/4 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Essex_High_School.png" alt="Essex" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Essex</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/stja.png" alt="St. Johnsbury" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">St. Johnsbury</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division I</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Fri 9/4 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/rutland_copy.png" alt="Rutland" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Rutland</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/BFA_SA.png" alt="BFA St. Albans" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">BFA St. Albans</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division I</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Fri 9/4 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/MAUlogo.png" alt="Mt. Anthony" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Mt. Anthony</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><span class="team-dot c6"></span>Seawolves</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division I</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Sat 9/5 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Middlebury.png" alt="Middlebury" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Middlebury</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/burr_and_burton.png" alt="Burr & Burton Academy" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Burr & Burton Academy</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division I</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Sat 9/5 &middot; 1:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Hartford.png" alt="Hartford" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Hartford</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/Champlain_Valley.png" alt="Champlain Valley" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Champlain Valley</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-I/D-II Crossover</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Fri 9/4 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/MMU.png" alt="Mt. Mansfield" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Mt. Mansfield</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/colchester_logo_23.png" alt="Colchester" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Colchester</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-I/D-II Crossover</div>
-    </div></div></div><div class="week-block"><h3>Week 2 — 9/10 to 9/12</h3><div class="games-grid"><div class="game-card">
-      <span class="game-status">Wed 9/10 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><span class="team-dot c1"></span>Seawolves</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/BFA_SA.png" alt="BFA St. Albans" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">BFA St. Albans</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division I</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Thu 9/11 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/burr_and_burton.png" alt="Burr & Burton Academy" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Burr & Burton Academy</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/MAUlogo.png" alt="Mt. Anthony" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Mt. Anthony</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division I</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Sat 9/12 &middot; 1:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Champlain_Valley.png" alt="Champlain Valley" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Champlain Valley</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/Middlebury.png" alt="Middlebury" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Middlebury</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division I</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Wed 9/10 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/colchester_logo_23.png" alt="Colchester" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Colchester</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/Essex_High_School.png" alt="Essex" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Essex</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-I/D-II Crossover</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Thu 9/11 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/rutland_copy.png" alt="Rutland" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Rutland</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/Hartford.png" alt="Hartford" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Hartford</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-I/D-II Crossover</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Sat 9/12 &middot; 1:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Rice.png" alt="Rice Memorial" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Rice Memorial</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/MMU.png" alt="Mt. Mansfield" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Mt. Mansfield</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-I/D-II Crossover</div>
-    </div></div></div><div class="week-block"><h3>Week 3 — 9/17 to 9/19</h3><div class="games-grid"><div class="game-card">
-      <span class="game-status">Thu 9/18 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Essex_High_School.png" alt="Essex" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Essex</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/BFA_SA.png" alt="BFA St. Albans" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">BFA St. Albans</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division I</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Fri 9/19 &middot; 1:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/burr_and_burton.png" alt="Burr & Burton Academy" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Burr & Burton Academy</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/Hartford.png" alt="Hartford" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Hartford</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-I/D-II Crossover</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Thu 9/18 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><span class="team-dot c5"></span>Seawolves</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/Champlain_Valley.png" alt="Champlain Valley" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Champlain Valley</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division I</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Thu 9/18 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/stja.png" alt="St. Johnsbury" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">St. Johnsbury</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/Middlebury.png" alt="Middlebury" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Middlebury</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division I</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Thu 9/18 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/rutland_copy.png" alt="Rutland" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Rutland</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/MAUlogo.png" alt="Mt. Anthony" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Mt. Anthony</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division I</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Fri 9/19 &middot; 1:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/MMU.png" alt="Mt. Mansfield" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Mt. Mansfield</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/U-32_Athletics_Logo.png" alt="Union-32" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Union-32</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-I/D-II Crossover</div>
-    </div></div></div></div>
-    <div data-group="schedDiv" data-val="sd2" style="display:none;"><div class="week-block"><h3>Week 1 — 9/4 & 9/5</h3><div class="games-grid"><div class="game-card">
-      <span class="game-status">Fri 9/4 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Springfield.png" alt="Springfield" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Springfield</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/brattleboro_bears.png" alt="Brattleboro" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Brattleboro</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division II</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Fri 9/4 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/FairHaven.png" alt="Fair Haven" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Fair Haven</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/U-32_Athletics_Logo.png" alt="Union-32" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Union-32</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division II</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Fri 9/4 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/shs.png" alt="Spaulding" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Spaulding</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/LIlogo.png" alt="Lyndon Institute" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Lyndon Institute</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division II</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Fri 9/4 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Bellows_Falls.png" alt="Bellows Falls" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Bellows Falls</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/North_Country_Falcons.png" alt="North Country" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">North Country</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-II/D-III Crossover</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Sat 9/5 &middot; 1:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Rice.png" alt="Rice Memorial" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Rice Memorial</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/bfa_fairfax_logo.png" alt="Fairfax/Lamoille" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Fairfax/Lamoille</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-II/D-III Crossover</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Fri 9/4 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Mt__Abraham.png" alt="Mt. Abraham" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Mt. Abraham</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/Milton_.png" alt="Milton" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Milton</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-II/D-III Crossover</div>
-    </div></div></div><div class="week-block"><h3>Week 2 — 9/10 to 9/12</h3><div class="games-grid"><div class="game-card">
-      <span class="game-status">Thu 9/11 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/brattleboro_bears.png" alt="Brattleboro" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Brattleboro</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/stja.png" alt="St. Johnsbury" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">St. Johnsbury</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-I/D-II Crossover</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Thu 9/11 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/FairHaven.png" alt="Fair Haven" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Fair Haven</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/Bellows_Falls.png" alt="Bellows Falls" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Bellows Falls</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-II/D-III Crossover</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Sat 9/12 &middot; 1:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/LIlogo.png" alt="Lyndon Institute" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Lyndon Institute</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/U-32_Athletics_Logo.png" alt="Union-32" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Union-32</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division II</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Thu 9/11 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/North_Country_Falcons.png" alt="North Country" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">North Country</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/woodstock_wasps.png" alt="Woodstock" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Woodstock</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-II/D-III Crossover</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Thu 9/11 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Mill_River_Minutemen_.png" alt="Mill River" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Mill River</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/shs.png" alt="Spaulding" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Spaulding</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-II/D-III Crossover</div>
-    </div></div></div><div class="week-block"><h3>Week 3 — 9/17 to 9/19</h3><div class="games-grid"><div class="game-card">
-      <span class="game-status">Thu 9/18 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/brattleboro_bears.png" alt="Brattleboro" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Brattleboro</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/Bellows_Falls.png" alt="Bellows Falls" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Bellows Falls</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-II/D-III Crossover</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Thu 9/18 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/FairHaven.png" alt="Fair Haven" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Fair Haven</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/LIlogo.png" alt="Lyndon Institute" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Lyndon Institute</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division II</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Thu 9/18 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/North_Country_Falcons.png" alt="North Country" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">North Country</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/colchester_logo_23.png" alt="Colchester" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Colchester</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division II</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Thu 9/18 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Rice.png" alt="Rice Memorial" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Rice Memorial</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/Otter_Valley.png" alt="Otter Valley" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Otter Valley</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-II/D-III Crossover</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Fri 9/19 &middot; 3:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/shs.png" alt="Spaulding" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Spaulding</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/mvulogo.png" alt="Missisquoi" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Missisquoi</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-II/D-III Crossover</div>
-    </div></div></div></div>
-    <div data-group="schedDiv" data-val="sd3" style="display:none;"><div class="week-block"><h3>Week 1 — 9/4 & 9/5</h3><div class="games-grid"><div class="game-card">
-      <span class="game-status">Fri 9/4 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Mt__Abraham.png" alt="Mt. Abraham" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Mt. Abraham</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/Milton_.png" alt="Milton" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Milton</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division III</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Sat 9/5 &middot; 1:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Mill_River_Minutemen_.png" alt="Mill River" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Mill River</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/Otter_Valley.png" alt="Otter Valley" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Otter Valley</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division III</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Sat 9/5 &middot; 1:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/mvulogo.png" alt="Missisquoi" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Missisquoi</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/Windsor.png" alt="Windsor" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Windsor</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division III</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Sat 9/5 &middot; 1:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Rice.png" alt="Rice Memorial" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Rice Memorial</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/bfa_fairfax_logo.png" alt="Fairfax/Lamoille" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Fairfax/Lamoille</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-II/D-III Crossover</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Fri 9/4 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Bellows_Falls.png" alt="Bellows Falls" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Bellows Falls</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/North_Country_Falcons.png" alt="North Country" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">North Country</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-II/D-III Crossover</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Fri 9/4 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Springfield.png" alt="Springfield" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Springfield</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/brattleboro_bears.png" alt="Brattleboro" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Brattleboro</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-II/D-III Crossover</div>
-    </div></div></div><div class="week-block"><h3>Week 2 — 9/10 to 9/12</h3><div class="games-grid"><div class="game-card">
-      <span class="game-status">Sat 9/12 &middot; 1:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/bfa_fairfax_logo.png" alt="Fairfax/Lamoille" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Fairfax/Lamoille</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/Otter_Valley.png" alt="Otter Valley" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Otter Valley</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division III</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Thu 9/11 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Mill_River_Minutemen_.png" alt="Mill River" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Mill River</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/shs.png" alt="Spaulding" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Spaulding</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-II/D-III Crossover</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Sat 9/12 &middot; 1:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Mt__Abraham.png" alt="Mt. Abraham" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Mt. Abraham</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/Windsor.png" alt="Windsor" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Windsor</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division III</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Sat 9/12 &middot; 1:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Milton_.png" alt="Milton" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Milton</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/mvulogo.png" alt="Missisquoi" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Missisquoi</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division III</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Thu 9/11 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/FairHaven.png" alt="Fair Haven" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Fair Haven</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/Bellows_Falls.png" alt="Bellows Falls" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Bellows Falls</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-II/D-III Crossover</div>
-    </div></div></div><div class="week-block"><h3>Week 3 — 9/17 to 9/19</h3><div class="games-grid"><div class="game-card">
-      <span class="game-status">Thu 9/17 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Mt__Abraham.png" alt="Mt. Abraham" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Mt. Abraham</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/bfa_fairfax_logo.png" alt="Fairfax/Lamoille" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Fairfax/Lamoille</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division III</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Sat 9/19 &middot; 1:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Mill_River_Minutemen_.png" alt="Mill River" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Mill River</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/Windsor.png" alt="Windsor" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Windsor</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division III</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Fri 9/19 &middot; 3:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/mvulogo.png" alt="Missisquoi" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Missisquoi</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/shs.png" alt="Spaulding" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Spaulding</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-II/D-III Crossover</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Thu 9/18 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Otter_Valley.png" alt="Otter Valley" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Otter Valley</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/Rice.png" alt="Rice Memorial" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Rice Memorial</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">D-II/D-III Crossover</div>
-    </div>
-<div class="game-card">
-      <span class="game-status">Thu 9/18 &middot; 7:00 PM</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team"><img src="assets/logos/Springfield.png" alt="Springfield" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Springfield</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team"><img src="assets/logos/woodstock_wasps.png" alt="Woodstock" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Woodstock</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">Division III</div>
-    </div></div></div></div>
-    <p style="color:var(--steel); font-size:0.85rem; margin-top:8px;">Weeks 4&ndash;9 follow the full VIFL master schedule. Note: crossover matchups (teams playing an opponent in another division) are shown under both relevant division tabs.</p>
+    <div id="schedStatus" style="color:var(--steel); font-family:'Barlow Condensed',sans-serif; font-size:0.85rem; margin-bottom:18px;">Loading schedule&hellip;</div>
+    <div id="schedTables"></div>
   </div>
 </section>
 
+<script>
+// Team name -> {logo, division} lookup, shared source of truth for team pages / logos
+const TEAMS = {
+  "BFA St. Albans": {logo:"assets/logos/BFA_SA.png", div:"D-I"},
+  "Mt. Mansfield": {logo:"assets/logos/MMU.png", div:"D-I"},
+  "Burr & Burton Academy": {logo:"assets/logos/burr_and_burton.png", div:"D-I"},
+  "Champlain Valley": {logo:"assets/logos/Champlain_Valley.png", div:"D-I"},
+  "Essex": {logo:"assets/logos/Essex_High_School.png", div:"D-I"},
+  "Middlebury": {logo:"assets/logos/Middlebury.png", div:"D-I"},
+  "Mt. Anthony": {logo:"assets/logos/MAUlogo.png", div:"D-I"},
+  "Rutland": {logo:"assets/logos/rutland_copy.png", div:"D-I"},
+  "Seawolves": {logo:"", div:"D-I"},
+  "St. Johnsbury": {logo:"assets/logos/stja.png", div:"D-I"},
+  "Colchester": {logo:"assets/logos/colchester_logo_23.png", div:"D-II"},
+  "Fair Haven": {logo:"assets/logos/FairHaven.png", div:"D-II"},
+  "Hartford": {logo:"assets/logos/Hartford.png", div:"D-II"},
+  "Lyndon Institute": {logo:"assets/logos/LIlogo.png", div:"D-II"},
+  "Brattleboro": {logo:"assets/logos/brattleboro_bears.png", div:"D-II"},
+  "North Country": {logo:"assets/logos/North_Country_Falcons.png", div:"D-II"},
+  "Rice Memorial": {logo:"assets/logos/Rice.png", div:"D-II"},
+  "Spaulding": {logo:"assets/logos/shs.png", div:"D-II"},
+  "Union-32": {logo:"assets/logos/U-32_Athletics_Logo.png", div:"D-II"},
+  "Bellows Falls": {logo:"assets/logos/Bellows_Falls.png", div:"D-III"},
+  "Fairfax/Lamoille": {logo:"assets/logos/bfa_fairfax_logo.png", div:"D-III"},
+  "Mill River": {logo:"assets/logos/Mill_River_Minutemen_.png", div:"D-III"},
+  "Milton": {logo:"assets/logos/Milton_.png", div:"D-III"},
+  "Missisquoi": {logo:"assets/logos/mvulogo.png", div:"D-III"},
+  "Mt. Abraham": {logo:"assets/logos/Mt__Abraham.png", div:"D-III"},
+  "Otter Valley": {logo:"assets/logos/Otter_Valley.png", div:"D-III"},
+  "Poultney": {logo:"assets/logos/Poultney.png", div:"D-III", cancelled:true},
+  "Springfield": {logo:"assets/logos/Springfield.png", div:"D-III"},
+  "Windsor": {logo:"assets/logos/Windsor.png", div:"D-III"},
+  "Woodstock": {logo:"assets/logos/woodstock_wasps.png", div:"D-III"},
+};
+
+function parseCSV(text){
+  const lines = text.trim().split(/\r?\n/);
+  const headers = lines[0].split(",");
+  return lines.slice(1).filter(l => l.trim().length).map(line => {
+    const cells = line.split(",");
+    const row = {};
+    headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
+    return row;
+  });
+}
+function num(v){ return parseFloat(v) || 0; }
+
+async function loadCSV(url){
+  const r = await fetch(url);
+  if(!r.ok) throw new Error("Could not load " + url);
+  return parseCSV(await r.text());
+}
+
+function teamChip(name){
+  const info = TEAMS[name];
+  const logoImg = info && info.logo
+    ? `<img src="${info.logo}" alt="${name}" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">`
+    : `<span class="team-dot c1" style="width:14px;height:14px;border-radius:4px;background:var(--field-green-light);display:inline-block;"></span>`;
+  const href = info ? `team.html?team=${encodeURIComponent(name)}` : null;
+  const inner = `${logoImg}${name}`;
+  return href ? `<a href="${href}" class="team">${inner}</a>` : `<div class="team">${inner}</div>`;
+}
+
+function gameCardHTML(g){
+  const s1 = g["Team1Score"], s2 = g["Team2Score"];
+  const played = s1 !== "" && s2 !== "";
+  const status = played ? "Final" : `${g["Date"] || "TBD"}${g["Time"] ? " &middot; " + g["Time"] : ""}`;
+  const score1 = played ? s1 : "&mdash;";
+  const score2 = played ? s2 : "&mdash;";
+  const scoreClass = played ? "score final" : "score";
+  return `<div class="game-card">
+    <span class="game-status">${status}</span>
+    <div class="matchup">
+      <div class="team-row">${teamChip(g["Team1"])}<span class="${scoreClass}">${score1}</span></div>
+      <div class="team-row">${teamChip(g["Team2"])}<span class="${scoreClass}">${score2}</span></div>
+    </div>
+    <div class="game-meta">Week ${g["Week"]}</div>
+  </div>`;
+}
+
+function divisionsForGame(g){
+  const d1 = TEAMS[g["Team1"]] ? TEAMS[g["Team1"]].div : null;
+  const d2 = TEAMS[g["Team2"]] ? TEAMS[g["Team2"]].div : null;
+  const set = new Set();
+  if(d1) set.add(d1);
+  if(d2) set.add(d2);
+  return set;
+}
+
+async function init(){
+  try {
+    const games = await loadCSV("data/Schedule.csv");
+    const byDivWeek = { "D-I": {}, "D-II": {}, "D-III": {} };
+
+    games.forEach(g => {
+      const divs = divisionsForGame(g);
+      divs.forEach(div => {
+        const wk = g["Week"];
+        if(!byDivWeek[div][wk]) byDivWeek[div][wk] = [];
+        byDivWeek[div][wk].push(g);
+      });
+    });
+
+    const container = document.getElementById('schedTables');
+    container.innerHTML = Object.entries(byDivWeek).map(([div, weeks]) => {
+      const weekNums = Object.keys(weeks).map(Number).sort((a,b)=>a-b);
+      const blocksHTML = weekNums.map(wk => `
+        <div class="week-block">
+          <h3>Week ${wk}</h3>
+          <div class="games-grid">${weeks[wk].map(gameCardHTML).join('')}</div>
+        </div>
+      `).join('');
+      return `<div data-group="schedDiv" data-val="${div}" style="${div==='D-I' ? '' : 'display:none;'}">${blocksHTML || '<p class="empty-note">No games found for this division.</p>'}</div>`;
+    }).join('');
+
+    document.getElementById('schedStatus').textContent = `Showing ${games.length} games across the 2026 season.`;
+  } catch(err){
+    document.getElementById('schedStatus').innerHTML = 'Could not load the schedule. Make sure data/Schedule.csv is uploaded and reachable.';
+    console.error(err);
+  }
+}
+init();
+</script>
 
 <footer id="about">
   <div class="wrap">
