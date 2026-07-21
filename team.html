@@ -162,7 +162,7 @@ const TEAMS = {
   "Middlebury": {logo:"assets/logos/Middlebury.png", div:"Division I", c1:"#f07010", c2:"#301000"},
   "Mt. Anthony": {logo:"assets/logos/MAUlogo.png", div:"Division I", c1:"#000080", c2:"#e00000"},
   "Rutland": {logo:"assets/logos/rutland_copy.png", div:"Division I", c1:"#a00010", c2:"#f0d0e0"},
-  "Seawolves": {logo:"", div:"Division I", c1:"#2f7a4f", c2:"#1f2628"},
+  "Seawolves": {logo:"assets/logos/Seawolves.png", div:"Division I", c1:"#0a1440", c2:"#d9a13a"},
   "St. Johnsbury": {logo:"assets/logos/stja.png", div:"Division I", c1:"#006020", c2:"#307040"},
   "Colchester": {logo:"assets/logos/colchester_logo_23.png", div:"Division II", c1:"#006030", c2:"#005090"},
   "Fair Haven": {logo:"assets/logos/FairHaven.png", div:"Division II", c1:"#002050", c2:"#8090a0"},
@@ -303,9 +303,9 @@ async function init(){
 
     // --- Roster ---
     const roster = rosterRows.filter(r => r["Team"] === team && r["Player Name"]);
-    let rosterHTML = '<table class="data-table"><thead><tr><th>#</th><th>Name</th><th>Off. Position</th><th>Def. Position</th></tr></thead><tbody>';
+    let rosterHTML = '<table class="data-table"><thead><tr><th>#</th><th>Name</th><th>Class</th><th>Off. Position</th><th>Def. Position</th></tr></thead><tbody>';
     roster.forEach(p => {
-      rosterHTML += `<tr><td>${p["Number"]}</td><td>${p["Player Name"]}</td><td>${p["Off Position"]}</td><td>${p["Def Position"]}</td></tr>`;
+      rosterHTML += `<tr><td>${p["Number"]}</td><td>${p["Player Name"]}</td><td>${p["Grad Year"]}</td><td>${p["Off Position"]}</td><td>${p["Def Position"]}</td></tr>`;
     });
     rosterHTML += '</tbody></table>';
     document.getElementById('rosterWrap').innerHTML = roster.length ? rosterHTML : '<p class="empty-note">Roster hasn\'t been entered for this team yet.</p>';
