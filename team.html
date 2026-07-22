@@ -11,7 +11,7 @@
 :root{
   --granite:#14181a; --slate:#1f2628; --field-green:#1f5c3a; --field-green-light:#2f7a4f;
   --broadcast-red:#d6332e; --snow:#f3f5f3; --steel:#8b969a; --gold:#d9a13a;
-  --team-primary: var(--gold); --team-secondary: var(--field-green-light);
+  --team-primary: var(--gold); --team-secondary: var(--field-green-light); --team-text: var(--granite);
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
@@ -43,8 +43,11 @@ nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
 }
 .team-hero-top{display:flex; align-items:center; gap:20px; flex-wrap:wrap;}
 .team-hero-crest{width:74px; height:74px; border-radius:10px; background:#fff; padding:6px; object-fit:contain; flex-shrink:0; border:2px solid var(--team-primary);}
-.page-hero .eyebrow{color:var(--team-primary); display:flex; align-items:center; gap:10px; margin-bottom:10px;}
-.page-hero .eyebrow::before{content:""; width:28px; height:2px; background:var(--team-primary);}
+.page-hero .eyebrow{
+  color:var(--team-text); background:var(--team-primary); display:inline-flex; align-items:center; gap:8px;
+  margin-bottom:14px; padding:6px 12px; border-radius:3px;
+}
+.page-hero .eyebrow::before{content:""; width:16px; height:2px; background:var(--team-text); opacity:0.6;}
 .page-hero h1{font-size:clamp(1.9rem,5vw,3.1rem);}
 .team-record{font-family:'Barlow Condensed',sans-serif; color:var(--steel); font-size:1rem; margin-top:6px;}
 .team-record strong{color:var(--snow);}
@@ -52,7 +55,7 @@ nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
 
 .section{padding:46px 28px;}
 .section-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; border-bottom:1px solid #262c2e; padding-bottom:16px;}
-.section-head .eyebrow{color:var(--team-secondary); margin-bottom:6px; display:block;}
+.section-head .eyebrow{color:var(--field-green-light); margin-bottom:6px; display:block;}
 .section-head h2{font-size:clamp(1.4rem,3vw,2rem);}
 
 /* leaders */
@@ -60,7 +63,10 @@ nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
 @media (max-width:980px){.leaders-grid{grid-template-columns:repeat(3,1fr);}}
 @media (max-width:640px){.leaders-grid{grid-template-columns:repeat(2,1fr);}}
 .leader-card{background:var(--slate); border:1px solid #262c2e; padding:18px; border-top:3px solid var(--team-primary);}
-.leader-card .cat{font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; font-size:0.7rem; color:var(--team-primary); margin-bottom:8px;}
+.leader-card .cat{
+  font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:0.68rem;
+  color:var(--team-text); background:var(--team-primary); display:inline-block; padding:4px 8px; border-radius:3px; margin-bottom:10px;
+}
 .leader-card .pname{font-size:1rem; font-weight:600;}
 .leader-card .pline{font-family:'Barlow Condensed',sans-serif; font-size:0.82rem; color:var(--steel); margin-top:4px;}
 .leader-card .none{color:var(--steel); font-size:0.85rem;}
@@ -154,36 +160,36 @@ footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--br
 <script>
 // Team name -> {logo file, division label} lookup, shared source of truth for this page
 const TEAMS = {
-  "BFA St. Albans": {logo:"assets/logos/BFA_SA.png", div:"Division I", c1:"#204030", c2:"#f0a020"},
-  "Mt. Mansfield": {logo:"assets/logos/MMU.png", div:"Division I", c1:"#a0c0e0", c2:"#002040"},
-  "Burr & Burton Academy": {logo:"assets/logos/burr_and_burton.png", div:"Division I", c1:"#f0c000", c2:"#005020"},
-  "Champlain Valley": {logo:"assets/logos/Champlain_Valley.png", div:"Division I", c1:"#e01020", c2:"#200000"},
-  "Essex": {logo:"assets/logos/Essex_High_School.png", div:"Division I", c1:"#d0a070", c2:"#104070"},
-  "Middlebury": {logo:"assets/logos/Middlebury.png", div:"Division I", c1:"#f07010", c2:"#301000"},
-  "Mt. Anthony": {logo:"assets/logos/MAUlogo.png", div:"Division I", c1:"#000080", c2:"#e00000"},
-  "Rutland": {logo:"assets/logos/rutland_copy.png", div:"Division I", c1:"#a00010", c2:"#f0d0e0"},
-  "Seawolves": {logo:"assets/logos/Seawolves.png", div:"Division I", c1:"#0a1440", c2:"#d9a13a"},
-  "St. Johnsbury": {logo:"assets/logos/stja.png", div:"Division I", c1:"#006020", c2:"#307040"},
-  "Colchester": {logo:"assets/logos/colchester_logo_23.png", div:"Division II", c1:"#006030", c2:"#005090"},
-  "Fair Haven": {logo:"assets/logos/FairHaven.png", div:"Division II", c1:"#002050", c2:"#8090a0"},
-  "Hartford": {logo:"assets/logos/Hartford.png", div:"Division II", c1:"#204090", c2:"#b01020"},
-  "Lyndon Institute": {logo:"assets/logos/LIlogo.png", div:"Division II", c1:"#301010", c2:"#c0a080"},
-  "Brattleboro": {logo:"assets/logos/brattleboro_bears.png", div:"Division II", c1:"#602090", c2:"#8060a0"},
-  "North Country": {logo:"assets/logos/North_Country_Falcons.png", div:"Division II", c1:"#500000", c2:"#2080b0"},
-  "Rice Memorial": {logo:"assets/logos/Rice.png", div:"Division II", c1:"#305040", c2:"#507060"},
-  "Spaulding": {logo:"assets/logos/shs.png", div:"Division II", c1:"#800010", c2:"#c03030"},
-  "Union-32": {logo:"assets/logos/U-32_Athletics_Logo.png", div:"Division II", c1:"#0020f0", c2:"#d0e0f0"},
-  "Bellows Falls": {logo:"assets/logos/Bellows_Falls.png", div:"Division III", c1:"#1f5c3a", c2:"#d9a13a"},
-  "Fairfax/Lamoille": {logo:"assets/logos/bfa_fairfax_logo.png", div:"Division III", c1:"#502020", c2:"#604050"},
-  "Mill River": {logo:"assets/logos/Mill_River_Minutemen_.png", div:"Division III", c1:"#002050", c2:"#d02040"},
-  "Milton": {logo:"assets/logos/Milton_.png", div:"Division III", c1:"#000080", c2:"#f0b000"},
-  "Missisquoi": {logo:"assets/logos/mvulogo.png", div:"Division III", c1:"#203090", c2:"#6060a0"},
-  "Mt. Abraham": {logo:"assets/logos/Mt__Abraham.png", div:"Division III", c1:"#600000", c2:"#200000"},
-  "Otter Valley": {logo:"assets/logos/Otter_Valley.png", div:"Division III", c1:"#000080", c2:"#c0c0e0"},
-  "Poultney": {logo:"assets/logos/Poultney.png", div:"Division III", c1:"#204080", c2:"#203050", cancelled:true},
-  "Springfield": {logo:"assets/logos/Springfield.png", div:"Division III", c1:"#007030", c2:"#c0e0d0"},
-  "Windsor": {logo:"assets/logos/Windsor.png", div:"Division III", c1:"#f0c010", c2:"#105030"},
-  "Woodstock": {logo:"assets/logos/woodstock_wasps.png", div:"Division III", c1:"#105020", c2:"#608060"},
+  "BFA St. Albans": {logo:"assets/logos/BFA_SA.png", div:"Division I", c1:"#204030", c2:"#f0a020", t1:"#f3f5f3"},
+  "Mt. Mansfield": {logo:"assets/logos/MMU.png", div:"Division I", c1:"#a0c0e0", c2:"#002040", t1:"#14181a"},
+  "Burr & Burton Academy": {logo:"assets/logos/burr_and_burton.png", div:"Division I", c1:"#f0c000", c2:"#005020", t1:"#14181a"},
+  "Champlain Valley": {logo:"assets/logos/Champlain_Valley.png", div:"Division I", c1:"#e01020", c2:"#200000", t1:"#f3f5f3"},
+  "Essex": {logo:"assets/logos/Essex_High_School.png", div:"Division I", c1:"#d0a070", c2:"#104070", t1:"#14181a"},
+  "Middlebury": {logo:"assets/logos/Middlebury.png", div:"Division I", c1:"#f07010", c2:"#301000", t1:"#14181a"},
+  "Mt. Anthony": {logo:"assets/logos/MAUlogo.png", div:"Division I", c1:"#000080", c2:"#e00000", t1:"#f3f5f3"},
+  "Rutland": {logo:"assets/logos/rutland_copy.png", div:"Division I", c1:"#a00010", c2:"#f0d0e0", t1:"#f3f5f3"},
+  "Seawolves": {logo:"assets/logos/Seawolves.png", div:"Division I", c1:"#0a1440", c2:"#d9a13a", t1:"#f3f5f3"},
+  "St. Johnsbury": {logo:"assets/logos/stja.png", div:"Division I", c1:"#006020", c2:"#307040", t1:"#f3f5f3"},
+  "Colchester": {logo:"assets/logos/colchester_logo_23.png", div:"Division II", c1:"#006030", c2:"#005090", t1:"#f3f5f3"},
+  "Fair Haven": {logo:"assets/logos/FairHaven.png", div:"Division II", c1:"#002050", c2:"#8090a0", t1:"#f3f5f3"},
+  "Hartford": {logo:"assets/logos/Hartford.png", div:"Division II", c1:"#204090", c2:"#b01020", t1:"#f3f5f3"},
+  "Lyndon Institute": {logo:"assets/logos/LIlogo.png", div:"Division II", c1:"#301010", c2:"#c0a080", t1:"#f3f5f3"},
+  "Brattleboro": {logo:"assets/logos/brattleboro_bears.png", div:"Division II", c1:"#602090", c2:"#8060a0", t1:"#f3f5f3"},
+  "North Country": {logo:"assets/logos/North_Country_Falcons.png", div:"Division II", c1:"#500000", c2:"#2080b0", t1:"#f3f5f3"},
+  "Rice Memorial": {logo:"assets/logos/Rice.png", div:"Division II", c1:"#305040", c2:"#507060", t1:"#f3f5f3"},
+  "Spaulding": {logo:"assets/logos/shs.png", div:"Division II", c1:"#800010", c2:"#c03030", t1:"#f3f5f3"},
+  "Union-32": {logo:"assets/logos/U-32_Athletics_Logo.png", div:"Division II", c1:"#0020f0", c2:"#d0e0f0", t1:"#f3f5f3"},
+  "Bellows Falls": {logo:"assets/logos/Bellows_Falls.png", div:"Division III", c1:"#1f5c3a", c2:"#d9a13a", t1:"#f3f5f3"},
+  "Fairfax/Lamoille": {logo:"assets/logos/bfa_fairfax_logo.png", div:"Division III", c1:"#502020", c2:"#604050", t1:"#f3f5f3"},
+  "Mill River": {logo:"assets/logos/Mill_River_Minutemen_.png", div:"Division III", c1:"#002050", c2:"#d02040", t1:"#f3f5f3"},
+  "Milton": {logo:"assets/logos/Milton_.png", div:"Division III", c1:"#000080", c2:"#f0b000", t1:"#f3f5f3"},
+  "Missisquoi": {logo:"assets/logos/mvulogo.png", div:"Division III", c1:"#203090", c2:"#6060a0", t1:"#f3f5f3"},
+  "Mt. Abraham": {logo:"assets/logos/Mt__Abraham.png", div:"Division III", c1:"#600000", c2:"#200000", t1:"#f3f5f3"},
+  "Otter Valley": {logo:"assets/logos/Otter_Valley.png", div:"Division III", c1:"#000080", c2:"#c0c0e0", t1:"#f3f5f3"},
+  "Poultney": {logo:"assets/logos/Poultney.png", div:"Division III", c1:"#204080", c2:"#203050", cancelled:true, t1:"#f3f5f3"},
+  "Springfield": {logo:"assets/logos/Springfield.png", div:"Division III", c1:"#007030", c2:"#c0e0d0", t1:"#f3f5f3"},
+  "Windsor": {logo:"assets/logos/Windsor.png", div:"Division III", c1:"#f0c010", c2:"#105030", t1:"#14181a"},
+  "Woodstock": {logo:"assets/logos/woodstock_wasps.png", div:"Division III", c1:"#105020", c2:"#608060", t1:"#f3f5f3"},
 };
 
 const DATA_CSV_URLS = {
@@ -257,6 +263,7 @@ async function init(){
   document.getElementById('teamDivLabel').textContent = info.div;
   document.documentElement.style.setProperty('--team-primary', info.c1 || 'var(--gold)');
   document.documentElement.style.setProperty('--team-secondary', info.c2 || 'var(--field-green-light)');
+  document.documentElement.style.setProperty('--team-text', info.t1 || 'var(--granite)');
   if(info.logo){
     const crest = document.getElementById('teamCrest');
     crest.src = info.logo;
