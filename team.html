@@ -76,6 +76,7 @@ nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
 .data-table th{text-align:left; font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--steel); padding:10px 14px; border-bottom:1px solid #262c2e;}
 .data-table td{padding:13px 14px; border-bottom:1px solid #1d2224; font-weight:500; font-size:0.92rem;}
 .data-table tr:hover td{background:#1c2123;}
+.data-table td a:hover{color:var(--gold);}
 .result-w{color:var(--field-green-light); font-weight:700;}
 .result-l{color:var(--broadcast-red); font-weight:700;}
 .result-u{color:var(--steel);}
@@ -151,7 +152,7 @@ footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--br
 <section class="section" style="padding-top:0;">
   <div class="wrap">
     <div class="section-head">
-      <div><span class="eyebrow">2026 VIFL Season</span><h2>Schedule</h2></div>
+      <div><span class="eyebrow">2026 VIFL Season</span><h2 id="scheduleHeading">Schedule</h2></div>
     </div>
     <div id="scheduleWrap"></div>
   </div>
@@ -246,6 +247,17 @@ function resultClass(r){
   return "result-u";
 }
 
+function opponentChip(name){
+  const info = TEAMS[name];
+  const logoImg = info && info.logo
+    ? `<img src="${info.logo}" alt="${name}" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px; display:inline-block; vertical-align:middle; margin-right:8px;">`
+    : `<span style="width:14px;height:14px;border-radius:4px;background:var(--steel);display:inline-block; vertical-align:middle; margin-right:8px;"></span>`;
+  if(info){
+    return `<a href="team.html?team=${encodeURIComponent(name)}" style="color:inherit; display:inline-flex; align-items:center;">${logoImg}${name}</a>`;
+  }
+  return `<span style="display:inline-flex; align-items:center;">${logoImg}${name}</span>`;
+}
+
 async function init(){
   const params = new URLSearchParams(window.location.search);
   const team = params.get("team");
@@ -261,6 +273,7 @@ async function init(){
   document.title = team + " | Vermont Football Network";
   document.getElementById('teamName').textContent = team;
   document.getElementById('teamDivLabel').textContent = info.div;
+  document.getElementById('scheduleHeading').textContent = team + " Schedule";
   document.documentElement.style.setProperty('--team-primary', info.c1 || 'var(--gold)');
   document.documentElement.style.setProperty('--team-secondary', info.c2 || 'var(--field-green-light)');
   document.documentElement.style.setProperty('--team-text', info.t1 || 'var(--granite)');
@@ -302,7 +315,7 @@ async function init(){
         if(result === "W") wins++;
         if(result === "L") losses++;
       }
-      schedHTML += `<tr><td>${g["Week"]}</td><td>${g["Date"]}</td><td>${opponent}</td><td class="${resultClass(result)}">${result}</td><td>${scoreLine}</td></tr>`;
+      schedHTML += `<tr><td>${g["Week"]}</td><td>${g["Date"]}</td><td>${opponentChip(opponent)}</td><td class="${resultClass(result)}">${result}</td><td>${scoreLine}</td></tr>`;
     });
     schedHTML += '</tbody></table>';
     document.getElementById('scheduleWrap').innerHTML = games.length ? schedHTML : '<p class="empty-note">No games found for this team in the schedule data yet.</p>';
