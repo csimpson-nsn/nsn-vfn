@@ -238,20 +238,44 @@ function aggregateBy(rows, sumFields){
   return Object.values(players);
 }
 
-function leaderTableHTML(rows, cols, sortKey, minKey, minVal){
-  let filtered = minKey ? rows.filter(r => r[minKey] >= minVal) : rows.slice();
-  filtered.sort((a,b) => b[sortKey] - a[sortKey]);
-  filtered = filtered.slice(0, 15);
-  let html = '<table class="standings-table"><thead><tr><th class="rank">#</th><th>Player</th><th>Team</th>';
-  cols.forEach(c => html += `<th>${c.label}</th>`);
+// Per-category sortable table state: { rows, cols, sortKey, sortDir }
+const statTableState = {};
+
+function renderStatTable(catKey){
+  const state = statTableState[catKey];
+  const { rows, cols, sortKey, sortDir } = state;
+  const sorted = rows.slice().sort((a,b) => {
+    const av = cols.find(c=>c.key===sortKey).get(a);
+    const bv = cols.find(c=>c.key===sortKey).get(b);
+    if(typeof av === "string") return sortDir==="desc" ? bv.localeCompare(av) : av.localeCompare(bv);
+    return sortDir==="desc" ? bv-av : av-bv;
+  }).slice(0, 15);
+
+  const arrow = dir => dir==="desc" ? " &#9660;" : " &#9650;";
+  let html = `<table class="standings-table"><thead><tr><th class="rank">#</th>`;
+  cols.forEach(c => {
+    const active = c.key === sortKey;
+    html += `<th style="cursor:pointer; user-select:none; ${active?'color:var(--gold);':''}" onclick="sortStatTable('${catKey}','${c.key}')">${c.label}${active?arrow(sortDir):''}</th>`;
+  });
   html += '</tr></thead><tbody>';
-  filtered.forEach((r,i) => {
-    html += `<tr><td class="rank">${i+1}</td><td>${r.name}</td><td><a href="team.html?team=${encodeURIComponent(r.team)}" style="color:inherit;">${r.team}</a></td>`;
+  sorted.forEach((r,i) => {
+    html += `<tr><td class="rank">${i+1}</td>`;
     cols.forEach(c => html += `<td>${c.fmt(r)}</td>`);
     html += '</tr>';
   });
   html += '</tbody></table>';
   return html;
+}
+
+function sortStatTable(catKey, colKey){
+  const state = statTableState[catKey];
+  if(state.sortKey === colKey){
+    state.sortDir = state.sortDir === "desc" ? "asc" : "desc";
+  } else {
+    state.sortKey = colKey;
+    state.sortDir = "desc";
+  }
+  document.getElementById('statTable_' + catKey).innerHTML = renderStatTable(catKey);
 }
 
 function showStatTab(val, btn){
@@ -284,46 +308,67 @@ async function init(){
     const defense = aggregateBy(defenseRows, ["Tackles","Sacks","TFL","INT","Pass Defended"]);
     const kicking = aggregateBy(kickingRows, ["PAT Att","PAT Made","FG Att Under30","FG Made Under30","FG Att 30-39","FG Made 30-39","FG Att 40-49","FG Made 40-49","FG Att 50Plus","FG Made 50Plus"]);
 
-    const tables = {
-      passing: leaderTableHTML(passing, [
-        {label:"Att", fmt:r=>r.Att}, {label:"Comp", fmt:r=>r.Comp}, {label:"Yds", fmt:r=>r.Yds},
-        {label:"TD", fmt:r=>r.TD}, {label:"INT", fmt:r=>r.INT}, {label:"Fum", fmt:r=>r.Fum},
-        {label:"Yds/Att", fmt:r=>r.Att? fmt1(r.Yds/r.Att):"0.0"},
-        {label:"Yds/Comp", fmt:r=>r.Comp? fmt1(r.Yds/r.Comp):"0.0"},
-      ], "Yds", "Att", 1),
+    const teamCell = r => `<a href="team.html?team=${encodeURIComponent(r.team)}" style="color:inherit;">${r.team}</a>`;
+    const nameCol = {label:"Player", key:"name", get:r=>r.name, fmt:r=>r.name};
+    const teamCol = {label:"Team", key:"team", get:r=>r.team, fmt:teamCell};
 
-      rushing: leaderTableHTML(rushing, [
-        {label:"Att", fmt:r=>r.Att}, {label:"Yds", fmt:r=>r.Yds}, {label:"TD", fmt:r=>r.TD},
-        {label:"Fum", fmt:r=>r.Fum}, {label:"Yds/Att", fmt:r=>r.Att? fmt1(r.Yds/r.Att):"0.0"},
-      ], "Yds", "Att", 1),
+    const categoryDefs = {
+      passing: { rows: passing.filter(r => r.Att >= 1), cols: [nameCol, teamCol,
+        {label:"Att", key:"Att", get:r=>r.Att, fmt:r=>r.Att},
+        {label:"Comp", key:"Comp", get:r=>r.Comp, fmt:r=>r.Comp},
+        {label:"Yds", key:"Yds", get:r=>r.Yds, fmt:r=>r.Yds},
+        {label:"TD", key:"TD", get:r=>r.TD, fmt:r=>r.TD},
+        {label:"INT", key:"INT", get:r=>r.INT, fmt:r=>r.INT},
+        {label:"Fum", key:"Fum", get:r=>r.Fum, fmt:r=>r.Fum},
+        {label:"Yds/Att", key:"YdsAtt", get:r=>r.Att? r.Yds/r.Att:0, fmt:r=>r.Att? fmt1(r.Yds/r.Att):"0.0"},
+        {label:"Yds/Comp", key:"YdsComp", get:r=>r.Comp? r.Yds/r.Comp:0, fmt:r=>r.Comp? fmt1(r.Yds/r.Comp):"0.0"},
+      ], defaultKey:"Yds" },
 
-      receiving: leaderTableHTML(receiving, [
-        {label:"Rec", fmt:r=>r.Rec}, {label:"Yds", fmt:r=>r.Yds}, {label:"Drops", fmt:r=>r.Drops},
-        {label:"TD", fmt:r=>r.TD}, {label:"Yds/Catch", fmt:r=>r.Rec? fmt1(r.Yds/r.Rec):"0.0"},
-      ], "Yds", "Rec", 1),
+      rushing: { rows: rushing.filter(r => r.Att >= 1), cols: [nameCol, teamCol,
+        {label:"Att", key:"Att", get:r=>r.Att, fmt:r=>r.Att},
+        {label:"Yds", key:"Yds", get:r=>r.Yds, fmt:r=>r.Yds},
+        {label:"TD", key:"TD", get:r=>r.TD, fmt:r=>r.TD},
+        {label:"Fum", key:"Fum", get:r=>r.Fum, fmt:r=>r.Fum},
+        {label:"Yds/Att", key:"YdsAtt", get:r=>r.Att? r.Yds/r.Att:0, fmt:r=>r.Att? fmt1(r.Yds/r.Att):"0.0"},
+      ], defaultKey:"Yds" },
 
-      defense: leaderTableHTML(defense, [
-        {label:"Tackles", fmt:r=>r.Tackles}, {label:"Sacks", fmt:r=>r.Sacks}, {label:"TFL", fmt:r=>r.TFL},
-        {label:"INT", fmt:r=>r.INT}, {label:"Pass Def.", fmt:r=>r["Pass Defended"]},
-      ], "Tackles", null, 0),
+      receiving: { rows: receiving.filter(r => r.Rec >= 1), cols: [nameCol, teamCol,
+        {label:"Rec", key:"Rec", get:r=>r.Rec, fmt:r=>r.Rec},
+        {label:"Yds", key:"Yds", get:r=>r.Yds, fmt:r=>r.Yds},
+        {label:"Drops", key:"Drops", get:r=>r.Drops, fmt:r=>r.Drops},
+        {label:"TD", key:"TD", get:r=>r.TD, fmt:r=>r.TD},
+        {label:"Yds/Catch", key:"YdsRec", get:r=>r.Rec? r.Yds/r.Rec:0, fmt:r=>r.Rec? fmt1(r.Yds/r.Rec):"0.0"},
+      ], defaultKey:"Yds" },
 
-      kicking: leaderTableHTML(kicking, [
-        {label:"PAT", fmt:r=>`${r["PAT Made"]}/${r["PAT Att"]}`},
-        {label:"FG &lt;30", fmt:r=>`${r["FG Made Under30"]}/${r["FG Att Under30"]}`},
-        {label:"FG 30-39", fmt:r=>`${r["FG Made 30-39"]}/${r["FG Att 30-39"]}`},
-        {label:"FG 40-49", fmt:r=>`${r["FG Made 40-49"]}/${r["FG Att 40-49"]}`},
-        {label:"FG 50+", fmt:r=>`${r["FG Made 50Plus"]}/${r["FG Att 50Plus"]}`},
-        {label:"Total FG Made", fmt:r=>(r["FG Made Under30"]+r["FG Made 30-39"]+r["FG Made 40-49"]+r["FG Made 50Plus"])},
-      ], "PAT Made", null, 0),
+      defense: { rows: defense, cols: [nameCol, teamCol,
+        {label:"Tackles", key:"Tackles", get:r=>r.Tackles, fmt:r=>r.Tackles},
+        {label:"Sacks", key:"Sacks", get:r=>r.Sacks, fmt:r=>r.Sacks},
+        {label:"TFL", key:"TFL", get:r=>r.TFL, fmt:r=>r.TFL},
+        {label:"INT", key:"INT", get:r=>r.INT, fmt:r=>r.INT},
+        {label:"Pass Def.", key:"PassDef", get:r=>r["Pass Defended"], fmt:r=>r["Pass Defended"]},
+      ], defaultKey:"Tackles" },
+
+      kicking: { rows: kicking, cols: [nameCol, teamCol,
+        {label:"PAT", key:"PATMade", get:r=>r["PAT Made"], fmt:r=>`${r["PAT Made"]}/${r["PAT Att"]}`},
+        {label:"FG &lt;30", key:"FGU30", get:r=>r["FG Made Under30"], fmt:r=>`${r["FG Made Under30"]}/${r["FG Att Under30"]}`},
+        {label:"FG 30-39", key:"FG3039", get:r=>r["FG Made 30-39"], fmt:r=>`${r["FG Made 30-39"]}/${r["FG Att 30-39"]}`},
+        {label:"FG 40-49", key:"FG4049", get:r=>r["FG Made 40-49"], fmt:r=>`${r["FG Made 40-49"]}/${r["FG Att 40-49"]}`},
+        {label:"FG 50+", key:"FG50", get:r=>r["FG Made 50Plus"], fmt:r=>`${r["FG Made 50Plus"]}/${r["FG Att 50Plus"]}`},
+        {label:"Total FG Made", key:"FGTotal", get:r=>(r["FG Made Under30"]+r["FG Made 30-39"]+r["FG Made 40-49"]+r["FG Made 50Plus"]), fmt:r=>(r["FG Made Under30"]+r["FG Made 30-39"]+r["FG Made 40-49"]+r["FG Made 50Plus"])},
+      ], defaultKey:"PATMade" },
     };
 
+    Object.entries(categoryDefs).forEach(([key, def]) => {
+      statTableState[key] = { rows: def.rows, cols: def.cols, sortKey: def.defaultKey, sortDir: "desc" };
+    });
+
     const container = document.getElementById('statTables');
-    container.innerHTML = Object.entries(tables).map(([key,html]) =>
-      `<div data-group="stattab" data-val="${key}" style="${key==='passing'?'':'display:none;'}">${html}</div>`
+    container.innerHTML = Object.keys(categoryDefs).map(key =>
+      `<div data-group="stattab" data-val="${key}" style="${key==='passing'?'':'display:none;'}" id="statTable_${key}">${renderStatTable(key)}</div>`
     ).join('');
 
     document.getElementById('statStatus').textContent =
-      `Showing season totals: ${passing.length} passers, ${rushing.length} rushers, ${receiving.length} receivers, ${defense.length} defenders, ${kicking.length} kickers.`;
+      `Showing season totals: ${passing.length} passers, ${rushing.length} rushers, ${receiving.length} receivers, ${defense.length} defenders, ${kicking.length} kickers. Click any column header to sort.`;
   } catch(err){
     document.getElementById('statStatus').innerHTML =
       'Could not load one or more stat tabs. Make sure each URL in STATS_CSV_URLS points to that tab\'s published CSV link, and that each tab is published to the web individually.';

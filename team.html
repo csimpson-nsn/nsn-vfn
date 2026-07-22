@@ -59,17 +59,10 @@ nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
 .section-head h2{font-size:clamp(1.4rem,3vw,2rem);}
 
 /* leaders */
-.leaders-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:16px;}
-@media (max-width:980px){.leaders-grid{grid-template-columns:repeat(3,1fr);}}
-@media (max-width:640px){.leaders-grid{grid-template-columns:repeat(2,1fr);}}
-.leader-card{background:var(--slate); border:1px solid #262c2e; padding:18px; border-top:3px solid var(--team-primary);}
-.leader-card .cat{
-  font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:0.68rem;
-  color:var(--team-text); background:var(--team-primary); display:inline-block; padding:4px 8px; border-radius:3px; margin-bottom:10px;
-}
-.leader-card .pname{font-size:1rem; font-weight:600;}
-.leader-card .pline{font-family:'Barlow Condensed',sans-serif; font-size:0.82rem; color:var(--steel); margin-top:4px;}
-.leader-card .none{color:var(--steel); font-size:0.85rem;}
+.stat-tab-row{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px;}
+.stat-tab-btn{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.8rem; color:var(--steel); background:var(--slate); border:1px solid #262c2e; padding:9px 18px; cursor:pointer; transition:all .15s;}
+.stat-tab-btn:hover{color:var(--snow); border-color:#3a4244;}
+.stat-tab-btn.active{background:var(--field-green); color:var(--snow); border-color:var(--field-green);}
 
 /* tables (roster + schedule) */
 .data-table{width:100%; border-collapse:collapse; font-family:'Barlow Condensed',sans-serif; margin-bottom:8px;}
@@ -136,7 +129,14 @@ footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--br
     <div class="section-head">
       <div><span class="eyebrow">Season Leaders</span><h2>Team Leaders</h2></div>
     </div>
-    <div class="leaders-grid" id="leadersGrid"></div>
+    <div class="stat-tab-row">
+      <button class="stat-tab-btn active" onclick="showTeamStatTab('passing',this)">Passing</button>
+      <button class="stat-tab-btn" onclick="showTeamStatTab('rushing',this)">Rushing</button>
+      <button class="stat-tab-btn" onclick="showTeamStatTab('receiving',this)">Receiving</button>
+      <button class="stat-tab-btn" onclick="showTeamStatTab('defense',this)">Defense</button>
+      <button class="stat-tab-btn" onclick="showTeamStatTab('kicking',this)">Kicking</button>
+    </div>
+    <div id="statTables"></div>
   </div>
 </section>
 
@@ -241,6 +241,53 @@ function topPlayer(rows, sortKey){
   return rows.slice().sort((a,b) => b[sortKey]-a[sortKey])[0];
 }
 
+// Sortable table state + renderer — same pattern as statistics.html
+const statTableState = {};
+
+function renderStatTable(catKey){
+  const state = statTableState[catKey];
+  const { rows, cols, sortKey, sortDir } = state;
+  const sorted = rows.slice().sort((a,b) => {
+    const av = cols.find(c=>c.key===sortKey).get(a);
+    const bv = cols.find(c=>c.key===sortKey).get(b);
+    if(typeof av === "string") return sortDir==="desc" ? bv.localeCompare(av) : av.localeCompare(bv);
+    return sortDir==="desc" ? bv-av : av-bv;
+  });
+  const arrow = dir => dir==="desc" ? " &#9660;" : " &#9650;";
+  let html = `<table class="data-table"><thead><tr><th class="rank">#</th>`;
+  cols.forEach(c => {
+    const active = c.key === sortKey;
+    html += `<th style="cursor:pointer; user-select:none; ${active?'color:var(--gold);':''}" onclick="sortStatTable('${catKey}','${c.key}')">${c.label}${active?arrow(sortDir):''}</th>`;
+  });
+  html += '</tr></thead><tbody>';
+  sorted.forEach((r,i) => {
+    html += `<tr><td class="rank">${i+1}</td>`;
+    cols.forEach(c => html += `<td>${c.fmt(r)}</td>`);
+    html += '</tr>';
+  });
+  html += '</tbody></table>';
+  return html;
+}
+
+function sortStatTable(catKey, colKey){
+  const state = statTableState[catKey];
+  if(state.sortKey === colKey){
+    state.sortDir = state.sortDir === "desc" ? "asc" : "desc";
+  } else {
+    state.sortKey = colKey;
+    state.sortDir = "desc";
+  }
+  document.getElementById('statTable_' + catKey).innerHTML = renderStatTable(catKey);
+}
+
+function showTeamStatTab(val, btn){
+  document.querySelectorAll('[data-group="teamstattab"]').forEach(el => {
+    el.style.display = (el.dataset.val === val) ? '' : 'none';
+  });
+  btn.parentElement.querySelectorAll('.stat-tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
 function resultClass(r){
   if(r === "W") return "result-w";
   if(r === "L") return "result-l";
@@ -330,28 +377,65 @@ async function init(){
     rosterHTML += '</tbody></table>';
     document.getElementById('rosterWrap').innerHTML = roster.length ? rosterHTML : '<p class="empty-note">Roster hasn\'t been entered for this team yet.</p>';
 
-    // --- Team Leaders ---
-    const passing = aggregateByPlayer(passingRows, team, ["Att","Comp","Yds","TD","INT"]);
-    const rushing = aggregateByPlayer(rushingRows, team, ["Att","Yds","TD"]);
-    const receiving = aggregateByPlayer(receivingRows, team, ["Rec","Yds","TD"]);
-    const defense = aggregateByPlayer(defenseRows, team, ["Tackles","Sacks","INT"]);
-    const kicking = aggregateByPlayer(kickingRows, team, ["PAT Made","FG Made Under30","FG Made 30-39","FG Made 40-49","FG Made 50Plus"]);
-    kicking.forEach(k => k["FG Total"] = k["FG Made Under30"]+k["FG Made 30-39"]+k["FG Made 40-49"]+k["FG Made 50Plus"]);
+    // --- Team Leaders (sortable tables, same pattern as statistics.html) ---
+    const passing = aggregateByPlayer(passingRows, team, ["Att","Comp","Yds","TD","INT","Fum"]);
+    const rushing = aggregateByPlayer(rushingRows, team, ["Att","Yds","TD","Fum"]);
+    const receiving = aggregateByPlayer(receivingRows, team, ["Rec","Yds","Drops","TD"]);
+    const defense = aggregateByPlayer(defenseRows, team, ["Tackles","Sacks","TFL","INT","Pass Defended"]);
+    const kicking = aggregateByPlayer(kickingRows, team, ["PAT Att","PAT Made","FG Att Under30","FG Made Under30","FG Att 30-39","FG Made 30-39","FG Att 40-49","FG Made 40-49","FG Att 50Plus","FG Made 50Plus"]);
 
-    const leaders = [
-      {cat:"Top Passer", p: topPlayer(passing,"Yds"), line: p => `${p.Yds} yds, ${p.TD} TD, ${p.Comp}/${p.Att} comp`},
-      {cat:"Top Rusher", p: topPlayer(rushing,"Yds"), line: p => `${p.Yds} yds, ${p.TD} TD, ${p.Att} att`},
-      {cat:"Top Receiver", p: topPlayer(receiving,"Yds"), line: p => `${p.Yds} yds, ${p.TD} TD, ${p.Rec} rec`},
-      {cat:"Top Defender", p: topPlayer(defense,"Tackles"), line: p => `${p.Tackles} tkl, ${p.Sacks} sacks, ${p.INT} INT`},
-      {cat:"Top Kicker", p: topPlayer(kicking,"FG Total"), line: p => `${p["FG Total"]} FG made, ${p["PAT Made"]} PAT`},
-    ];
+    const nameCol = {label:"Player", key:"name", get:r=>r.name, fmt:r=>r.name};
 
-    document.getElementById('leadersGrid').innerHTML = leaders.map(l => `
-      <div class="leader-card">
-        <div class="cat">${l.cat}</div>
-        ${l.p ? `<div class="pname">${l.p.name}</div><div class="pline">${l.line(l.p)}</div>` : '<div class="none">No data yet</div>'}
-      </div>
-    `).join('');
+    const categoryDefs = {
+      passing: { rows: passing.filter(r=>r.Att>=1), cols: [nameCol,
+        {label:"Att", key:"Att", get:r=>r.Att, fmt:r=>r.Att},
+        {label:"Comp", key:"Comp", get:r=>r.Comp, fmt:r=>r.Comp},
+        {label:"Yds", key:"Yds", get:r=>r.Yds, fmt:r=>r.Yds},
+        {label:"TD", key:"TD", get:r=>r.TD, fmt:r=>r.TD},
+        {label:"INT", key:"INT", get:r=>r.INT, fmt:r=>r.INT},
+        {label:"Fum", key:"Fum", get:r=>r.Fum, fmt:r=>r.Fum},
+        {label:"Yds/Att", key:"YdsAtt", get:r=>r.Att?r.Yds/r.Att:0, fmt:r=>r.Att?fmt1(r.Yds/r.Att):"0.0"},
+      ], defaultKey:"Yds" },
+      rushing: { rows: rushing.filter(r=>r.Att>=1), cols: [nameCol,
+        {label:"Att", key:"Att", get:r=>r.Att, fmt:r=>r.Att},
+        {label:"Yds", key:"Yds", get:r=>r.Yds, fmt:r=>r.Yds},
+        {label:"TD", key:"TD", get:r=>r.TD, fmt:r=>r.TD},
+        {label:"Fum", key:"Fum", get:r=>r.Fum, fmt:r=>r.Fum},
+        {label:"Yds/Att", key:"YdsAtt", get:r=>r.Att?r.Yds/r.Att:0, fmt:r=>r.Att?fmt1(r.Yds/r.Att):"0.0"},
+      ], defaultKey:"Yds" },
+      receiving: { rows: receiving.filter(r=>r.Rec>=1), cols: [nameCol,
+        {label:"Rec", key:"Rec", get:r=>r.Rec, fmt:r=>r.Rec},
+        {label:"Yds", key:"Yds", get:r=>r.Yds, fmt:r=>r.Yds},
+        {label:"Drops", key:"Drops", get:r=>r.Drops, fmt:r=>r.Drops},
+        {label:"TD", key:"TD", get:r=>r.TD, fmt:r=>r.TD},
+        {label:"Yds/Catch", key:"YdsRec", get:r=>r.Rec?r.Yds/r.Rec:0, fmt:r=>r.Rec?fmt1(r.Yds/r.Rec):"0.0"},
+      ], defaultKey:"Yds" },
+      defense: { rows: defense, cols: [nameCol,
+        {label:"Tackles", key:"Tackles", get:r=>r.Tackles, fmt:r=>r.Tackles},
+        {label:"Sacks", key:"Sacks", get:r=>r.Sacks, fmt:r=>r.Sacks},
+        {label:"TFL", key:"TFL", get:r=>r.TFL, fmt:r=>r.TFL},
+        {label:"INT", key:"INT", get:r=>r.INT, fmt:r=>r.INT},
+        {label:"Pass Def.", key:"PassDef", get:r=>r["Pass Defended"], fmt:r=>r["Pass Defended"]},
+      ], defaultKey:"Tackles" },
+      kicking: { rows: kicking, cols: [nameCol,
+        {label:"PAT", key:"PATMade", get:r=>r["PAT Made"], fmt:r=>`${r["PAT Made"]}/${r["PAT Att"]}`},
+        {label:"FG &lt;30", key:"FGU30", get:r=>r["FG Made Under30"], fmt:r=>`${r["FG Made Under30"]}/${r["FG Att Under30"]}`},
+        {label:"FG 30-39", key:"FG3039", get:r=>r["FG Made 30-39"], fmt:r=>`${r["FG Made 30-39"]}/${r["FG Att 30-39"]}`},
+        {label:"FG 40-49", key:"FG4049", get:r=>r["FG Made 40-49"], fmt:r=>`${r["FG Made 40-49"]}/${r["FG Att 40-49"]}`},
+        {label:"FG 50+", key:"FG50", get:r=>r["FG Made 50Plus"], fmt:r=>`${r["FG Made 50Plus"]}/${r["FG Att 50Plus"]}`},
+        {label:"Total FG Made", key:"FGTotal", get:r=>(r["FG Made Under30"]+r["FG Made 30-39"]+r["FG Made 40-49"]+r["FG Made 50Plus"]), fmt:r=>(r["FG Made Under30"]+r["FG Made 30-39"]+r["FG Made 40-49"]+r["FG Made 50Plus"])},
+      ], defaultKey:"PATMade" },
+    };
+
+    Object.entries(categoryDefs).forEach(([key, def]) => {
+      statTableState[key] = { rows: def.rows, cols: def.cols, sortKey: def.defaultKey, sortDir: "desc" };
+    });
+
+    document.getElementById('statTables').innerHTML = Object.keys(categoryDefs).map(key =>
+      `<div data-group="teamstattab" data-val="${key}" style="${key==='passing'?'':'display:none;'}" id="statTable_${key}">${
+        statTableState[key].rows.length ? renderStatTable(key) : '<p class="empty-note">No data yet.</p>'
+      }</div>`
+    ).join('');
 
   } catch(err){
     document.getElementById('rosterWrap').innerHTML = '<p class="empty-note">Could not load team data. Make sure data/Roster.csv, data/Schedule.csv, and the 5 stat CSVs are uploaded and reachable.</p>';
