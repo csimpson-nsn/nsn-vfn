@@ -49,71 +49,47 @@ nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
 .section-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:28px; flex-wrap:wrap; gap:12px; border-bottom:1px solid #262c2e; padding-bottom:16px;}
 .section-head .eyebrow{color:var(--field-green-light); margin-bottom:6px; display:block;}
 .section-head h2{font-size:clamp(1.5rem,3vw,2.2rem);}
-.section-link{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.85rem; color:var(--gold); border-bottom:1px solid var(--gold); padding-bottom:3px; white-space:nowrap;}
-.section-link:hover{color:var(--snow); border-color:var(--snow);}
 
-/* sponsor banner — page specific */
 .page-sponsor-banner{background:var(--slate); border-top:1px solid #262c2e; border-bottom:1px solid #262c2e; padding:20px 28px;}
 .page-sponsor-banner .inner{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;}
 .ts-tag{background:var(--gold); color:var(--granite); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; padding:6px 10px; display:inline-block;}
 .ts-name{font-family:'Anton',sans-serif; font-size:1.05rem; margin-left:12px;}
+.section-link{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.85rem; color:var(--gold); border-bottom:1px solid var(--gold); padding-bottom:3px; white-space:nowrap;}
+.section-link:hover{color:var(--snow); border-color:var(--snow);}
 
-/* tabs */
-.tab-row{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:24px;}
-.tab-btn{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.8rem; color:var(--steel); background:var(--slate); border:1px solid #262c2e; padding:9px 18px; cursor:pointer; transition:all .15s;}
-.tab-btn:hover{color:var(--snow); border-color:#3a4244;}
-.tab-btn.active{background:var(--field-green); color:var(--snow); border-color:var(--field-green);}
+/* voting status banner */
+.voting-status{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; background:var(--slate); border:1px solid #262c2e; padding:18px 22px; margin-bottom:28px;}
+.voting-status .msg{font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; font-size:0.95rem;}
+.voting-status .msg.open{color:var(--field-green-light);}
+.voting-status .msg.closed{color:var(--steel);}
+.voting-status .msg.pending{color:var(--gold);}
+.voting-status .sub{font-family:'Barlow Condensed',sans-serif; font-size:0.8rem; color:var(--steel); margin-top:2px;}
+.vote-btn{display:inline-block; background:var(--broadcast-red); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.85rem; padding:12px 26px; border:none; cursor:pointer;}
+.vote-btn:hover{background:#b9261f;}
+.vote-btn.disabled{background:#3a4244; color:var(--steel); pointer-events:none;}
 
-/* team cards (Teams directory) */
-.teams-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
-@media (max-width:980px){.teams-grid{grid-template-columns:repeat(3,1fr);}}
-@media (max-width:720px){.teams-grid{grid-template-columns:repeat(2,1fr);}}
-@media (max-width:480px){.teams-grid{grid-template-columns:1fr;}}
-.team-card{background:var(--slate); border:1px solid #262c2e; padding:18px; transition:border-color .15s, transform .15s; display:flex; flex-direction:column; gap:10px;}
-.team-card:hover{border-color:var(--field-green-light); transform:translateY(-2px);}
-.team-card-top{display:flex; align-items:center; gap:12px;}
-.team-crest{width:42px; height:42px; border-radius:6px; flex-shrink:0;}
-.team-card h3{font-size:0.98rem; letter-spacing:0;}
-.team-card .div-tag{font-family:'Barlow Condensed',sans-serif; font-size:0.7rem; color:var(--steel); letter-spacing:0.06em; text-transform:uppercase; margin-top:2px;}
-.team-card .record-row{display:flex; justify-content:space-between; font-family:'Barlow Condensed',sans-serif; font-size:0.8rem; color:var(--steel); border-top:1px solid #262c2e; padding-top:10px;}
-.team-card a.profile-link{font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.75rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--gold);}
-.team-card a.profile-link:hover{color:var(--snow);}
+/* nominee cards */
+.nominees-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+@media (max-width:900px){.nominees-grid{grid-template-columns:1fr;}}
+.nominee-card{background:var(--slate); border:1px solid #262c2e; padding:26px; position:relative;}
+.nominee-card.winner{border-color:var(--gold);}
+.crown-badge{position:absolute; top:-12px; right:20px; background:var(--gold); color:var(--granite); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; padding:6px 12px;}
+.nominee-top{display:flex; gap:16px; align-items:center; margin-bottom:16px;}
+.nominee-photo{width:76px; height:76px; border-radius:8px; background:linear-gradient(135deg,#3c5a76,#14181a); flex-shrink:0;}
+.nominee-card h3{font-size:1.15rem;}
+.nominee-card .pos{font-family:'Barlow Condensed',sans-serif; color:var(--steel); font-size:0.85rem; margin-top:4px;}
+.nominee-card .stat-line{font-family:'Barlow Condensed',sans-serif; font-size:0.88rem; color:var(--field-green-light); margin-bottom:16px; font-weight:600; line-height:1.4;}
+.vote-bar-track{background:#0f1315; height:22px; position:relative; overflow:hidden;}
+.vote-bar-fill{background:var(--gold); height:100%; transition:width .4s ease;}
+.vote-bar-label{display:flex; justify-content:space-between; font-family:'Barlow Condensed',sans-serif; font-size:0.78rem; color:var(--steel); margin-top:6px;}
+.vote-bar-label strong{color:var(--snow);}
 
-/* standings tables */
-.standings-table{width:100%; border-collapse:collapse; font-family:'Barlow Condensed',sans-serif; margin-bottom:8px;}
-.standings-table th{text-align:left; font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--steel); padding:10px 14px; border-bottom:1px solid #262c2e;}
-.standings-table td{padding:13px 14px; border-bottom:1px solid #1d2224; font-weight:500; font-size:0.92rem;}
-.standings-table tr:hover td{background:#1c2123;}
-.rank{color:var(--steel); width:30px;}
-.team-cell{display:flex; align-items:center; gap:10px; font-weight:600;}
-.team-dot{width:18px; height:18px; border-radius:4px; flex-shrink:0;}
-
-/* schedule */
-.week-block{margin-bottom:36px;}
-.week-block h3{font-size:1.05rem; color:var(--gold); letter-spacing:0.04em; margin-bottom:14px; font-family:'Barlow Condensed',sans-serif; text-transform:uppercase;}
-.games-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
-@media (max-width:980px){.games-grid{grid-template-columns:repeat(2,1fr);}}
-@media (max-width:640px){.games-grid{grid-template-columns:1fr;}}
-.game-card{background:var(--slate); border:1px solid #262c2e; padding:18px; display:flex; flex-direction:column; gap:12px; transition:border-color .15s;}
-.game-card:hover{border-color:var(--field-green-light);}
-.game-status{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold);}
-.matchup{display:flex; flex-direction:column; gap:8px;}
-.team-row{display:flex; align-items:center; justify-content:space-between;}
-.team{display:flex; align-items:center; gap:10px; font-weight:600; font-size:0.92rem;}
-.score{font-family:'Anton',sans-serif; font-size:1.1rem; color:var(--steel);}
-.game-meta{font-family:'Barlow Condensed',sans-serif; font-size:0.76rem; color:var(--steel); border-top:1px solid #262c2e; padding-top:10px;}
-
-/* POTW */
-.potw-feature{background:var(--slate); border:1px solid #262c2e; padding:30px; display:flex; gap:24px; align-items:center; flex-wrap:wrap;}
-.potw-photo-lg{width:120px; height:120px; border-radius:8px; background:linear-gradient(135deg,#3c5a76,#14181a); flex-shrink:0;}
-.potw-feature h3{font-size:1.5rem;}
-.potw-feature .pos{font-family:'Barlow Condensed',sans-serif; color:var(--steel); font-size:0.92rem; margin-top:4px;}
-.potw-feature .stat-line{font-family:'Barlow Condensed',sans-serif; font-size:0.95rem; color:var(--field-green-light); margin-top:10px; font-weight:600;}
 .potw-archive-table{width:100%; border-collapse:collapse; font-family:'Barlow Condensed',sans-serif;}
 .potw-archive-table th{text-align:left; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--steel); padding:10px 14px; border-bottom:1px solid #262c2e;}
 .potw-archive-table td{padding:13px 14px; border-bottom:1px solid #1d2224; font-size:0.9rem;}
 .potw-archive-table tr:hover td{background:#1c2123;}
 .potw-thumb-sm{width:38px; height:38px; border-radius:5px; background:linear-gradient(135deg,#3c5a76,#14181a); display:inline-block; vertical-align:middle; margin-right:10px;}
+.empty-note{color:var(--steel); font-size:0.88rem; padding:16px 0;}
 
 footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--broadcast-red);}
 .footer-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr 1fr; gap:28px; padding-bottom:28px;}
@@ -129,19 +105,7 @@ footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--br
 .nsn-subfooter-text a{font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.85rem; color:var(--gold);}
 .nsn-subfooter-text a:hover{color:var(--snow);}
 .nsn-subfooter-text .nsn-tagline{font-size:0.78rem; color:var(--steel); margin-top:4px; max-width:520px; line-height:1.4;}
-
-.c1{background:#2f7a4f;} .c2{background:#d6332e;} .c3{background:#d9a13a;}
-.c4{background:#3c5a76;} .c5{background:#7a5c3c;} .c6{background:#5c4a7a;}
 </style>
-<script>
-function showTab(group, val, btn){
-  document.querySelectorAll('[data-group="'+group+'"]').forEach(function(el){
-    el.style.display = (el.dataset.val === val) ? '' : 'none';
-  });
-  btn.parentElement.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
-  btn.classList.add('active');
-}
-</script>
 </head>
 <body>
 
@@ -155,96 +119,201 @@ function showTab(group, val, btn){
       <a href="teams.html" class="">Teams</a>
       <a href="statistics.html" class="">Statistics</a>
       <a href="player-of-the-week.html" class="active">Player of the Week</a>
-      
     </nav>
     <a href="https://www.nsnsports.net" target="_blank" rel="noopener" class="watch-btn"><span>Watch Live</span></a>
     <button class="menu-toggle" aria-label="Open menu">&#9776;</button>
   </div>
 </header>
 
-
 <section class="page-hero">
   <div class="wrap">
-    <span class="eyebrow">Updated Every Monday</span>
+    <span class="eyebrow">Fan Vote</span>
     <h1>Player of the Week</h1>
-    <p>VFN's weekly recognition for the top individual performance across all three divisions, presented by a rotating sponsor each week.</p>
+    <p>Each week, NSN selects three standout performances from across the league. Fans vote for the winner — polling opens when the nominees are posted and closes before kickoff of the next week's games.</p>
   </div>
 </section>
-
 
 <section class="page-sponsor-banner">
   <div class="wrap inner">
-    <div><span class="ts-tag">Player of the Week Program Sponsors</span><span class="ts-name">3 Division Slots Available</span></div>
-    <a href="#" class="section-link">Inquire About Sponsoring a Division Slot &rarr;</a>
+    <div><span class="ts-tag">Player of the Week Page Sponsor</span><span class="ts-name">[Open &mdash; Inquire About This Placement]</span></div>
+    <a href="#" class="section-link">Become a Sponsor &rarr;</a>
   </div>
 </section>
-
 
 <section class="section">
   <div class="wrap">
     <div class="section-head">
-      <div><span class="eyebrow">Week 7</span><h2>This Week's Honorees</h2></div>
+      <div><span class="eyebrow">This Week's Nominees</span><h2 id="weekHeading">Player of the Week</h2></div>
     </div>
-    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:18px;">
-      <div class="potw-feature" style="flex-direction:column; align-items:flex-start; gap:14px;">
-      <span class="ts-tag">Division I &middot; Presented by Crosstown Motors</span>
-      <div style="display:flex; gap:20px; align-items:center; width:100%;">
-        <div class="potw-photo-lg" style="width:90px; height:90px;"></div>
-        <div>
-          <h3 style="font-size:1.2rem;">Jordan Mercier</h3>
-          <div class="pos">RB &middot; St. Johnsbury &middot; Sr.</div>
-          <div class="stat-line" style="font-size:0.85rem;">198 yds &middot; 3 TD vs. Lyndon Institute</div>
-        </div>
-      </div>
-    </div><div class="potw-feature" style="flex-direction:column; align-items:flex-start; gap:14px;">
-      <span class="ts-tag">Division II &middot; Presented by Capital City GMC</span>
-      <div style="display:flex; gap:20px; align-items:center; width:100%;">
-        <div class="potw-photo-lg" style="width:90px; height:90px;"></div>
-        <div>
-          <h3 style="font-size:1.2rem;">Caleb Reyes</h3>
-          <div class="pos">QB &middot; Hartford &middot; Jr.</div>
-          <div class="stat-line" style="font-size:0.85rem;">312 yds passing &middot; 4 TD vs. Woodstock</div>
-        </div>
-      </div>
-    </div><div class="potw-feature" style="flex-direction:column; align-items:flex-start; gap:14px;">
-      <span class="ts-tag">Division III &middot; Presented by [Open Slot]</span>
-      <div style="display:flex; gap:20px; align-items:center; width:100%;">
-        <div class="potw-photo-lg" style="width:90px; height:90px;"></div>
-        <div>
-          <h3 style="font-size:1.2rem;">Owen Beaudry</h3>
-          <div class="pos">WR &middot; Mt. Abraham &middot; Sr.</div>
-          <div class="stat-line" style="font-size:0.85rem;">9 rec &middot; 165 yds &middot; 2 TD vs. Otter Valley</div>
-        </div>
+
+    <div id="votingStatus" class="voting-status">
+      <div>
+        <div class="msg pending">Loading voting status&hellip;</div>
       </div>
     </div>
+
+    <div id="nomineesWrap">
+      <p class="empty-note">Loading nominees&hellip;</p>
     </div>
-    <p style="color:var(--steel); font-size:0.85rem; margin-top:18px;">One honoree is recognized per division each week. Division III's slot is open &mdash; inquire above to sponsor it.</p>
+
+    <p style="color:var(--steel); font-size:0.82rem; margin-top:22px; line-height:1.6;">
+      <span class="ts-tag" style="margin-right:8px;">Voting Sponsored By</span>[Open &mdash; Inquire About This Placement]
+    </p>
   </div>
 </section>
 
+<script>
+// ── Weekly config — NSN staff update these three things each week ──
+// 1. NOMINEES_CSV_URL: the published-to-web CSV link from the Google Sheet tally tab
+//    (Form responses → Sheet → a small COUNTIF tally tab → File > Share > Publish to web > CSV)
+// 2. VOTE_FORM_URL: the live link to the Google Form itself
+// 3. data/POTWNominees.csv holds this week's 3 nominees + the voting window dates — update that file each week
+const VOTE_FORM_URL = "https://forms.gle/r8chYMXkUN29SE9N7"; // paste the real Google Form link here
+const VOTES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiXhi-FRD5gSMcex5UGo1I8gGPSX5PHXIDBpyPApWGQVMo6P2j2ShCSyCcQOipQIBEg-qMdChp8ojK/pub?gid=1547328012&single=true&output=csv"; // paste the published tally-tab CSV URL here
+const NOMINEES_CSV_URL = "data/POTWNominees.csv";
+const ARCHIVE_CSV_URL = "data/POTWArchive.csv";
+
+function parseCSV(text){
+  const lines = text.trim().split(/\r?\n/);
+  const headers = lines[0].split(",");
+  return lines.slice(1).filter(l => l.trim().length).map(line => {
+    const cells = line.split(",");
+    const row = {};
+    headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
+    return row;
+  });
+}
+function num(v){ return parseFloat(v) || 0; }
+
+async function loadCSV(url){
+  const r = await fetch(url);
+  if(!r.ok) throw new Error("Could not load " + url);
+  return parseCSV(await r.text());
+}
+
+function teamLink(name){
+  return `<a href="team.html?team=${encodeURIComponent(name)}" style="color:inherit; text-decoration:underline; text-decoration-color:var(--steel);">${name}</a>`;
+}
+
+async function init(){
+  try {
+    const nomineeRows = await loadCSV(NOMINEES_CSV_URL);
+    if(!nomineeRows.length){
+      document.getElementById('nomineesWrap').innerHTML = '<p class="empty-note">No nominees posted yet for this week.</p>';
+      return;
+    }
+
+    const opens = new Date(nomineeRows[0]["Voting Opens"]);
+    const closes = new Date(nomineeRows[0]["Voting Closes"]);
+    const now = new Date();
+    const weekLabel = nomineeRows[0]["Week"] ? `Week ${nomineeRows[0]["Week"]} Player of the Week` : "Player of the Week";
+    document.getElementById('weekHeading').textContent = weekLabel;
+
+    let votes = {};
+    try {
+      const voteRows = await loadCSV(VOTES_CSV_URL);
+      voteRows.forEach(v => { votes[v["Nominee"]] = num(v["Votes"]); });
+    } catch(e){
+      // votes CSV not reachable yet — treat as zero votes, don't break the page
+      console.warn("Votes CSV not available yet:", e);
+    }
+
+    const totalVotes = nomineeRows.reduce((sum, n) => sum + (votes[n["Name"]] || 0), 0);
+    const votingOpen = now >= opens && now <= closes;
+    const votingClosed = now > closes;
+
+    // --- Status banner ---
+    const statusEl = document.getElementById('votingStatus');
+    const fmt = d => d.toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric'});
+    if(votingClosed){
+      statusEl.innerHTML = `
+        <div><div class="msg closed">Voting Closed</div><div class="sub">Final results below &middot; polling ran ${fmt(opens)}&ndash;${fmt(closes)}</div></div>
+      `;
+    } else if(votingOpen){
+      statusEl.innerHTML = `
+        <div><div class="msg open">Voting Open</div><div class="sub">Polling closes ${fmt(closes)} &middot; ${totalVotes} vote${totalVotes===1?'':'s'} so far</div></div>
+        <a href="${VOTE_FORM_URL}" target="_blank" rel="noopener" class="vote-btn">Cast Your Vote &rarr;</a>
+      `;
+    } else {
+      statusEl.innerHTML = `
+        <div><div class="msg pending">Voting Opens Soon</div><div class="sub">Polling begins ${fmt(opens)}</div></div>
+        <span class="vote-btn disabled">Vote Not Yet Open</span>
+      `;
+    }
+
+    // --- Nominee cards ---
+    const maxVotes = Math.max(1, ...nomineeRows.map(n => votes[n["Name"]] || 0));
+    const showResults = votingOpen || votingClosed;
+
+    document.getElementById('nomineesWrap').innerHTML = `<div class="nominees-grid">${
+      nomineeRows.map(n => {
+        const v = votes[n["Name"]] || 0;
+        const pct = totalVotes ? Math.round((v/totalVotes)*100) : 0;
+        const barWidth = showResults ? Math.max(4, Math.round((v/maxVotes)*100)) : 0;
+        const isWinner = votingClosed && v === maxVotes && totalVotes > 0;
+        return `
+        <div class="nominee-card${isWinner ? ' winner' : ''}">
+          ${isWinner ? '<div class="crown-badge">Player of the Week</div>' : ''}
+          <div class="nominee-top">
+            <div class="nominee-photo"></div>
+            <div>
+              <h3>${n["Name"]}</h3>
+              <div class="pos">${n["Position"]} &middot; ${teamLink(n["Team"])} &middot; ${n["Class"]}</div>
+            </div>
+          </div>
+          <div class="stat-line">${n["Stat Line"]}</div>
+          ${showResults ? `
+            <div class="vote-bar-track"><div class="vote-bar-fill" style="width:${barWidth}%;"></div></div>
+            <div class="vote-bar-label"><span>${v} vote${v===1?'':'s'}</span><strong>${pct}%</strong></div>
+          ` : `<div class="empty-note" style="padding:8px 0 0;">Results shown once voting opens.</div>`}
+        </div>`;
+      }).join('')
+    }</div>`;
+
+  } catch(err){
+    document.getElementById('nomineesWrap').innerHTML = '<p class="empty-note">Could not load this week\'s nominees. Make sure data/POTWNominees.csv is uploaded and reachable.</p>';
+    document.getElementById('votingStatus').innerHTML = '';
+    console.error(err);
+  }
+}
+init();
+
+async function initArchive(){
+  const tbody = document.getElementById('archiveBody');
+  try {
+    const rows = await loadCSV(ARCHIVE_CSV_URL);
+    if(!rows.length){
+      document.getElementById('archiveWrap').innerHTML = '<p class="empty-note">No past winners recorded yet.</p>';
+      return;
+    }
+    tbody.innerHTML = rows.map(r => `
+      <tr>
+        <td>Week ${r["Week"]}</td>
+        <td><span class="potw-thumb-sm"></span>${r["Name"]}</td>
+        <td>${r["Position"]} &middot; ${teamLink(r["Team"])} &middot; ${r["Class"]}</td>
+        <td>${r["Stat Line"]}</td>
+        <td>${r["Vote Pct"]}%</td>
+      </tr>
+    `).join('');
+  } catch(err){
+    document.getElementById('archiveWrap').innerHTML = '<p class="empty-note">No past winners recorded yet.</p>';
+    console.error(err);
+  }
+}
+initArchive();
+</script>
+
 <section class="section" style="background:var(--slate); border-top:1px solid #262c2e; border-bottom:1px solid #262c2e;">
-  <div class="wrap">
+  <div class="wrap" id="archiveWrap">
     <div class="section-head">
-      <div><span class="eyebrow">Season Archive</span><h2>Past Recipients</h2></div>
+      <div><span class="eyebrow">Season Archive</span><h2>Past Winners</h2></div>
     </div>
     <table class="potw-archive-table">
-      <thead><tr><th>Week</th><th>Division</th><th>Player</th><th>Position</th><th>Performance</th></tr></thead>
-      <tbody>
-<tr><td>Week 6</td><td>Division I</td><td><span class="potw-thumb-sm"></span>Jordan Mercier</td><td>RB &middot; St. Johnsbury &middot; Sr.</td><td>198 yds &middot; 3 TD vs. Lyndon</td></tr>
-<tr><td>Week 6</td><td>Division II</td><td><span class="potw-thumb-sm"></span>Caleb Reyes</td><td>QB &middot; Hartford &middot; Jr.</td><td>312 yds passing &middot; 4 TD vs. Woodstock</td></tr>
-<tr><td>Week 6</td><td>Division III</td><td><span class="potw-thumb-sm"></span>Owen Beaudry</td><td>WR &middot; Mt. Abraham &middot; Sr.</td><td>9 rec &middot; 165 yds &middot; 2 TD vs. Otter Valley</td></tr>
-<tr><td>Week 5</td><td>Division I</td><td><span class="potw-thumb-sm"></span>Tucker Lavoie</td><td>LB &middot; Mt. Mansfield &middot; Sr.</td><td>14 tackles &middot; 2 sacks vs. Essex</td></tr>
-<tr><td>Week 5</td><td>Division II</td><td><span class="potw-thumb-sm"></span>Mason Fitch</td><td>RB &middot; Milton &middot; Jr.</td><td>178 yds &middot; 2 TD vs. Brattleboro</td></tr>
-<tr><td>Week 5</td><td>Division III</td><td><span class="potw-thumb-sm"></span>Drew Whitcomb</td><td>QB &middot; Springfield &middot; Sr.</td><td>3 TD total vs. Woodstock</td></tr>
-<tr><td>Week 4</td><td>Division I</td><td><span class="potw-thumb-sm"></span>Owen Beaudry</td><td>WR &middot; CVU &middot; Sr.</td><td>9 rec &middot; 165 yds &middot; 2 TD vs. South Burlington</td></tr>
-<tr><td>Week 4</td><td>Division II</td><td><span class="potw-thumb-sm"></span>Riley Tatro</td><td>DB &middot; Fair Haven &middot; Jr.</td><td>2 INT &middot; 1 TD return vs. Lyndon</td></tr>
-<tr><td>Week 4</td><td>Division III</td><td><span class="potw-thumb-sm"></span>Mason Fitch</td><td>RB &middot; BFA St. Albans &middot; Jr.</td><td>210 yds &middot; 3 TD vs. Milton</td></tr>
-
-      </tbody>
+      <thead><tr><th>Week</th><th>Player</th><th>Position</th><th>Performance</th><th>Vote %</th></tr></thead>
+      <tbody id="archiveBody"></tbody>
     </table>
   </div>
 </section>
-
 
 <footer id="about">
   <div class="wrap">
