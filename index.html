@@ -146,11 +146,13 @@ footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--br
 .c4{background:#3c5a76;} .c5{background:#7a5c3c;} .c6{background:#5c4a7a;}
 
 /* highlights — horizontal scroll row, any number of items */
-.highlights-row{display:flex; gap:18px; overflow-x:auto; padding-bottom:8px; scroll-snap-type:x mandatory;}
-.highlight-card{flex:0 0 300px; scroll-snap-align:start; background:var(--granite); border:1px solid #262c2e;}
-.highlight-card iframe{width:100%; aspect-ratio:9/16; border:none; display:block; background:#000;}
+.highlights-row{display:flex; gap:18px; overflow-x:auto; padding-bottom:8px; scroll-snap-type:x mandatory; align-items:flex-start;}
+.highlight-card{flex:0 0 auto; scroll-snap-align:start; background:var(--granite); border:1px solid #262c2e;}
+.highlight-card.is-featured{border-color:var(--broadcast-red);}
+.highlight-card iframe{width:100%; border:none; display:block; background:#000;}
 .highlight-card .cap{padding:14px;}
 .highlight-card .cap h3{font-size:0.92rem; margin-top:4px; letter-spacing:0;}
+.featured-tag{display:inline-block; background:var(--broadcast-red); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.62rem; letter-spacing:0.08em; text-transform:uppercase; padding:3px 8px; margin-bottom:6px;}
 </style>
 <script>
 function showTab(group, val, btn){
@@ -358,24 +360,32 @@ document.addEventListener('DOMContentLoaded', renderHomeSchedule);
 </section>
 <script>
 const VFN_HIGHLIGHTS = [
-  { url:"https://www.facebook.com/reel/803162512551210", tag:"Matchup of the Week", title:"Week 7 highlight — add real caption here" },
-  { url:"https://www.facebook.com/reel/1181013217166548", tag:"Top Play", title:"Week 7 highlight — add real caption here" },
-  { url:"https://www.facebook.com/reel/1320650009506793", tag:"Postgame", title:"Week 7 highlight — add real caption here" },
-  { url:"https://www.facebook.com/share/v/1Dg6uet33y/", tag:"Highlight", title:"Week 7 highlight — add real caption here" },
+  // featured: true marks the one prominent video — move this flag to whichever clip should lead each week.
+  // ratio: set to match that specific video's actual shape — "9/16" vertical, "16/9" landscape, "1/1" square, "4/5" portrait, etc.
+  { url:"https://www.facebook.com/reel/803162512551210", tag:"Matchup of the Week", title:"Week 7 highlight — add real caption here", ratio:"9/16", featured:true },
+  { url:"https://www.facebook.com/reel/1181013217166548", tag:"Top Play", title:"Week 7 highlight — add real caption here", ratio:"9/16", featured:false },
+  { url:"https://www.facebook.com/reel/1320650009506793", tag:"Postgame", title:"Week 7 highlight — add real caption here", ratio:"9/16", featured:false },
+  { url:"https://www.facebook.com/share/v/1Dg6uet33y/", tag:"Highlight", title:"Week 7 highlight — add real caption here", ratio:"16/9", featured:false },
 ];
 
 function renderHighlights(){
   const row = document.getElementById('highlightsRow');
   if(!row) return;
-  row.innerHTML = VFN_HIGHLIGHTS.map(h => `
-    <div class="highlight-card">
-      <iframe src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(h.url)}&show_text=false" allowfullscreen scrolling="no"></iframe>
+  row.innerHTML = VFN_HIGHLIGHTS.map(h => {
+    const [w,hgt] = h.ratio.split('/').map(Number);
+    const targetHeight = h.featured ? 380 : 250;
+    const width = Math.round(targetHeight * (w/hgt));
+    return `
+    <div class="highlight-card${h.featured?' is-featured':''}" style="width:${width}px;">
+      <iframe src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(h.url)}&show_text=false" style="aspect-ratio:${h.ratio.replace('/',' / ')};" allowfullscreen scrolling="no"></iframe>
       <div class="cap">
+        ${h.featured ? '<span class="featured-tag">Featured</span><br>' : ''}
         <span class="eyebrow" style="color:var(--broadcast-red);">${h.tag}</span>
         <h3>${h.title}</h3>
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
 }
 document.addEventListener('DOMContentLoaded', renderHighlights);
 </script>
