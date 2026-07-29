@@ -1,0 +1,76 @@
+Week,TeamA,TeamB,SponsorTag
+1,North Country,Bellows Falls,LC/CM
+1,Rutland,BFA St. Albans,NWMC
+1,Spaulding,Lyndon Institute,LC/CM
+1,St. Johnsbury,Essex,LC/CM
+1,Burr & Burton Academy,Middlebury,Miosek
+1,Champlain Valley,Hartford,Hartford Auto
+1,Rice Memorial,Fairfax/Lamoille,NWMC
+1,Windsor,Missisquoi,Rockwood
+2,BFA St. Albans,Seawolves,NWMC
+2,Burr & Burton Academy,Mt. Anthony,Miosek
+2,Fair Haven,Bellows Falls,Lovell
+2,North Country,Woodstock,LC/CM
+2,Rutland,Hartford,Hartford Auto
+2,St. Johnsbury,Brattleboro,LC/CM
+2,Champlain Valley,Middlebury,D Newton
+2,Fairfax/Lamoille,Otter Valley,NWMC
+2,Lyndon Institute,Union-32,LC/CM
+2,Mt. Abraham,Windsor,Rockwood
+2,Mt. Mansfield,Rice Memorial,Larkin
+3,Mt. Abraham,Fairfax/Lamoille,NWMC
+3,BFA St. Albans,Essex,NWMC
+3,Brattleboro,Bellows Falls,Lovell
+3,Colchester,North Country,LC/CM
+3,Lyndon Institute,Fair Haven,LC/CM
+3,Middlebury,St. Johnsbury,LC/CM
+3,Otter Valley,Rice Memorial,Larkin
+3,Burr & Burton Academy,Hartford,Hartford Auto
+3,Mill River,Windsor,Rockwood
+4,BFA St. Albans,Colchester,NWMC
+4,Brattleboro,Hartford,Hartford Auto
+4,Burr & Burton Academy,Seawolves,Miosek
+4,Middlebury,Mt. Anthony,D Newton
+4,North Country,Fair Haven,LC/CM
+4,Union-32,Bellows Falls,Lovell
+4,Champlain Valley,St. Johnsbury,LC/CM
+4,Fairfax/Lamoille,Missisquoi,NWMC
+4,Lyndon Institute,Mt. Mansfield,LC/CM
+4,Milton,Windsor,Rockwood
+4,Spaulding,Rice Memorial,Larkin
+5,BFA St. Albans,Mt. Anthony,NWMC
+5,Burr & Burton Academy,Brattleboro,Miosek
+5,Middlebury,Hartford,Hartford Auto
+5,St. Johnsbury,Colchester,LC/CM
+5,Windsor,Otter Valley,Rockwood
+5,Woodstock,Fairfax/Lamoille,NWMC
+5,Lyndon Institute,North Country,LC/CM
+5,Mt. Abraham,Rice Memorial,Larkin
+6,Champlain Valley,Burr & Burton Academy,Miosek
+6,Mt. Mansfield,BFA St. Albans,NWMC
+6,Spaulding,Fairfax/Lamoille,NWMC
+6,St. Johnsbury,Seawolves,LC/CM
+6,Essex,Middlebury,D Newton
+6,Lyndon Institute,Bellows Falls,LC/CM
+6,Mt. Anthony,Hartford,Hartford Auto
+6,North Country,Milton,LC/CM
+6,Springfield,Windsor,Rockwood
+6,Union-32,Rice Memorial,Larkin
+7,Fairfax/Lamoille,Milton,NWMC
+7,Hartford,Lyndon Institute,LC/CM
+7,North Country,Union-32,LC/CM
+7,Burr & Burton Academy,Rutland,Miosek
+7,Middlebury,Brattleboro,D Newton
+7,Mt. Mansfield,Bellows Falls,Lovell
+7,St. Johnsbury,BFA St. Albans,LC/CM
+7,Rice Memorial,Missisquoi,Larkin
+8,Windsor,Woodstock,Rockwood
+8,Burr & Burton Academy,Essex,Miosek
+8,Champlain Valley,BFA St. Albans,NWMC
+8,Fairfax/Lamoille,Mill River,NWMC
+8,Hartford,Fair Haven,Hartford Auto
+8,Middlebury,Rutland,D Newton
+8,Milton,Rice Memorial,Larkin
+8,Mt. Mansfield,North Country,LC/CM
+8,Bellows Falls,Springfield,Lovell
+8,St. Johnsbury,Lyndon Institute,LC/CM
