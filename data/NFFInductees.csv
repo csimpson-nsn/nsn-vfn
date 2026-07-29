@@ -1,0 +1,478 @@
+Year,Category,Name,School
+2025,HS Inductee,Gabriel Bache,Fair Haven
+2025,HS Inductee,Angus Blackwell,Middlebury
+2025,HS Inductee,Jack Cady,Brattleboro
+2025,HS Inductee,Nick Daniels,Hartford
+2025,HS Inductee,Sean Kennedy,CVU
+2025,HS Inductee,Ethan Wideawake,Rutland
+2024,HS Inductee,Gabe Hoar,Spaulding
+2024,HS Inductee,Watson Lee Laffoon,North Country
+2024,HS Inductee,Sam Medow,Brattleboro
+2024,HS Inductee,Jack McCoy,Burr & Burton
+2024,HS Inductee,Carter Thompson,Mt. Anthony
+2024,HS Inductee,Brayden Trombly,Hartford
+2023,HS Inductee,Michael Crabtree,Burr & Burton
+2023,HS Inductee,Caden Haskell,Bellows Falls
+2023,HS Inductee,Quinn Murphy,St. Johnsbury
+2023,HS Inductee,Alexander Martin Provost,CVU
+2023,HS Inductee,James Pendleton Riney,Middlebury
+2023,HS Inductee,Connor Tierney,Hartford
+2022,HS Inductee,William Addington,Burr & Burton
+2022,HS Inductee,Samuel Begin,St. Johnsbury
+2022,HS Inductee,Dalton Clifford,Windsor
+2022,HS Inductee,Oliver Orvis,Essex
+2022,HS Inductee,Slade Postemski,Rutland
+2022,HS Inductee,Jonathan Terry,Bellows Falls
+2020,HS Inductee,Trey Alercio,St. Johnsbury
+2020,HS Inductee,Brett Bohlman,South Burlington
+2020,HS Inductee,Tyler Buxton,Middlebury
+2020,HS Inductee,Mitchell Gadapee,Colchester
+2020,HS Inductee,Joseph McCoy,Burr & Burton
+2020,HS Inductee,Tyler Millerick,Brattleboro
+2019,HS Inductee,John (Jake) Baker,Burr & Burton
+2019,HS Inductee,Patrick Burke,Mt. Mansfield
+2019,HS Inductee,Mark Howrigan,BFA-St. Albans
+2019,HS Inductee,Nick Porter,Hartford
+2019,HS Inductee,Renwick Smith,St. Johnsbury
+2019,HS Inductee,Cameron Wescott,Poultney
+2018,HS Inductee,Trent Cross,Milton
+2018,HS Inductee,Kevin Garrison,Burlington
+2018,HS Inductee,Tyler Hamilton,Hartford
+2018,HS Inductee,Jay McCoy,Burr & Burton
+2018,HS Inductee,Jasper Rankin,St. Johnsbury
+2018,HS Inductee,Alexey Rizvanov,Essex
+2017,HS Inductee,Liam Coulter,Essex
+2017,HS Inductee,Conor Hiner,Brattleboro
+2017,HS Inductee,Jack Ligon,Rutland
+2017,HS Inductee,Matthew Lucke,Hartford
+2017,HS Inductee,Griff Stalcup,Burr & Burton
+2017,HS Inductee,Collin Urie,St. Johnsbury
+2016,HS Inductee,Nicholas Beauchamp,Middlebury
+2016,HS Inductee,Jarad Clark,BFA-St. Albans
+2016,HS Inductee,Connor Plante,Burlington
+2016,HS Inductee,Zachary Streeter,Bellows Falls
+2016,HS Inductee,Kyle Walker,Colchester
+2016,HS Inductee,Caleb White,Rutland
+2015,HS Inductee,Jeff Carter,Mt. Mansfield
+2015,HS Inductee,Grant Cummings,Colchester
+2015,HS Inductee,Brendan Gleason,Essex
+2015,HS Inductee,Jordan Godfrey,Rutland
+2015,HS Inductee,Connor Quinn,Middlebury
+2015,HS Inductee,John Winslow,Otter Valley
+2014,HS Inductee,Tanner Contois,South Burlington
+2014,HS Inductee,Tommy Lee Hodsden,Mt. Abraham
+2014,HS Inductee,Colby McGinn,Brattleboro
+2014,HS Inductee,Patrick McGrath,Hartford
+2014,HS Inductee,Will Peterson,Rutland
+2014,HS Inductee,Samuel Smith,Middlebury
+2013,HS Inductee,Charlie Boardman,Rice
+2013,HS Inductee,Michael Dulac,Hartford
+2013,HS Inductee,Jake Ermolovich,Colchester
+2013,HS Inductee,Harvey Ottinger,CVU
+2013,HS Inductee,Joey Picard,Essex
+2013,HS Inductee,Jake Stalcup,Burr & Burton
+2012,HS Inductee,Joseph Langelier,BFA-Fairfax
+2012,HS Inductee,Andrew Nick,CVU
+2012,HS Inductee,John Norman,Rutland
+2012,HS Inductee,Ben Thieken,BFA-St. Albans
+2012,HS Inductee,Will Thompson,South Burlington
+2012,HS Inductee,Travis Wilson,Hartford
+2011,HS Inductee,Taylor Amato,Essex
+2011,HS Inductee,Konnor Fleming,CVU
+2011,HS Inductee,Luke Lendway,Fair Haven
+2011,HS Inductee,Christian McCormick,Rice
+2011,HS Inductee,Ryan Pembroke,Mt. Anthony
+2011,HS Inductee,Peter Wagner,Spaulding
+2010,HS Inductee,Keegan Corbett,Mt. Anthony
+2010,HS Inductee,Jimmy Danyow,Middlebury
+2010,HS Inductee,Timothy Durham,Spaulding
+2010,HS Inductee,Brian Holloway,Windsor
+2010,HS Inductee,Matt Long,CVU
+2010,HS Inductee,Evan McCrea,Essex
+2009,HS Inductee,James Durham,Spaulding
+2009,HS Inductee,Evan Parker,Montpelier
+2009,HS Inductee,Ethan Peterson,Rutland
+2009,HS Inductee,David Reffi,Brattleboro Union
+2009,HS Inductee,Grant White,Springfield
+2009,HS Inductee,Emmanuel Whyte,Mt. Anthony
+2008,HS Inductee,Ethan Clark,Essex
+2008,HS Inductee,C. Philip Hall,U-32
+2008,HS Inductee,Logan Macomber,Lyndon
+2008,HS Inductee,Shaun McCarthy,Mt. St. Joseph
+2008,HS Inductee,Dante Rossi III,Spaulding
+2008,HS Inductee,Justin Stewart,Rutland
+2007,HS Inductee,Rob Harrison,Middlebury
+2007,HS Inductee,Todd Murphy,U-32
+2007,HS Inductee,Ben O'Hara,Spaulding
+2007,HS Inductee,Andrew Plumley,Burlington
+2007,HS Inductee,Sam Reynolds,Rutland
+2007,HS Inductee,Luke Steinke,Mt. St. Joseph
+2006,HS Inductee,Ernie Bove,Mt. St. Joseph
+2006,HS Inductee,Alexander Hemmer,Mill River
+2006,HS Inductee,Kyle Kelley,South Burlington
+2006,HS Inductee,Dan Killary,Brattleboro
+2006,HS Inductee,Rob Reis,Rutland
+2006,HS Inductee,Earl Ross,Middlebury
+2005,HS Inductee,Ben Bouffard,North Country
+2005,HS Inductee,Eli Harrington,Winooski
+2005,HS Inductee,Justin Kilian,Spaulding
+2005,HS Inductee,Leo Marley,Middlebury
+2005,HS Inductee,Steve Shortle,Rutland
+2005,HS Inductee,David Thieken,Bellows Free Academy
+2004,HS Inductee,Bernie Barone,South Burlington
+2004,HS Inductee,Greg Foley,Rutland
+2004,HS Inductee,Zach Librizzi,Essex
+2004,HS Inductee,Jesse Morse,Windsor
+2004,HS Inductee,Colin Temple,Mt. St. Joseph
+2004,HS Inductee,Dan Walsh,Bellows Falls
+2003,HS Inductee,Adam Danaher,Mt. St. Joseph
+2003,HS Inductee,Matthew Davis,Vermont Academy
+2003,HS Inductee,Matthew Lounsbury,North Country
+2003,HS Inductee,Peter Reese-Scott,Essex
+2003,HS Inductee,Graham Seward,Mill River
+2003,HS Inductee,Stephen Tudhope,Fair Haven
+2002,HS Inductee,Travis Clairmont,Colchester
+2002,HS Inductee,Jeffery McClaren,Essex
+2002,HS Inductee,Joshua Kempinski,Essex
+2002,HS Inductee,Shem Johnson-Bloom,Middlebury
+2002,HS Inductee,Evan Gaston,Montpelier
+2002,HS Inductee,Nick Marro,Rutland
+2001,HS Inductee,Patrick O'Neil,Essex
+2001,HS Inductee,Andrew (surname unclear on source),Mt. Abraham
+2001,HS Inductee,Silas Canavan,Middlebury
+2001,HS Inductee,John Lovett,St. Johnsbury
+2001,HS Inductee,Garrett Allen,Bellows Falls
+2001,HS Inductee,Scott Drew,Rutland
+2000,HS Inductee,Alexander Allen,Bellows Falls
+2000,HS Inductee,Eric Libardoni,Brattleboro
+2000,HS Inductee,Nathan Long,Burlington
+2000,HS Inductee,Michael Hackett,Mt. St. Joseph
+2000,HS Inductee,Nathan Maxwell,North Country
+2000,HS Inductee,Nicholas Scott,Woodstock
+1999,HS Inductee,Jake Eaton,Rutland
+1999,HS Inductee,Brian Hart,Mt. St. Joseph
+1999,HS Inductee,Ben Johnson,Lyndon
+1999,HS Inductee,Ian McCormack,MSJ
+1999,HS Inductee,Jason Roberts,North Country
+1999,HS Inductee,Scott Robinson,Poultney
+1998,HS Inductee,Ryan Basley,Milton
+1998,HS Inductee,Bryan Black,St. Johnsbury
+1998,HS Inductee,Victor Costello,Spaulding
+1998,HS Inductee,Chris Dupuis,Rutland
+1998,HS Inductee,Benjamin Gilbert,Brattleboro
+1998,HS Inductee,Craig Hanson,Middlebury
+1997,HS Inductee,Andrew Cronin,Woodstock
+1997,HS Inductee,Eric McCallum,Woodstock
+1997,HS Inductee,Josh Nicosia,North Country
+1997,HS Inductee,Michael McDougal,Hartford
+1997,HS Inductee,Nicholas Hale,Lyndon
+1997,HS Inductee,Paul Frail,South Burlington
+1996,HS Inductee,Adam Cawfield,Hartford
+1996,HS Inductee,Jeremy Everitt,Middlebury
+1996,HS Inductee,Jason Fairbanks,Springfield
+1996,HS Inductee,Nicholas Gallagher,St. Johnsbury
+1996,HS Inductee,Christopher Hutchens,Brattleboro
+1996,HS Inductee,Joseph Larkin,Rice
+1996,HS Inductee,Eric Tremble,Essex
+1995,HS Inductee,Sean Keenan,Mt. St. Joseph
+1995,HS Inductee,Mark Metzke,Lyndon
+1995,HS Inductee,Dan Noland,Lyndon
+1995,HS Inductee,Jamie Perry,Fair Haven
+1994,HS Inductee,Sean Baraw,North Country
+1994,HS Inductee,Doug Beers,Essex
+1994,HS Inductee,Kyle Berquist,Rutland
+1994,HS Inductee,Jacob Dumas,Woodstock
+1994,HS Inductee,Mathew Forcier,Springfield
+1994,HS Inductee,Ben Johnston,Middlebury
+1994,HS Inductee,Matt Rodgers,Mt. St. Joseph
+1994,HS Inductee,Carl Schlemmer,South Burlington
+2025,HS Honoree,Eli Albee,Bellows Falls
+2025,HS Honoree,Hayden Boivin,North Country
+2025,HS Honoree,Kenyon Burke,Milton
+2025,HS Honoree,Eli Chaffee,Essex
+2025,HS Honoree,Ahmed Diawara,Seawolves
+2025,HS Honoree,Hunter Ferland,Springfield
+2025,HS Honoree,Landon Giroux,U-32
+2025,HS Honoree,Ethan Lussier,Lyndon
+2025,HS Honoree,Ryan Maroney,Mt. Anthony
+2025,HS Honoree,Jack Robinson,Colchester
+2025,HS Honoree,Thomas Sheldon,Burr & Burton
+2025,HS Honoree,Dallas St Peter,Rice
+2025,HS Honoree,Isaac Whitney,Otter Valley
+2025,HS Honoree,Ryan Winters,Spaulding
+2025,HS Honoree,Colby Young,Missisquoi
+2024,HS Honoree,Mason Boudreau,Mill River
+2024,HS Honoree,Tegan Capman,Poultney
+2024,HS Honoree,Mason Cardinal,Colchester
+2024,HS Honoree,William Fuller,Rutland
+2024,HS Honoree,Timothy Kendall,Fair Haven
+2024,HS Honoree,Jacob Laird,Mt. Mansfield
+2024,HS Honoree,Gavin McNulty,Middlebury
+2024,HS Honoree,Owen Messineo,Rice
+2024,HS Honoree,Omar Moran,Milton
+2024,HS Honoree,Brody Osgood,Windsor
+2024,HS Honoree,Sam Parris,Seawolves
+2024,HS Honoree,Joseph Silver,St. Johnsbury
+2024,HS Honoree,Connor Simons,CVU
+2024,HS Honoree,Maxwell Spaeder,Essex
+2024,HS Honoree,Luke Stocker,Springfield
+2024,HS Honoree,John James Walker,Bellows Falls
+2023,HS Honoree,Carson Babbie,Fair Haven
+2023,HS Honoree,Jordan D'Amico,Mt. Mansfield
+2023,HS Honoree,Tristan Evans,Brattleboro
+2023,HS Honoree,Raymond Fournier,Missisquoi
+2023,HS Honoree,Tanner Gintof,Springfield
+2023,HS Honoree,David Gosselin,Rice
+2023,HS Honoree,Evan Knoth,Seawolves
+2023,HS Honoree,William Kolb,U-32
+2023,HS Honoree,Caleb Levasseur,Colchester
+2023,HS Honoree,Eli Pockette,Rutland
+2023,HS Honoree,Caleb Russell,Mt. Abraham
+2023,HS Honoree,Phillip Severy,Mill River
+2023,HS Honoree,Zack Wilson,Spaulding
+2023,HS Honoree,Joshua Worthington,Mt. Anthony
+2022,HS Honoree,Camden Benoit,Seawolves
+2022,HS Honoree,Ryan Canty,CVU
+2022,HS Honoree,Harrison Gaudet,Hartford
+2022,HS Honoree,Andrew Gilbert,Mt. Anthony
+2022,HS Honoree,Calvin Gould,Brattleboro
+2022,HS Honoree,Charles Haynes,U-32
+2022,HS Honoree,Carson Holloway,Mt. Mansfield
+2022,HS Honoree,Matthew Kiernan,Middlebury
+2022,HS Honoree,Connor Lopiccolo,Mill River
+2022,HS Honoree,Trevor Lussier,Lyndon
+2022,HS Honoree,Maxime Makuza,Rice
+2022,HS Honoree,Samuel Presch,Springfield
+2022,HS Honoree,Cole Tipper,Missisquoi
+2022,HS Honoree,Christian Titus,Spaulding
+2022,HS Honoree,Gabe Wescott,Poultney
+2022,HS Honoree,Luke Williams,Fair Haven
+2022,HS Honoree,Dakota Wry,BFA-St. Albans
+2019,HS Honoree,Ryan Barr,U-32
+2019,HS Honoree,Sam Bigglestone,Spaulding
+2019,HS Honoree,Ryan Byrnes,Rice
+2019,HS Honoree,Kristopher Carroll,Brattleboro
+2019,HS Honoree,Grady Corkum,Essex
+2019,HS Honoree,Will Greenough,Missisquoi
+2019,HS Honoree,Duncan Macdonald,Seawolves
+2019,HS Honoree,Chris Mayer,Mt. Anthony
+2019,HS Honoree,Josh McQuinn,Milton
+2019,HS Honoree,Bailey Olson,Colchester
+2019,HS Honoree,Ryland Richardson,Windsor
+2019,HS Honoree,Jason Rosner,CVU
+2019,HS Honoree,Aaron Szabo,Fair Haven
+2019,HS Honoree,Reno Tuttle,Bellows Falls Union
+2019,HS Honoree,Deacon Watson,Springfield
+2018,HS Honoree,Seth Balch,Windsor
+2018,HS Honoree,Sean Burke,Missisquoi
+2018,HS Honoree,Shane Clark,Bellows Falls
+2018,HS Honoree,Kyle Derosia,Brattleboro
+2018,HS Honoree,Daniel Greene,U-32
+2018,HS Honoree,Justin Joyal,Lyndon
+2018,HS Honoree,Griffin Knap,BFA
+2018,HS Honoree,James Mars,Poultney
+2018,HS Honoree,Jacob Messineo,Rice
+2018,HS Honoree,Dylan Moore,Rutland
+2018,HS Honoree,Seth Park,Fair Haven
+2018,HS Honoree,Jaro Perera,Middlebury
+2018,HS Honoree,Damian Smith,Spaulding
+2018,HS Honoree,Andrew Spencer,Colchester
+2018,HS Honoree,Scott Stanley,CVU
+2018,HS Honoree,Ryan Ward,Mill River
+2017,HS Honoree,Jacob Messineo,Rice
+2017,HS Honoree,Sean Bure,Missisquoi
+2017,HS Honoree,Seth Park,Fair Haven
+2017,HS Honoree,Shane Clark,Bellows Falls
+2017,HS Honoree,Jaro Perera,Middlebury
+2017,HS Honoree,Kyle Derosia,Brattleboro
+2017,HS Honoree,Daniel Green,U-32
+2017,HS Honoree,Andrew Spencer,Colchester
+2017,HS Honoree,Justin Joyal,Lyndon
+2017,HS Honoree,Scott Stanley,CVU
+2017,HS Honoree,Griffin Knap,Bellows Free Academy
+2017,HS Honoree,James Mars,Poultney
+1997,Youth Football Achievement,Torrey Allard,
+1998,Youth Football Achievement,Joe Arcovitch,
+1999,Youth Football Achievement,Peter James,
+2000,Youth Football Achievement,John Smedley,
+2001,Youth Football Achievement,Dave Brooks,
+2002,Youth Football Achievement,Roger Woods,
+2003,Youth Football Achievement,Sue Yesalonia,
+2004,Youth Football Achievement,Linda Laberge,
+2005,Youth Football Achievement,Virginia Stone,
+2006,Youth Football Achievement,Rob Cioffi,
+2007,Youth Football Achievement,Nancy Belisle,
+2008,Youth Football Achievement,Stan Eames,
+2009,Youth Football Achievement,Karen McNall,
+2010,Youth Football Achievement,Tony Arcovitch,
+2011,Youth Football Achievement,Glenn Cummings,
+2012,Youth Football Achievement,Tom Tavares,
+2013,Youth Football Achievement,Mark Palmieri & Family,
+2014,Youth Football Achievement,George Maille,
+2015,Youth Football Achievement,Kerri Lamb,
+2016,Youth Football Achievement,Joel Perry,
+2017,Youth Football Achievement,John Guebara,
+2018,Youth Football Achievement,Tom McCoy,
+2019,Youth Football Achievement,Don Fullam,
+2022,Youth Football Achievement,Jason Aldridge,
+2023,Youth Football Achievement,Ken Mailhot,
+2024,Youth Football Achievement,Richard Audet,
+2025,Youth Football Achievement,Aimee Trombly,
+2008,Most Courageous,Travis Beauchamp,
+2009,Most Courageous,Damian Legacy,
+2010,Most Courageous,Alex Newton,
+2011,Most Courageous,Billy Weaver,
+2012,Most Courageous,Kasey Johnson,
+2013,Most Courageous,Owen Connor,
+2014,Most Courageous,Firdous Modany,
+2015,Most Courageous,Judah Ward,
+2016,Most Courageous,Matthew Mullin,
+2017,Most Courageous,Shane Alercio,
+2017,Most Courageous,David Roy,
+2018,Most Courageous,Brayden Duggan,
+2018,Most Courageous,Skylar Stone,
+2019,Most Courageous,Bailey Olson,
+2022,Most Courageous,Camden Benoit,
+2024,Most Courageous,Matthew Yandow,
+2004,Community Service,Jessie Morse,
+2005,Community Service,Chris Gracy,
+2006,Community Service,Matt Christensen,
+2007,Community Service,Jack Dubie,
+2008,Community Service,Connor Gallagher,
+2009,Community Service,Michael McCormick,
+2010,Community Service,Michael Kenney,
+2011,Community Service,Jackson Leclerc,
+2012,Community Service,Calvin McEathron,
+2013,Community Service,Joey Picard,
+2014,Community Service,Mark Goyette,
+2015,Community Service,Matt LaRose,
+2016,Community Service,Tom Demag,
+2017,Community Service,Colby McKay,
+2018,Community Service,Dylan Moore,
+2019,Community Service,Jake Cady,
+2022,Community Service,Andrew Gilbert,
+2023,Community Service,Evan Knoth,
+2024,Community Service,Joseph Silver,
+2025,Community Service,Ryan Maroney,
+1996,HS Coach of the Year,Peter Brakely,
+1997,HS Coach of the Year,Jim McLaughlin,
+1998,HS Coach of the Year,Mike Norman,
+1999,HS Coach of the Year,Brian Grady,
+2000,HS Coach of the Year,Peter Brakeley,
+2001,HS Coach of the Year,Dennis Perry,
+2002,HS Coach of the Year,Spaulding Bisby,
+2003,HS Coach of the Year,Phil Joyal,
+2004,HS Coach of the Year,Joe MacDonald,
+2005,HS Coach of the Year,Bob Davis,
+2006,HS Coach of the Year,Dennis Perry,
+2007,HS Coach of the Year,Peter Brakeley,
+2008,HS Coach of the Year,Brennan Carney,
+2009,HS Coach of the Year,Mike Stone,
+2010,HS Coach of the Year,Jim Provost,
+2011,HS Coach of the Year,Geoff Murray,
+2012,HS Coach of the Year,Mike Stone,
+2013,HS Coach of the Year,Mike Stone,
+2014,HS Coach of the Year,Dennis Smith,
+2015,HS Coach of the Year,Mike Williams,
+2016,HS Coach of the Year,Mike Norman,
+2017,HS Coach of the Year,Bob Lockerby,
+2018,HS Coach of the Year,Greg Balch,
+2019,HS Coach of the Year,Marty Richards,
+2022,HS Coach of the Year,Marty Richards,
+2023,HS Coach of the Year,Dennis Smith,
+2024,HS Coach of the Year,Lonnie Wade,
+2025,HS Coach of the Year,Rahn Fleming,
+2002,Official of the Year,Bob Brault,
+2003,Official of the Year,Dave Henry,
+2004,Official of the Year,Greg Wilson,
+2005,Official of the Year,Gordie Harlow,
+2006,Official of the Year,Doug Harris,
+2007,Official of the Year,Steve Marro,
+2008,Official of the Year,R. "Packy" Sawyer,
+2009,Official of the Year,Jim Snarski,
+2010,Official of the Year,Steve Audette,
+2011,Official of the Year,Brian Haskell,
+2012,Official of the Year,George Maille,
+2013,Official of the Year,Jerry Jasinski,
+2014,Official of the Year,Marc Fortier,
+2015,Official of the Year,George Lucia,
+2016,Official of the Year,Gary Diminick,
+2017,Official of the Year,Kristi Morris,
+2018,Official of the Year,Leon Johnson,
+2019,Official of the Year,Rob Black,
+2022,Official of the Year,Jeff Stebben,
+2023,Official of the Year,Jon Reed,
+2024,Official of the Year,Paul Trono,
+2025,Official of the Year,David Byrne,
+1994,Amateur Athletics,Dean Houghton,
+1995,Amateur Athletics,Paul Jordan,
+1996,Amateur Athletics,Bruce Wheeler,
+1997,Amateur Athletics,Hubie Wagner,
+1998,Amateur Athletics,Darrell Sawyer,
+1999,Amateur Athletics,Reginald Godin,
+2000,Amateur Athletics,Rene Laberge,
+2001,Amateur Athletics,Tony Zingale,
+2002,Amateur Athletics,J.J. Cioffi,
+2003,Amateur Athletics,Monk Martin,
+2004,Amateur Athletics,Mickey Heinecken,
+2005,Amateur Athletics,Mike O'Day,
+2006,Amateur Athletics,Tom Haley,
+2007,Amateur Athletics,David Capman,
+2008,Amateur Athletics,Grady Vigneau,
+2009,Amateur Athletics,Barry Mynter,
+2010,Amateur Athletics,John Varricchione,
+2011,Amateur Athletics,Dennis Sweet,
+2012,Amateur Athletics,Mike Law,
+2013,Amateur Athletics,Bob Davis,
+2014,Amateur Athletics,Jim McLaughlin,
+2015,Amateur Athletics,Mike Stone,
+2016,Amateur Athletics,Dennis Perry,
+2017,Amateur Athletics,Peter Brakeley,
+2018,Amateur Athletics,Bob Hingston,
+2019,Amateur Athletics,Rick Farnham,
+2022,Amateur Athletics,Tony Mariano,
+2023,Amateur Athletics,Mike Norman,
+2024,Amateur Athletics,Mark Murnyack,
+2025,Amateur Athletics,Joe McDonald,
+2017,Distinguished American,Lenny Burke & Family,
+2018,Distinguished American,Ken Squire,
+2019,Distinguished American,Kelly Brush Davisson,
+2022,Distinguished American,Senator Patrick Leahy,
+2017,Sportsmanship (Northern),Bellows Free Academy - St. Albans,
+2017,Sportsmanship (Southern),Bellows Falls,
+2018,Sportsmanship (Northern),Burlington & Milton High Schools,
+2018,Sportsmanship (Southern),Windsor High School,
+2019,Sportsmanship (Northern),Oxbow Union High School,
+2019,Sportsmanship (Southern),Oxbow Union High School,
+2022,Sportsmanship (Northern),BFA-Fairfax,
+2022,Sportsmanship (Southern),Bellows Falls Union High School,
+2023,Sportsmanship (Northern),North Country UHS,
+2023,Sportsmanship (Southern),Bellows Falls Union High School,
+2024,Sportsmanship (Northern),North Country UHS,
+2024,Sportsmanship (Southern),Bellows Falls Union High School,
+2025,Sportsmanship (Northern),BFA Fairfax/Lamoille,
+2025,Sportsmanship (Southern),Bellows Falls Union High School,
+2025,College Inductee,Kevin McDonough,Unconfirmed - see nffvt.org
+2025,College Inductee,Rocco Stolla,Unconfirmed - see nffvt.org
+2025,College Inductee,Jeremy Henault,Unconfirmed - see nffvt.org
+2024,College Inductee,Jordan Wright,Unconfirmed - see nffvt.org
+2024,College Inductee,Sam Messina,Unconfirmed - see nffvt.org
+2024,College Inductee,Jordan Bryan,Unconfirmed - see nffvt.org
+2023,College Inductee,Tucker Gaudette,Unconfirmed - see nffvt.org
+2023,College Inductee,Ryan Whitney,Unconfirmed - see nffvt.org
+2023,College Inductee,Nate Parady,Unconfirmed - see nffvt.org
+2022,College Inductee,Anthony Martinez,Unconfirmed - see nffvt.org
+2022,College Inductee,Nate Stewart,Unconfirmed - see nffvt.org
+2022,College Inductee,Jacob Schwab,Unconfirmed - see nffvt.org
+2019,College Inductee,Grant Cummings,Unconfirmed - see nffvt.org
+2019,College Inductee,Kevin Maxwell,Unconfirmed - see nffvt.org
+2019,College Inductee,John Lemay,Unconfirmed - see nffvt.org
+2019,College Inductee,Eddie Hockenbury,Unconfirmed - see nffvt.org
+2018,College Inductee,Eric Decker,Unconfirmed - see nffvt.org
+2018,College Inductee,Kevin Hopsicker,Unconfirmed - see nffvt.org
+2018,College Inductee,Austin Roberts,Unconfirmed - see nffvt.org
+2018,College Inductee,Sam Messenger,Unconfirmed - see nffvt.org
+2017,College Inductee,Soren Pelz-Walsh,Unconfirmed - see nffvt.org
+2017,College Inductee,James Burke,Unconfirmed - see nffvt.org
+2017,College Inductee,Derek Lotito,Unconfirmed - see nffvt.org
+2017,College Inductee,Jake Ermolovich,Unconfirmed - see nffvt.org
