@@ -60,15 +60,20 @@ nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
 }
 .page-hero .eyebrow::before{content:""; width:16px; height:2px; background:var(--team-text); opacity:0.6;}
 .page-hero h1{font-size:clamp(1.9rem,5vw,3.1rem);}
-.rank-band{display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; padding-top:18px; border-top:1px solid #2a3133;}
+.rank-band{display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:20px; padding-top:18px; border-top:1px solid #2a3133;}
+.rank-half .rank-half-title{font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; font-size:0.75rem; margin-bottom:10px;}
+.rank-half.offense .rank-half-title{color:var(--field-green-light);}
+.rank-half.defense .rank-half-title{color:var(--broadcast-red);}
+.rank-half-chips{display:flex; flex-wrap:wrap; gap:8px;}
+@media (max-width:720px){.rank-band{grid-template-columns:1fr;} .rank-half{border-bottom:1px solid #2a3133; padding-bottom:16px;} .rank-half:last-child{border-bottom:none; padding-bottom:0;}}
+.rank-chip{background:var(--slate); border:1px solid #2a3133; padding:7px 12px; font-family:'Barlow Condensed',sans-serif; font-size:0.78rem; color:var(--steel);}
+.rank-chip strong{color:var(--snow); font-weight:700;}
 .champ-badge{margin-left:auto; text-align:right; background:var(--slate); border:1px solid #2a3133; border-top:3px solid var(--gold); padding:14px 18px;}
 .champ-badge .title{font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; font-size:0.7rem; color:var(--gold); margin-bottom:8px; display:flex; align-items:center; gap:6px; justify-content:flex-end;}
 .champ-badge .years{display:flex; flex-wrap:wrap; gap:6px; justify-content:flex-end; max-width:260px;}
 .champ-badge .years span{background:var(--granite); border:1px solid #2a3133; padding:3px 8px; font-family:'Barlow Condensed',sans-serif; font-size:0.78rem; font-weight:600;}
 .champ-badge .years span .div{color:var(--gold); margin-left:4px;}
 @media (max-width:640px){.champ-badge{margin-left:0; text-align:left;} .champ-badge .title, .champ-badge .years{justify-content:flex-start;}}
-.rank-chip{background:var(--slate); border:1px solid #2a3133; padding:7px 12px; font-family:'Barlow Condensed',sans-serif; font-size:0.78rem; color:var(--steel);}
-.rank-chip strong{color:var(--snow); font-weight:700;}
 .team-record{font-family:'Barlow Condensed',sans-serif; color:var(--steel); font-size:1rem; margin-top:6px;}
 .team-record strong{color:var(--snow);}
 .cancelled-banner{background:var(--broadcast-red); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:0.85rem; padding:12px 20px; margin:0 0 18px;}
@@ -291,6 +296,7 @@ function aggregateByPlayer(rows, team, sumFields){
 function aggregateTeamOffense(passingRows, rushingRows){
   const teams = {};
   function ensure(t){ if(!teams[t]) teams[t] = {team:t, RushYds:0, PassYds:0, RushTD:0, PassTD:0}; return teams[t]; }
+  Object.keys(TEAMS).forEach(ensure); // seed every team so rankings always include the full division, even with no stats yet
   rushingRows.forEach(r => { const t = ensure(r["Team"]); t.RushYds += num(r["Yds"]); t.RushTD += num(r["TD"]); });
   passingRows.forEach(r => { const t = ensure(r["Team"]); t.PassYds += num(r["Yds"]); t.PassTD += num(r["TD"]); });
   return Object.values(teams).map(t => ({
@@ -301,6 +307,7 @@ function aggregateTeamOffense(passingRows, rushingRows){
 function aggregateTeamDefense(passingRows, rushingRows){
   const teams = {};
   function ensure(t){ if(!teams[t]) teams[t] = {team:t, RushYds:0, PassYds:0, RushTD:0, PassTD:0}; return teams[t]; }
+  Object.keys(TEAMS).forEach(ensure); // seed every team — otherwise a team only gets a defense entry once some opponent has submitted stats against them
   rushingRows.forEach(r => { const t = ensure(r["Opponent"]); t.RushYds += num(r["Yds"]); t.RushTD += num(r["TD"]); });
   passingRows.forEach(r => { const t = ensure(r["Opponent"]); t.PassYds += num(r["Yds"]); t.PassTD += num(r["TD"]); });
   return Object.values(teams).map(t => ({
@@ -579,27 +586,40 @@ async function init(){
       }</div>`
     ).join('');
 
-    // --- Division rank band (hero) ---
+    // --- Division rank band (hero) — split into Offense / Defense halves ---
     const divisionTeams = new Set(rosterRows.filter(r => r["Division"] === info.div).map(r => r["Team"]));
     const divOffense = allTeamOffense.filter(t => divisionTeams.has(t.team));
     const divDefense = allTeamDefense.filter(t => divisionTeams.has(t.team));
-    const rankItems = [
+    const offenseItems = [
       {label:"Total Yds", rows:divOffense, key:"TotalYds", asc:false},
       {label:"Rush Yds", rows:divOffense, key:"RushYds", asc:false},
       {label:"Pass Yds", rows:divOffense, key:"PassYds", asc:false},
       {label:"Total TD", rows:divOffense, key:"TotalTD", asc:false},
       {label:"Pts/Gm", rows:divOffense, key:"PPG", asc:false},
+    ];
+    const defenseItems = [
       {label:"Total Yds Allowed", rows:divDefense, key:"TotalYdsAllowed", asc:true},
       {label:"Rush Yds Allowed", rows:divDefense, key:"RushYdsAllowed", asc:true},
       {label:"Pass Yds Allowed", rows:divDefense, key:"PassYdsAllowed", asc:true},
       {label:"Total TD Allowed", rows:divDefense, key:"TotalTDAllowed", asc:true},
       {label:"Pts Allowed/Gm", rows:divDefense, key:"PAPG", asc:true},
     ];
-    const rankBandHTML = rankItems.map(it => {
-      const r = computeRank(it.rows, it.key, it.asc, team);
-      return r ? `<div class="rank-chip">${it.label}: <strong>${ordinal(r.rank)}</strong> of ${r.of} in ${info.div}</div>` : '';
-    }).join('');
-    document.getElementById('rankBand').innerHTML = rankBandHTML || '<div class="rank-chip">Rankings will appear once stats are entered.</div>';
+    function chipsFor(items){
+      return items.map(it => {
+        const r = computeRank(it.rows, it.key, it.asc, team);
+        return r ? `<div class="rank-chip">${it.label}: <strong>${ordinal(r.rank)}</strong> of ${r.of}</div>` : '';
+      }).join('');
+    }
+    document.getElementById('rankBand').innerHTML = `
+      <div class="rank-half offense">
+        <div class="rank-half-title">Offense &middot; ${info.div}</div>
+        <div class="rank-half-chips">${chipsFor(offenseItems)}</div>
+      </div>
+      <div class="rank-half defense">
+        <div class="rank-half-title">Defense &middot; ${info.div}</div>
+        <div class="rank-half-chips">${chipsFor(defenseItems)}</div>
+      </div>
+    `;
 
   } catch(err){
     document.getElementById('rosterWrap').innerHTML = '<p class="empty-note">Could not load team data. Make sure data/Roster.csv, data/Schedule.csv, and the 5 stat CSVs are uploaded and reachable.</p>';
