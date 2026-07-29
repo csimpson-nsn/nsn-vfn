@@ -1,101 +1,160 @@
 Year,Division,Champion,Score,Opponent
-2025,Division 1,Middlebury,13-7,St. Johnsbury Academy
-2025,Division 2,Colchester,27-20,Fair Haven
-2025,Division 3,Bellows Falls,54-20,Woodstock
+2025,Division 1,Middlebury,13-7,St. Johnsbury
 2024,Division 1,Champlain Valley,41-14,Rutland
-2024,Division 2,Fair Haven,35-22,Rice Memorial
-2024,Division 3,Woodstock,65-14,Otter Valley
 2023,Division 1,Burr & Burton,35-28,Hartford
-2023,Division 2,North Country Union,21-14,Colchester
-2023,Division 3,Windsor,36-0,Woodstock
 2022,Division 1,Champlain Valley,24-19,Middlebury
-2022,Division 2,Mt. Anthony,24-17,Bellows Falls
-2022,Division 3,Windsor,35-21,Fairfax/Lamoille
 2021,Division 1,Essex,21-19,Champlain Valley
-2021,Division 2,Bellows Falls,57-35,Mt. Anthony
-2021,Division 3,Windsor,53-7,Fairfax/Lamoille
-2019,Division 1,Burr & Burton,47-20,St. Johnsbury Academy
-2019,Division 2,Brattleboro,46-7,Bellows Falls
-2019,Division 3,Poultney,17-8,Fairfax/Lamoille
+2019,Division 1,Burr & Burton,47-20,St. Johnsbury
 2018,Division 1,Mt. Mansfield,38-27,Rutland
-2018,Division 2,Burr & Burton,63-14,Fair Haven
-2018,Division 3,Woodstock,28-21,Poultney
-2017,Division 1,St. Johnsbury Academy,33-32,Hartford
-2017,Division 2,Fair Haven,46-20,Bellows Falls
-2017,Division 3,Windsor,13-7,Woodstock
-2016,Division 1,Hartford,24-14,St. Johnsbury Academy
-2016,Division 2,Bellows Falls,20-14,Burr & Burton
-2016,Division 3,Windsor,42-6,Otter Valley
+2017,Division 1,St. Johnsbury,33-32,Hartford
+2016,Division 1,Hartford,24-14,St. Johnsbury
 2015,Division 1,Rutland,35-7,Middlebury
-2015,Division 2,Burr & Burton,28-7,Bellows Falls
-2015,Division 3,Otter Valley,33-14,U-32
-2014,Division 1,Middlebury,28-7,St. Johnsbury Academy
-2014,Division 2,Rice Memorial,60-14,Fair Haven
-2014,Division 3,BFA-Fairfax,42-30,Otter Valley
+2014,Division 1,Middlebury,28-7,St. Johnsbury
 2013,Division 1,Middlebury,26-6,South Burlington
-2013,Division 2,Rice Memorial,27-21,Lyndon Institute
-2013,Division 3,Woodstock,20-19,Mill River
 2012,Division 1,Hartford,35-27,BFA-St. Albans
-2012,Division 2,Rice Memorial,23-14,Bellows Falls
-2012,Division 3,Woodstock,38-18,BFA-Fairfax
 2011,Division 1,Hartford,42-6,Middlebury
-2011,Division 2,Fair Haven,57-34,Burr & Burton
-2011,Division 3,Woodstock,27-7,Windsor
 2010,Division 1,Hartford,33-0,BFA-St. Albans
-2010,Division 2,Rice Memorial,38-20,Middlebury
-2010,Division 3,Bellows Falls,39-22,Windsor
 2009,Division 1,Essex,48-14,Rutland
-2009,Division 2,Colchester,22-14,Champlain Valley
-2009,Division 3,Windsor,19-8,Springfield
 2008,Division 1,Hartford,26-14,Rutland
-2008,Division 2,Spaulding,42-20,Mt. Mansfield
-2008,Division 3,Springfield,52-28,Windsor
-2007,Division 1,Hartford,13-7,South Burlington
-2007,Division 2,Spaulding,34-7,Mt. Mansfield
-2007,Division 3,Poultney,33-22,Windsor
+2007,Division 1,Hartford,13-7 (OT),South Burlington
 2006,Division 1,Rutland,27-14,Middlebury
-2006,Division 2,Burlington,27-14,South Burlington
-2006,Division 3,Woodstock,35-14,Colchester
-2006,Division 4,U-32,62-0,Mt. Mansfield
 2005,Division 1,Mt. St. Joseph,21-0,Hartford
-2005,Division 2,South Burlington,14-0,Bellows Falls
-2005,Division 3,Woodstock,38-0,Rice Memorial
-2005,Division 4,Otter Valley,23-20,U-32
 2004,Division 1,Rutland,27-12,Middlebury
-2004,Division 2,South Burlington,48-0,North Country Union
-2004,Division 3,Rice Memorial,37-14,Woodstock
-2004,Division 4,Mt. Abraham,30-20,U-32
 2003,Division 1,Rutland,20-6,Essex
-2003,Division 2,Bellows Falls,43-0,Burlington
-2003,Division 3,Woodstock,20-19,Milton
-2003,Division 4,Mt. Abraham,36-8,U-32
 2002,Division 1,Middlebury,3-0,Hartford
-2002,Division 2,Bellows Falls,33-30,Spaulding
-2002,Division 3,Woodstock,34-12,Milton
-2002,Division 4,U-32,14-12,Mt. Abraham
 2001,Division 1,Rutland,21-7,Essex
-2001,Division 2,Fair Haven,31-12,Bellows Falls
-2001,Division 3,Woodstock,39-21,Windsor
-2001,Division 4,U-32,26-7,Otter Valley
 2000,Division 1,Rutland,7-0,Essex
-2000,Division 2,Fair Haven,21-13,Lyndon Institute
-2000,Division 3,Woodstock,34-28,Poultney
-2000,Division 4,U-32,24-14,Mt. Abraham
 1999,Division 1,Mt. St. Joseph,26-6,Middlebury
-1999,Division 2,Burlington,41-14,South Burlington
-1999,Division 3,Windsor,3-0,Mill River
-1999,Division 4,Montpelier,48-12,U-32
 1998,Division 1,Mt. St. Joseph,25-13,Rutland
-1998,Division 2,Bellows Falls,38-26,Lyndon Institute
-1998,Division 3,South Burlington,40-26,Woodstock
-1998,Division 4,Colchester,27-12,Milton
 1997,Division 1,Rutland,24-14,Middlebury
-1997,Division 2,North Country Union,60-0,Springfield
-1997,Division 3,Lyndon Institute,35-22,Woodstock
-1997,Division 4,Milton,50-34,Winooski
 1996,Division 1,Rutland,20-7,Middlebury
-1996,Division 2,North Country Union,20-0,St. Johnsbury Academy
-1996,Division 3,Woodstock,17-14,Lyndon Institute
-1996,Division 4,Montpelier,40-26,Milton
 1995,Division 1,Middlebury,14-13,Hartford
-1995,Division 2,Fair Haven,30-13,St. Johnsbury Academy
+1994,Division 1,Mt. Anthony,28-0,Middlebury
+1993,Division 1,Middlebury,10-0,Essex
+1992,Division 1,Essex,18-14,Mt. Anthony
+1991,Division 1,Rutland,20-7,Mt. St. Joseph
+1990,Division 1,Mt. St. Joseph,20-0,Rutland
+1989,Division 1,Mt. St. Joseph,27-0,Rutland
+1988,Division 1,Essex,12-9,Mt. St. Joseph
+1987,Division 1,Essex,33-0,Mt. Anthony
+1986,Division 1,Mt. St. Joseph,13-0,Burlington
+1985,Division 1,Mt. St. Joseph,28-14,Burlington
+1984,Division 1,Rutland,15-14,Middlebury
+1983,Division 1,Mt. St. Joseph,28-6,Essex
+1982,Division 1,South Burlington,19-7,Mt. St. Joseph
+1981,Division 1,Essex,23-14,Brattleboro
+1980,Division 1,Mt. St. Joseph,58-28,Essex
+1979,Division 1,South Burlington,20-7,Mt. Anthony
+1978,Division 1,Montpelier,20-14 (OT),Brattleboro
+1977,Division 1,Mt. St. Joseph,32-6,South Burlington
+1976,Division 1,Mt. St. Joseph,50-7,South Burlington
+1975,Division 1,Mt. Anthony,15-0,Essex
+1974,Division 1,Mt. St. Joseph,20-14,Burlington
+1973,Division 1,Brattleboro,28-0,BFA-St. Albans
+1972,Division 1,Montpelier,35-6,Rutland
+1971,Division 1,Bellows Falls,14-13,Montpelier
+1970,Division 1,Burlington,19-16,Mt. St. Joseph
+2025,Division 2,Colchester,27-20,Fair Haven
+2024,Division 2,Fair Haven,35-22,Rice Memorial
+2023,Division 2,North Country,21-14,Colchester
+2022,Division 2,Mt. Anthony,24-17 (2OT),Bellows Falls
+2021,Division 2,Bellows Falls,57-35,Mt. Anthony
+2019,Division 2,Brattleboro,46-7,Bellows Falls
+2018,Division 2,Burr & Burton,63-14,Fair Haven
+2017,Division 2,Fair Haven,46-20,Bellows Falls
+2016,Division 2,Bellows Falls,20-14,Burr & Burton
+2015,Division 2,Burr & Burton,28-7,Bellows Falls
+2014,Division 2,Rice Memorial,60-14,Fair Haven
+2013,Division 2,Rice Memorial,27-21,Lyndon Institute
+2012,Division 2,Rice Memorial,23-14,Bellows Falls
+2011,Division 2,Fair Haven,57-34,Burr & Burton
+2010,Division 2,Rice Memorial,38-20,Middlebury
+2009,Division 2,Colchester,22-14,Champlain Valley
+2008,Division 2,Spaulding,42-20,Mt. Mansfield
+2007,Division 2,Spaulding,34-7,Mt. Mansfield
+2006,Division 2,Burlington,27-14,South Burlington
+2005,Division 2,South Burlington,14-0,Bellows Falls
+2004,Division 2,South Burlington,48-0,North Country
+2003,Division 2,Bellows Falls,43-0,Burlington
+2002,Division 2,Bellows Falls,33-30,Spaulding
+2001,Division 2,Fair Haven,31-12,Bellows Falls
+2000,Division 2,Fair Haven,21-13,Lyndon Institute
+1999,Division 2,Burlington,41-14,South Burlington
+1998,Division 2,Bellows Falls,38-26,Lyndon Institute
+1997,Division 2,North Country,60-0,Springfield
+1996,Division 2,North Country,20-0,St. Johnsbury
+1995,Division 2,Fair Haven,30-13,St. Johnsbury
+1994,Division 2,St. Johnsbury,7-0,Fair Haven
+1993,Division 2,Hartford,14-8,Fair Haven
+1992,Division 2,Hartford,43-8,St. Johnsbury
+1991,Division 2,Hartford,27-20,Fair Haven
+1990,Division 2,Hartford,26-0,BFA-St. Albans
+1989,Division 2,Rice Memorial,26-12,Springfield
+1988,Division 2,Rice Memorial,20-14,Bellows Falls
+1987,Division 2,Montpelier,22-0,Fair Haven
+1986,Division 2,Hartford,14-0,Winooski
+1985,Division 2,Bellows Falls,22-20 (OT),Winooski
+1984,Division 2,Bellows Falls,58-13,Rice Memorial
+1983,Division 2,Rice Memorial,27-8,Fair Haven
+1982,Division 2,St. Johnsbury,26-19,Fair Haven
+1981,Division 2,Bellows Falls,42-6,North Country
+1980,Division 2,Middlebury,41-8,Bellows Falls
+1979,Division 2,Middlebury,47-14,Windsor
+1978,Division 2,Middlebury,41-6,Hartford
+1977,Division 2,Fair Haven,7-0,Middlebury
+1976,Division 2,Middlebury,21-6,Hartford
+1975,Division 2,Middlebury,48-6,Windsor
+1974,Division 2,South Burlington,23-8,Fair Haven
+1973,Division 2,Essex,14-12,Hartford
+1972,Division 2,Hartford,18-8,Winooski
+1971,Division 2,South Burlington,23-6,Windsor
+1970,Division 2,South Burlington,7-6,Poultney
+2025,Division 3,Bellows Falls,54-20,Woodstock
+2024,Division 3,Woodstock,65-14,Otter Valley
+2023,Division 3,Windsor,36-0,Woodstock
+2022,Division 3,Windsor,35-21,Fairfax/Lamoille
+2021,Division 3,Windsor,53-7,Fairfax/Lamoille
+2019,Division 3,Poultney,17-8,Fairfax/Lamoille
+2018,Division 3,Woodstock,28-21,Poultney
+2017,Division 3,Windsor,13-7 (OT),Woodstock
+2016,Division 3,Windsor,42-6,Otter Valley
+2015,Division 3,Otter Valley,33-14,U-32
+2014,Division 3,BFA-Fairfax,42-30,Otter Valley
+2013,Division 3,Woodstock,20-19 (OT),Mill River
+2012,Division 3,Woodstock,38-18,BFA-Fairfax
+2011,Division 3,Woodstock,38-18,BFA-Fairfax
+2010,Division 3,Bellows Falls,39-22,Windsor
+2009,Division 3,Windsor,19-8,Springfield
+2008,Division 3,Springfield,52-28,Windsor
+2007,Division 3,Poultney,33-22,Windsor
+2006,Division 3,Woodstock,35-14,Colchester
+2005,Division 3,Woodstock,38-0,Rice Memorial
+2004,Division 3,Rice Memorial,37-14,Woodstock
+2003,Division 3,Woodstock,35-19,Milton
+2002,Division 3,Woodstock,34-12,Milton
+2001,Division 3,Woodstock,39-21,Windsor
+2000,Division 3,Woodstock,34-28,Poultney
+1999,Division 3,Windsor,3-0,Mill River
+1998,Division 3,South Burlington,40-26,Woodstock
+1997,Division 3,Lyndon Institute,35-22,Woodstock
+1996,Division 3,Woodstock,17-14 (OT),Lyndon Institute
+1995,Division 3,North Country,12-6 (OT),Bellows Falls
+1994,Division 3,Bellows Falls,34-24,Lyndon Institute
+1993,Division 3,Bellows Falls,12-0,Woodstock
+1992,Division 3,North Country,36-26,Woodstock
+1991,Division 3,Montpelier,22-6,North Country
+2006,Division 4,U-32,62-0,Mt. Mansfield
+2005,Division 4,Otter Valley,23-20,U-32
+2004,Division 4,Mt. Abraham,30-20,U-32
+2003,Division 4,Mt. Abraham,36-8,U-32
+2002,Division 4,U-32,14-12,Mt. Abraham
+2001,Division 4,U-32,26-7,Otter Valley
+2000,Division 4,U-32,24-14,Mt. Abraham
+1999,Division 4,Montpelier,48-12,U-32
+1998,Division 4,Colchester,27-12,Milton
+1997,Division 4,Milton,50-34,Winooski
+1996,Division 4,Montpelier,40-26,Milton
+1995,Division 4,Montpelier,40-23,Mill River
+1994,Division 4,Mill River,52-27,Montpelier
+1993,Division 4,Winooski,38-20,Montpelier
+1992,Division 4,Winooski,40-14,Montpelier
