@@ -35,6 +35,17 @@ nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
 .watch-btn:hover{background:#b9261f;}
 .menu-toggle{display:none; background:none; border:none; color:var(--snow); font-size:1.6rem; cursor:pointer;}
 @media (max-width:900px){nav.links{display:none;} .menu-toggle{display:block;}}
+.more-menu{position:relative;}
+.more-menu > span{cursor:pointer;}
+.more-dropdown{display:none; position:absolute; top:100%; right:0; background:var(--slate); border:1px solid #262c2e; min-width:220px; padding:6px 0; z-index:60;}
+.more-menu:hover .more-dropdown{display:block;}
+.more-dropdown a{display:block; padding:12px 18px; border-bottom:1px solid #262c2e; font-size:0.82rem;}
+.more-dropdown a:last-child{border-bottom:none;}
+.more-dropdown a:hover{background:#252c2e; color:var(--gold);}
+.mobile-menu{display:none; flex-direction:column; background:var(--slate); border-top:1px solid #262c2e;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.95rem; color:var(--snow); padding:16px 28px; border-bottom:1px solid #262c2e;}
+.mobile-menu a:hover, .mobile-menu a.active{color:var(--gold); background:#252c2e;}
 .mobile-menu{display:none; flex-direction:column; background:var(--slate); border-top:1px solid #262c2e;}
 .mobile-menu.open{display:flex;}
 .mobile-menu a{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.95rem; color:var(--snow); padding:16px 28px; border-bottom:1px solid #262c2e;}
@@ -149,7 +160,7 @@ footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--br
 .highlights-row{display:flex; gap:18px; overflow-x:auto; padding-bottom:8px; scroll-snap-type:x mandatory; align-items:flex-start;}
 .highlight-card{flex:0 0 auto; scroll-snap-align:start; background:var(--granite); border:1px solid #262c2e;}
 .highlight-card.is-featured{border-color:var(--broadcast-red);}
-.highlight-card iframe{width:100%; border:none; display:block; background:#000;}
+.highlight-card iframe{border:none; display:block; background:#000;}
 .highlight-card .cap{padding:14px;}
 .highlight-card .cap h3{font-size:0.92rem; margin-top:4px; letter-spacing:0;}
 .featured-tag{display:inline-block; background:var(--broadcast-red); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.62rem; letter-spacing:0.08em; text-transform:uppercase; padding:3px 8px; margin-bottom:6px;}
@@ -180,6 +191,14 @@ function toggleMobileMenu(){
       <a href="statistics.html" class="">Statistics</a>
       <a href="player-of-the-week.html" class="">Player of the Week</a>
       
+      <div class="more-menu">
+        <span>More &#9662;</span>
+        <div class="more-dropdown">
+          <a href="articles-and-stories.html">Articles &amp; Stories</a>
+          <a href="hall-of-champions.html">Hall of Champions</a>
+          <a href="national-football-foundation.html">National Football Foundation VT Chapter</a>
+        </div>
+      </div>
     </nav>
     <a href="https://www.nsnsports.net" target="_blank" rel="noopener" class="watch-btn"><span>Watch Live</span></a>
     <button class="menu-toggle" aria-label="Open menu" onclick="toggleMobileMenu()">&#9776;</button>
@@ -388,7 +407,7 @@ function renderHighlights(){
     const width = Math.round(targetHeight * (w/hgt));
     return `
     <div class="highlight-card${h.featured?' is-featured':''}" style="width:${width}px;">
-      <iframe src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(h.url)}&show_text=false" style="aspect-ratio:${h.ratio.replace('/',' / ')};" allowfullscreen scrolling="no"></iframe>
+      <iframe src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(h.url)}&show_text=false&width=${width}" width="${width}" height="${targetHeight}" style="width:${width}px; height:${targetHeight}px;" allowfullscreen scrolling="no"></iframe>
       <div class="cap">
         ${h.featured ? '<span class="featured-tag">Featured</span><br>' : ''}
         <span class="eyebrow" style="color:var(--broadcast-red);">${h.tag}</span>

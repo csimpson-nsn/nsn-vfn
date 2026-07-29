@@ -35,6 +35,17 @@ nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
 .watch-btn:hover{background:#b9261f;}
 .menu-toggle{display:none; background:none; border:none; color:var(--snow); font-size:1.6rem; cursor:pointer;}
 @media (max-width:900px){nav.links{display:none;} .menu-toggle{display:block;}}
+.more-menu{position:relative;}
+.more-menu > span{cursor:pointer;}
+.more-dropdown{display:none; position:absolute; top:100%; right:0; background:var(--slate); border:1px solid #262c2e; min-width:220px; padding:6px 0; z-index:60;}
+.more-menu:hover .more-dropdown{display:block;}
+.more-dropdown a{display:block; padding:12px 18px; border-bottom:1px solid #262c2e; font-size:0.82rem;}
+.more-dropdown a:last-child{border-bottom:none;}
+.more-dropdown a:hover{background:#252c2e; color:var(--gold);}
+.mobile-menu{display:none; flex-direction:column; background:var(--slate); border-top:1px solid #262c2e;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.95rem; color:var(--snow); padding:16px 28px; border-bottom:1px solid #262c2e;}
+.mobile-menu a:hover, .mobile-menu a.active{color:var(--gold); background:#252c2e;}
 
 .page-hero{
   padding:54px 28px 38px; border-bottom:1px solid #24292b;
@@ -152,6 +163,12 @@ function showTab(group, val, btn){
   btn.classList.add('active');
 }
 </script>
+<script>
+function toggleMobileMenu(){
+  var m = document.getElementById('mobileMenu');
+  if(m) m.classList.toggle('open');
+}
+</script>
 </head>
 <body>
 
@@ -166,9 +183,28 @@ function showTab(group, val, btn){
       <a href="statistics.html" class="">Statistics</a>
       <a href="player-of-the-week.html" class="">Player of the Week</a>
       
+      <div class="more-menu">
+        <span>More &#9662;</span>
+        <div class="more-dropdown">
+          <a href="articles-and-stories.html">Articles &amp; Stories</a>
+          <a href="hall-of-champions.html">Hall of Champions</a>
+          <a href="national-football-foundation.html">National Football Foundation VT Chapter</a>
+        </div>
+      </div>
     </nav>
     <a href="https://www.nsnsports.net" target="_blank" rel="noopener" class="watch-btn"><span>Watch Live</span></a>
-    <button class="menu-toggle" aria-label="Open menu">&#9776;</button>
+    <button class="menu-toggle" aria-label="Open menu" onclick="toggleMobileMenu()">&#9776;</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="schedule.html">Schedule</a>
+    <a href="standings.html" class="active">Standings</a>
+    <a href="teams.html">Teams</a>
+    <a href="statistics.html">Statistics</a>
+    <a href="player-of-the-week.html">Player of the Week</a>
+    <a href="articles-and-stories.html">Articles &amp; Stories</a>
+    <a href="hall-of-champions.html">Hall of Champions</a>
+    <a href="national-football-foundation.html">National Football Foundation VT Chapter</a>
   </div>
 </header>
 
@@ -201,50 +237,151 @@ function showTab(group, val, btn){
       <button class="tab-btn" onclick="showTab('division','d2',this)">Division II</button>
       <button class="tab-btn" onclick="showTab('division','d3',this)">Division III</button>
     </div>
-    <table class="standings-table" data-group="division" data-val="d1" >
-      <thead><tr><th class="rank">#</th><th>Team</th><th>W</th><th>L</th><th>QPR</th></tr></thead>
-      <tbody><tr><td class="rank">1</td><td class="team-cell"><a href="team.html?team=BFA%20St.%20Albans" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/BFA_SA.png" alt="BFA St. Albans" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">BFA St. Albans</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">2</td><td class="team-cell"><a href="team.html?team=Mt.%20Mansfield" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/MMU.png" alt="Mt. Mansfield" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Mt. Mansfield</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">3</td><td class="team-cell"><a href="team.html?team=Burr%20%26%20Burton%20Academy" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/burr_and_burton.png" alt="Burr & Burton Academy" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Burr & Burton Academy</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">4</td><td class="team-cell"><a href="team.html?team=Champlain%20Valley" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/Champlain_Valley.png" alt="Champlain Valley" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Champlain Valley</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">5</td><td class="team-cell"><a href="team.html?team=Essex" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/Essex_High_School.png" alt="Essex" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Essex</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">6</td><td class="team-cell"><a href="team.html?team=Middlebury" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/Middlebury.png" alt="Middlebury" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Middlebury</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">7</td><td class="team-cell"><a href="team.html?team=Mt.%20Anthony" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/MAUlogo.png" alt="Mt. Anthony" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Mt. Anthony</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">8</td><td class="team-cell"><a href="team.html?team=Rutland" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/rutland_copy.png" alt="Rutland" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Rutland</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">9</td><td class="team-cell"><a href="team.html?team=Seawolves" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/Seawolves.png" alt="Seawolves" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Seawolves</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">10</td><td class="team-cell"><a href="team.html?team=St.%20Johnsbury" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/stja.png" alt="St. Johnsbury" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">St. Johnsbury</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-</tbody>
-    </table>
-    <table class="standings-table" data-group="division" data-val="d2" style="display:none;">
-      <thead><tr><th class="rank">#</th><th>Team</th><th>W</th><th>L</th><th>QPR</th></tr></thead>
-      <tbody><tr><td class="rank">1</td><td class="team-cell"><a href="team.html?team=Colchester" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/colchester_logo_23.png" alt="Colchester" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Colchester</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">2</td><td class="team-cell"><a href="team.html?team=Fair%20Haven" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/FairHaven.png" alt="Fair Haven" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Fair Haven</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">3</td><td class="team-cell"><a href="team.html?team=Hartford" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/Hartford.png" alt="Hartford" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Hartford</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">4</td><td class="team-cell"><a href="team.html?team=Lyndon%20Institute" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/LIlogo.png" alt="Lyndon Institute" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Lyndon Institute</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">6</td><td class="team-cell"><a href="team.html?team=Brattleboro" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/brattleboro_bears.png" alt="Brattleboro" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Brattleboro</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">7</td><td class="team-cell"><a href="team.html?team=North%20Country" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/North_Country_Falcons.png" alt="North Country" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">North Country</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">8</td><td class="team-cell"><a href="team.html?team=Rice%20Memorial" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/Rice.png" alt="Rice Memorial" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Rice Memorial</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">9</td><td class="team-cell"><a href="team.html?team=Spaulding" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/shs.png" alt="Spaulding" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Spaulding</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">10</td><td class="team-cell"><a href="team.html?team=Union-32" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/U-32_Athletics_Logo.png" alt="Union-32" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Union-32</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-</tbody>
-    </table>
-    <table class="standings-table" data-group="division" data-val="d3" style="display:none;">
-      <thead><tr><th class="rank">#</th><th>Team</th><th>W</th><th>L</th><th>QPR</th></tr></thead>
-      <tbody><tr><td class="rank">1</td><td class="team-cell"><a href="team.html?team=Bellows%20Falls" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/Bellows_Falls.png" alt="Bellows Falls" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Bellows Falls</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">2</td><td class="team-cell"><a href="team.html?team=Fairfax/Lamoille" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/bfa_fairfax_logo.png" alt="Fairfax/Lamoille" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Fairfax/Lamoille</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">3</td><td class="team-cell"><a href="team.html?team=Mill%20River" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/Mill_River_Minutemen_.png" alt="Mill River" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Mill River</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">4</td><td class="team-cell"><a href="team.html?team=Missisquoi" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/mvulogo.png" alt="Missisquoi" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Missisquoi</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">5</td><td class="team-cell"><a href="team.html?team=Mt.%20Abraham" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/Mt__Abraham.png" alt="Mt. Abraham" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Mt. Abraham</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">6</td><td class="team-cell"><a href="team.html?team=Otter%20Valley" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/Otter_Valley.png" alt="Otter Valley" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Otter Valley</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">7</td><td class="team-cell"><a href="team.html?team=Poultney" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/Poultney.png" alt="Poultney" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Poultney</a></td><td colspan="3" style="color:var(--broadcast-red); font-weight:700;">Season Cancelled</td></tr>
-<tr><td class="rank">8</td><td class="team-cell"><a href="team.html?team=Springfield" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/Springfield.png" alt="Springfield" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Springfield</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">9</td><td class="team-cell"><a href="team.html?team=Windsor" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/Windsor.png" alt="Windsor" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Windsor</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">10</td><td class="team-cell"><a href="team.html?team=Woodstock" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/woodstock_wasps.png" alt="Woodstock" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Woodstock</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-<tr><td class="rank">11</td><td class="team-cell"><a href="team.html?team=Milton" style="display:flex; align-items:center; gap:10px; color:inherit;"><img src="assets/logos/Milton_.png" alt="Milton" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">Milton</a></td><td>0</td><td>0</td><td>0.0</td></tr>
-</tbody>
-    </table>
+    <div id="standingsStatus" style="color:var(--steel); font-family:'Barlow Condensed',sans-serif; font-size:0.85rem; margin-bottom:14px;">Loading standings&hellip;</div>
+    <div id="standingsTables"></div>
   </div>
 </section>
+
+<script>
+const TEAMS = {
+  "BFA St. Albans": {logo:"assets/logos/BFA_SA.png", div:"Division I"},
+  "Mt. Mansfield": {logo:"assets/logos/MMU.png", div:"Division I"},
+  "Burr & Burton Academy": {logo:"assets/logos/burr_and_burton.png", div:"Division I"},
+  "Champlain Valley": {logo:"assets/logos/Champlain_Valley.png", div:"Division I"},
+  "Essex": {logo:"assets/logos/Essex_High_School.png", div:"Division I"},
+  "Middlebury": {logo:"assets/logos/Middlebury.png", div:"Division I"},
+  "Mt. Anthony": {logo:"assets/logos/MAUlogo.png", div:"Division I"},
+  "Rutland": {logo:"assets/logos/rutland_copy.png", div:"Division I"},
+  "Seawolves": {logo:"assets/logos/Seawolves.png", div:"Division I"},
+  "St. Johnsbury": {logo:"assets/logos/stja.png", div:"Division I"},
+  "Colchester": {logo:"assets/logos/colchester_logo_23.png", div:"Division II"},
+  "Fair Haven": {logo:"assets/logos/FairHaven.png", div:"Division II"},
+  "Hartford": {logo:"assets/logos/Hartford.png", div:"Division II"},
+  "Lyndon Institute": {logo:"assets/logos/LIlogo.png", div:"Division II"},
+  "Brattleboro": {logo:"assets/logos/brattleboro_bears.png", div:"Division II"},
+  "North Country": {logo:"assets/logos/North_Country_Falcons.png", div:"Division II"},
+  "Rice Memorial": {logo:"assets/logos/Rice.png", div:"Division II"},
+  "Spaulding": {logo:"assets/logos/shs.png", div:"Division II"},
+  "Union-32": {logo:"assets/logos/U-32_Athletics_Logo.png", div:"Division II"},
+  "Bellows Falls": {logo:"assets/logos/Bellows_Falls.png", div:"Division III"},
+  "Fairfax/Lamoille": {logo:"assets/logos/bfa_fairfax_logo.png", div:"Division III"},
+  "Mill River": {logo:"assets/logos/Mill_River_Minutemen_.png", div:"Division III"},
+  "Milton": {logo:"assets/logos/Milton_.png", div:"Division III"},
+  "Missisquoi": {logo:"assets/logos/mvulogo.png", div:"Division III"},
+  "Mt. Abraham": {logo:"assets/logos/Mt__Abraham.png", div:"Division III"},
+  "Otter Valley": {logo:"assets/logos/Otter_Valley.png", div:"Division III"},
+  "Poultney": {logo:"assets/logos/Poultney.png", div:"Division III", cancelled:true},
+  "Springfield": {logo:"assets/logos/Springfield.png", div:"Division III"},
+  "Windsor": {logo:"assets/logos/Windsor.png", div:"Division III"},
+  "Woodstock": {logo:"assets/logos/woodstock_wasps.png", div:"Division III"},
+};
+const DIV_VALUE = {"Division I":10, "Division II":7, "Division III":5};
+const DIV_KEY = {"Division I":"d1", "Division II":"d2", "Division III":"d3"};
+
+function parseCSV(text){
+  const lines = text.trim().split(/\r?\n/);
+  const headers = lines[0].split(",");
+  return lines.slice(1).filter(l => l.trim().length).map(line => {
+    const cells = line.split(",");
+    const row = {};
+    headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
+    return row;
+  });
+}
+function num(v){ return parseFloat(v) || 0; }
+async function loadCSV(url){
+  const r = await fetch(url);
+  if(!r.ok) throw new Error("Could not load " + url);
+  return parseCSV(await r.text());
+}
+
+// Computes QPR for every team per the 5-rule Overall Quality Point Rating System (see modal for the full rules).
+function computeQPR(scheduleRows){
+  const completed = scheduleRows.filter(g => g["Team1Score"] !== "" && g["Team2Score"] !== "");
+  const wins = {}, losses = {};
+  Object.keys(TEAMS).forEach(t => { wins[t]=0; losses[t]=0; });
+
+  completed.forEach(g => {
+    const s1 = num(g["Team1Score"]), s2 = num(g["Team2Score"]);
+    if(s1 === s2) return; // ties don't count as a win for either side
+    const winner = s1 > s2 ? g["Team1"] : g["Team2"];
+    const loser  = s1 > s2 ? g["Team2"] : g["Team1"];
+    if(wins[winner] !== undefined) wins[winner]++;
+    if(losses[loser] !== undefined) losses[loser]++;
+  });
+
+  const results = {};
+  Object.keys(TEAMS).forEach(team => {
+    const myDiv = TEAMS[team].div;
+    const myGames = completed.filter(g => g["Team1"] === team || g["Team2"] === team);
+    let ownValue = 0, oppValue = 0;
+    myGames.forEach(g => {
+      const isT1 = g["Team1"] === team;
+      const opponent = isT1 ? g["Team2"] : g["Team1"];
+      const myScore = num(isT1 ? g["Team1Score"] : g["Team2Score"]);
+      const oppScore = num(isT1 ? g["Team2Score"] : g["Team1Score"]);
+      const oppDiv = TEAMS[opponent] ? TEAMS[opponent].div : myDiv;
+      const oppDivValue = DIV_VALUE[oppDiv] || DIV_VALUE[myDiv];
+      const myDivValue = DIV_VALUE[myDiv];
+      if(myScore > oppScore){
+        ownValue += oppDivValue; // Rule 1: win value is based on the opponent's division
+      } else if(myScore < oppScore && oppDivValue > myDivValue){
+        ownValue += (oppDivValue - myDivValue); // Rule 1: differential for a game lost while playing up
+      }
+      oppValue += 2 * (wins[opponent] || 0); // Rule 2: 2 pts per win earned by that opponent
+    });
+    const gamesPlayed = myGames.length;
+    const qpr = gamesPlayed ? (ownValue + oppValue) / gamesPlayed : 0;
+    results[team] = { wins: wins[team], losses: losses[team], qpr, gamesPlayed };
+  });
+  return results;
+}
+
+function teamRowHTML(team, rank, stats){
+  const info = TEAMS[team];
+  const logoImg = info.logo ? `<img src="${info.logo}" alt="${team}" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">` : '';
+  const link = `<a href="team.html?team=${encodeURIComponent(team)}" style="display:flex; align-items:center; gap:10px; color:inherit;">${logoImg}${team}</a>`;
+  if(info.cancelled){
+    return `<tr><td class="rank">${rank}</td><td class="team-cell">${link}</td><td colspan="3" style="color:var(--broadcast-red); font-weight:700;">Season Cancelled</td></tr>`;
+  }
+  return `<tr><td class="rank">${rank}</td><td class="team-cell">${link}</td><td>${stats.wins}</td><td>${stats.losses}</td><td>${stats.qpr.toFixed(1)}</td></tr>`;
+}
+
+async function init(){
+  try {
+    const scheduleRows = await loadCSV("data/Schedule.csv");
+    const qprResults = computeQPR(scheduleRows);
+
+    const byDiv = {"Division I":[], "Division II":[], "Division III":[]};
+    Object.entries(TEAMS).forEach(([team, info]) => byDiv[info.div].push(team));
+
+    Object.keys(byDiv).forEach(div => {
+      byDiv[div].sort((a,b) => {
+        if(TEAMS[a].cancelled) return 1;
+        if(TEAMS[b].cancelled) return -1;
+        return qprResults[b].qpr - qprResults[a].qpr;
+      });
+    });
+
+    const container = document.getElementById('standingsTables');
+    container.innerHTML = Object.entries(byDiv).map(([div, teams]) => `
+      <table class="standings-table" data-group="division" data-val="${DIV_KEY[div]}" ${div!=='Division I'?'style="display:none;"':''}>
+        <thead><tr><th class="rank">#</th><th>Team</th><th>W</th><th>L</th><th>QPR</th></tr></thead>
+        <tbody>${teams.map((team,i) => teamRowHTML(team, i+1, qprResults[team])).join('')}</tbody>
+      </table>
+    `).join('');
+
+    const gamesPlayed = Object.values(qprResults).some(r => r.gamesPlayed > 0);
+    document.getElementById('standingsStatus').textContent = gamesPlayed
+      ? "QPR calculated live from completed games in the schedule."
+      : "No completed games yet this season — QPR will populate as scores are entered in the schedule.";
+  } catch(err){
+    document.getElementById('standingsStatus').textContent = "Could not load standings. Make sure data/Schedule.csv is uploaded and reachable.";
+    console.error(err);
+  }
+}
+init();
+</script>
 
 
 <div class="qpr-modal-overlay" id="qprModal" onclick="if(event.target===this) this.style.display='none';">

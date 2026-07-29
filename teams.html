@@ -35,6 +35,17 @@ nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
 .watch-btn:hover{background:#b9261f;}
 .menu-toggle{display:none; background:none; border:none; color:var(--snow); font-size:1.6rem; cursor:pointer;}
 @media (max-width:900px){nav.links{display:none;} .menu-toggle{display:block;}}
+.more-menu{position:relative;}
+.more-menu > span{cursor:pointer;}
+.more-dropdown{display:none; position:absolute; top:100%; right:0; background:var(--slate); border:1px solid #262c2e; min-width:220px; padding:6px 0; z-index:60;}
+.more-menu:hover .more-dropdown{display:block;}
+.more-dropdown a{display:block; padding:12px 18px; border-bottom:1px solid #262c2e; font-size:0.82rem;}
+.more-dropdown a:last-child{border-bottom:none;}
+.more-dropdown a:hover{background:#252c2e; color:var(--gold);}
+.mobile-menu{display:none; flex-direction:column; background:var(--slate); border-top:1px solid #262c2e;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.95rem; color:var(--snow); padding:16px 28px; border-bottom:1px solid #262c2e;}
+.mobile-menu a:hover, .mobile-menu a.active{color:var(--gold); background:#252c2e;}
 
 .page-hero{
   padding:54px 28px 38px; border-bottom:1px solid #24292b;
@@ -142,6 +153,12 @@ function showTab(group, val, btn){
   btn.classList.add('active');
 }
 </script>
+<script>
+function toggleMobileMenu(){
+  var m = document.getElementById('mobileMenu');
+  if(m) m.classList.toggle('open');
+}
+</script>
 </head>
 <body>
 
@@ -156,9 +173,28 @@ function showTab(group, val, btn){
       <a href="statistics.html" class="">Statistics</a>
       <a href="player-of-the-week.html" class="">Player of the Week</a>
       
+      <div class="more-menu">
+        <span>More &#9662;</span>
+        <div class="more-dropdown">
+          <a href="articles-and-stories.html">Articles &amp; Stories</a>
+          <a href="hall-of-champions.html">Hall of Champions</a>
+          <a href="national-football-foundation.html">National Football Foundation VT Chapter</a>
+        </div>
+      </div>
     </nav>
     <a href="https://www.nsnsports.net" target="_blank" rel="noopener" class="watch-btn"><span>Watch Live</span></a>
-    <button class="menu-toggle" aria-label="Open menu">&#9776;</button>
+    <button class="menu-toggle" aria-label="Open menu" onclick="toggleMobileMenu()">&#9776;</button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="schedule.html">Schedule</a>
+    <a href="standings.html">Standings</a>
+    <a href="teams.html" class="active">Teams</a>
+    <a href="statistics.html">Statistics</a>
+    <a href="player-of-the-week.html">Player of the Week</a>
+    <a href="articles-and-stories.html">Articles &amp; Stories</a>
+    <a href="hall-of-champions.html">Hall of Champions</a>
+    <a href="national-football-foundation.html">National Football Foundation VT Chapter</a>
   </div>
 </header>
 
