@@ -102,6 +102,9 @@ nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
 .result-u{color:var(--steel);}
 
 .empty-note{color:var(--steel); font-size:0.88rem; padding:16px 0;}
+.sponsor-badge{font-family:'Barlow Condensed',sans-serif; font-size:0.7rem; color:var(--gold); margin-top:3px;}
+.sponsor-badge a{color:var(--gold); text-decoration:underline; text-decoration-color:rgba(217,161,58,0.4);}
+.sponsor-badge a:hover{color:var(--snow);}
 
 footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--broadcast-red);}
 .footer-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr 1fr; gap:28px; padding-bottom:28px;}
@@ -408,6 +411,30 @@ function opponentChip(name){
   return `<span style="display:inline-flex; align-items:center;">${logoImg}${name}</span>`;
 }
 
+// Title sponsor short-tag -> full name(s) + link. LC/CM is a joint two-sponsor tag.
+const SPONSOR_MAP = {
+  "LC/CM": [{name:"Littleton Chevrolet", url:"https://www.littletonchevrolet.com/"}, {name:"Crosstown Motors", url:"https://www.crosstownmotors.net/"}],
+  "NWMC": [{name:"Northwestern Medical Center", url:"https://www.northwesternmedicalcenter.org/"}],
+  "Miosek": [{name:"Miosek Law", url:"https://www.mioseklaw.com/"}],
+  "Hartford Auto": [{name:"Hartford Auto", url:"https://hartfordautovt.com/repair-services/"}],
+  "Rockwood": [{name:"The Rockwood Agency", url:"https://www.therockwoodagency.com/"}],
+  "Larkin": [{name:"Larkin Realty", url:"https://www.larkinrealty.net/"}],
+  "Lovell": [{name:"Lovell Farm", url:"https://lovellfarmsvt.com/"}],
+  "D Newton": [{name:"Dennis Newton", url:"https://newtonerac.com/"}],
+};
+let TITLE_SPONSORS = [];
+function findTitleSponsor(week, teamA, teamB){
+  const row = TITLE_SPONSORS.find(r =>
+    r["Week"] === String(week) &&
+    ((r["TeamA"] === teamA && r["TeamB"] === teamB) || (r["TeamA"] === teamB && r["TeamB"] === teamA))
+  );
+  return row ? SPONSOR_MAP[row["SponsorTag"]] : null;
+}
+function sponsorBadgeHTML(sponsors){
+  if(!sponsors) return '';
+  return `<div class="sponsor-badge">Presented by ${sponsors.map(s => `<a href="${s.url}" target="_blank" rel="noopener">${s.name}</a>`).join(' &amp; ')}</div>`;
+}
+
 async function init(){
   const params = new URLSearchParams(window.location.search);
   const team = params.get("team");
@@ -471,6 +498,7 @@ async function init(){
 
     // --- Schedule + record ---
     const games = scheduleRows.filter(r => r["Team1"] === team || r["Team2"] === team);
+    try { TITLE_SPONSORS = await loadCSV("data/TitleSponsors.csv"); } catch(e) { console.warn("No title sponsor data yet:", e); }
     let wins = 0, losses = 0;
     let schedHTML = '<table class="data-table"><thead><tr><th>Week</th><th>Date</th><th>Opponent</th><th>Result</th><th>Score</th></tr></thead><tbody>';
     games.sort((a,b) => num(a["Week"]) - num(b["Week"])).forEach(g => {
@@ -486,7 +514,8 @@ async function init(){
         if(result === "W") wins++;
         if(result === "L") losses++;
       }
-      schedHTML += `<tr><td>${g["Week"]}</td><td>${g["Date"]}</td><td>${opponentChip(opponent)}</td><td class="${resultClass(result)}">${result}</td><td>${scoreLine}</td></tr>`;
+      const sponsors = findTitleSponsor(g["Week"], g["Team1"], g["Team2"]);
+      schedHTML += `<tr><td>${g["Week"]}</td><td>${g["Date"]}</td><td>${opponentChip(opponent)}${sponsorBadgeHTML(sponsors)}</td><td class="${resultClass(result)}">${result}</td><td>${scoreLine}</td></tr>`;
     });
     schedHTML += '</tbody></table>';
     document.getElementById('scheduleWrap').innerHTML = games.length ? schedHTML : '<p class="empty-note">No games found for this team in the schedule data yet.</p>';
