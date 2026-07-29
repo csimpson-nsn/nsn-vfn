@@ -220,7 +220,7 @@ function toggleMobileMenu(){
     <div style="margin-bottom:18px;">
       <img src="assets/nsn-logo.png" alt="A Northeast Sports Network Production" style="height:40px; width:auto; object-fit:contain;" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'eyebrow',style:'color:var(--steel);',textContent:'A Northeast Sports Network Production'}))">
     </div>
-    <span class="eyebrow">Week 7 &middot; Vermont High School Football</span>
+    <span class="eyebrow" id="heroWeekLabel">Loading&hellip;</span>
     <h1 style="font-size:clamp(2.4rem,6.5vw,5rem); line-height:0.97; max-width:880px;">Every Game Night.<br><span style="color:var(--field-green-light);">Every Field.</span></h1>
     <p style="max-width:520px;">Live broadcasts, full highlights, and complete coverage of Vermont high school football &mdash; from the Northeast Kingdom to the Champlain Valley.</p>
     <div style="display:flex; gap:14px; margin-top:30px; flex-wrap:wrap;">
@@ -278,24 +278,7 @@ function toggleMobileMenu(){
 
 
 <section class="section" id="schedule-preview"><script>
-const VFN_GAMES = [
-  {date:"2026-09-04", time:"7:00 PM", t1:"Essex", t2:"St. Johnsbury", meta:"St. Johnsbury HS &middot; Division I"},
-  {date:"2026-09-04", time:"7:00 PM", t1:"Rutland", t2:"BFA St. Albans", meta:"BFA St. Albans &middot; Division I"},
-  {date:"2026-09-04", time:"7:00 PM", t1:"Mt. Anthony", t2:"Seawolves", meta:"Division I"},
-  {date:"2026-09-05", time:"7:00 PM", t1:"Middlebury", t2:"Burr & Burton Academy", meta:"Division I"},
-  {date:"2026-09-05", time:"1:00 PM", t1:"Hartford", t2:"Champlain Valley", meta:"CVU Field &middot; D-I/D-II Crossover"},
-  {date:"2026-09-04", time:"7:00 PM", t1:"Mt. Mansfield", t2:"Colchester", meta:"D-I/D-II Crossover"},
-  {date:"2026-09-10", time:"7:00 PM", t1:"Seawolves", t2:"BFA St. Albans", meta:"Division I"},
-  {date:"2026-09-11", time:"7:00 PM", t1:"Burr & Burton Academy", t2:"Mt. Anthony", meta:"Division I"},
-  {date:"2026-09-12", time:"1:00 PM", t1:"Champlain Valley", t2:"Middlebury", meta:"Division I"},
-  {date:"2026-09-10", time:"7:00 PM", t1:"Colchester", t2:"Essex", meta:"D-I/D-II Crossover"},
-  {date:"2026-09-11", time:"7:00 PM", t1:"Rutland", t2:"Hartford", meta:"D-I/D-II Crossover"},
-  {date:"2026-09-18", time:"7:00 PM", t1:"Essex", t2:"BFA St. Albans", meta:"Division I"},
-  {date:"2026-09-19", time:"1:00 PM", t1:"Burr & Burton Academy", t2:"Hartford", meta:"D-I/D-II Crossover"},
-  {date:"2026-09-18", time:"7:00 PM", t1:"Seawolves", t2:"Champlain Valley", meta:"Division I"},
-  {date:"2026-09-18", time:"7:00 PM", t1:"St. Johnsbury", t2:"Middlebury", meta:"Division I"},
-  {date:"2026-09-18", time:"7:00 PM", t1:"Rutland", t2:"Mt. Anthony", meta:"Division I"},
-];
+const SEASON_YEAR = 2026; // update at the start of each new season
 
 const VFN_LOGOS = {
   "BFA St. Albans": "assets/logos/BFA_SA.png",
@@ -329,6 +312,14 @@ const VFN_LOGOS = {
   "Woodstock": "assets/logos/woodstock_wasps.png",
   "Seawolves": "assets/logos/Seawolves.png"
 };
+const VFN_DIVS = {
+  "BFA St. Albans":"D-I","Mt. Mansfield":"D-I","Burr & Burton Academy":"D-I","Champlain Valley":"D-I","Essex":"D-I",
+  "Middlebury":"D-I","Mt. Anthony":"D-I","Rutland":"D-I","Seawolves":"D-I","St. Johnsbury":"D-I",
+  "Colchester":"D-II","Fair Haven":"D-II","Hartford":"D-II","Lyndon Institute":"D-II","Brattleboro":"D-II",
+  "North Country":"D-II","Rice Memorial":"D-II","Spaulding":"D-II","Union-32":"D-II",
+  "Bellows Falls":"D-III","Fairfax/Lamoille":"D-III","Mill River":"D-III","Milton":"D-III","Missisquoi":"D-III",
+  "Mt. Abraham":"D-III","Otter Valley":"D-III","Poultney":"D-III","Springfield":"D-III","Windsor":"D-III","Woodstock":"D-III",
+};
 
 function vfnCrest(team){
   const path = VFN_LOGOS[team];
@@ -337,35 +328,82 @@ function vfnCrest(team){
   }
   return `<span class="team-dot c1"></span>`;
 }
+function gameMeta(t1, t2){
+  const d1 = VFN_DIVS[t1], d2 = VFN_DIVS[t2];
+  if(d1 && d2 && d1 !== d2) return `${d1}/${d2} Crossover`;
+  return d1 ? (d1==='D-I'?'Division I':d1==='D-II'?'Division II':'Division III') : '';
+}
+function parseGameDate(dateStr){
+  const [m,d] = dateStr.split('/').map(Number);
+  return new Date(SEASON_YEAR, m-1, d);
+}
+function parseScheduleCSV(text){
+  const lines = text.trim().split(/\r?\n/);
+  const headers = lines[0].split(",");
+  return lines.slice(1).filter(l => l.trim().length).map(line => {
+    const cells = line.split(",");
+    const row = {};
+    headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
+    return row;
+  });
+}
 
-function renderHomeSchedule(){
-  const today = new Date();
-  today.setHours(0,0,0,0);
-  const future = VFN_GAMES.filter(g => new Date(g.date + "T00:00:00") >= today);
-  let pool, label;
-  if(future.length > 0){
-    const nextDate = future.reduce((min,g) => g.date < min ? g.date : min, future[0].date);
-    pool = future.filter(g => g.date === nextDate);
-    label = "Upcoming &middot; " + new Date(nextDate + "T00:00:00").toLocaleDateString('en-US', {weekday:'long', month:'short', day:'numeric'});
-  } else {
-    const lastDate = VFN_GAMES.reduce((max,g) => g.date > max ? g.date : max, VFN_GAMES[0].date);
-    pool = VFN_GAMES.filter(g => g.date === lastDate);
-    label = "Most Recent &middot; " + new Date(lastDate + "T00:00:00").toLocaleDateString('en-US', {weekday:'long', month:'short', day:'numeric'});
+// The current week is whichever week hasn't yet passed its "Sunday cutoff" —
+// each week's games (Thu/Fri/Sat) are considered final as of the Sunday that follows.
+// Once that Sunday arrives, the homepage automatically advances to the next week.
+function getCurrentWeek(scheduleRows){
+  const weekLatest = {};
+  scheduleRows.forEach(g => {
+    const wk = Number(g["Week"]);
+    const d = parseGameDate(g["Date"]);
+    if(!weekLatest[wk] || d > weekLatest[wk]) weekLatest[wk] = d;
+  });
+  const weeks = Object.keys(weekLatest).map(Number).sort((a,b) => a-b);
+  const today = new Date(); today.setHours(0,0,0,0);
+  for(const wk of weeks){
+    const lastGameDate = weekLatest[wk];
+    const sundayAfter = new Date(lastGameDate);
+    sundayAfter.setDate(sundayAfter.getDate() + ((7 - lastGameDate.getDay()) % 7));
+    sundayAfter.setHours(0,0,0,0);
+    if(today < sundayAfter) return wk;
   }
-  const grid = document.getElementById('homeScheduleGrid');
+  return weeks.length ? weeks[weeks.length-1] : 1;
+}
+
+async function renderHomeSchedule(){
   const labelEl = document.getElementById('homeScheduleLabel');
-  if(labelEl) labelEl.innerHTML = label;
-  if(!grid) return;
-  grid.innerHTML = pool.slice(0,6).map(g => `
-    <div class="game-card">
-      <span class="game-status">${new Date(g.date+"T00:00:00").toLocaleDateString('en-US',{weekday:'short',month:'numeric',day:'numeric'})} &middot; ${g.time}</span>
-      <div class="matchup">
-        <div class="team-row"><div class="team">${vfnCrest(g.t1)}${g.t1}</div><span class="score">&mdash;</span></div>
-        <div class="team-row"><div class="team">${vfnCrest(g.t2)}${g.t2}</div><span class="score">&mdash;</span></div>
-      </div>
-      <div class="game-meta">${g.meta}</div>
-    </div>
-  `).join('');
+  const grid = document.getElementById('homeScheduleGrid');
+  const heroWeekEl = document.getElementById('heroWeekLabel');
+  try {
+    const res = await fetch("data/Schedule.csv");
+    if(!res.ok) throw new Error("Could not load data/Schedule.csv");
+    const rows = parseScheduleCSV(await res.text());
+    const currentWeek = getCurrentWeek(rows);
+    const weekGames = rows.filter(g => Number(g["Week"]) === currentWeek);
+
+    if(heroWeekEl) heroWeekEl.textContent = `Week ${currentWeek} \u00b7 Vermont High School Football`;
+    if(labelEl) labelEl.textContent = `Week ${currentWeek}`;
+    if(!grid) return;
+    grid.innerHTML = weekGames.slice(0,6).map(g => {
+      const played = g["Team1Score"] !== "" && g["Team2Score"] !== "";
+      const status = played ? "Final" : `${g["Date"]}${g["Time"] ? " &middot; " + g["Time"] : ""}`;
+      const s1 = played ? g["Team1Score"] : "&mdash;";
+      const s2 = played ? g["Team2Score"] : "&mdash;";
+      return `
+      <div class="game-card">
+        <span class="game-status">${status}</span>
+        <div class="matchup">
+          <div class="team-row"><div class="team">${vfnCrest(g["Team1"])}${g["Team1"]}</div><span class="score">${s1}</span></div>
+          <div class="team-row"><div class="team">${vfnCrest(g["Team2"])}${g["Team2"]}</div><span class="score">${s2}</span></div>
+        </div>
+        <div class="game-meta">${gameMeta(g["Team1"], g["Team2"])}</div>
+      </div>`;
+    }).join('');
+  } catch(err){
+    if(labelEl) labelEl.textContent = "Schedule unavailable";
+    if(grid) grid.innerHTML = '<p style="color:var(--steel);">Could not load the schedule. Make sure data/Schedule.csv is uploaded and reachable.</p>';
+    console.error(err);
+  }
 }
 document.addEventListener('DOMContentLoaded', renderHomeSchedule);
 </script>

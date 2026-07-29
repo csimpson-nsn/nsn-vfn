@@ -75,6 +75,7 @@ nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
 
 .week-block{margin-bottom:36px;}
 .week-block h3{font-size:1.05rem; color:var(--gold); letter-spacing:0.04em; margin-bottom:14px; font-family:'Barlow Condensed',sans-serif; text-transform:uppercase;}
+.current-week-badge{background:var(--broadcast-red); color:var(--snow); font-size:0.68rem; letter-spacing:0.06em; padding:3px 9px; margin-left:8px; vertical-align:middle;}
 .games-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
 @media (max-width:980px){.games-grid{grid-template-columns:repeat(2,1fr);}}
 @media (max-width:640px){.games-grid{grid-template-columns:1fr;}}
@@ -277,9 +278,37 @@ function divisionsForGame(g){
   return set;
 }
 
+const SEASON_YEAR = 2026; // update at the start of each new season
+
+function parseGameDate(dateStr){
+  const [m,d] = dateStr.split('/').map(Number);
+  return new Date(SEASON_YEAR, m-1, d);
+}
+// Current week = the earliest week that hasn't yet passed its Sunday cutoff
+// (each week's Thu/Fri/Sat games are final as of the Sunday that follows).
+function getCurrentWeek(scheduleRows){
+  const weekLatest = {};
+  scheduleRows.forEach(g => {
+    const wk = Number(g["Week"]);
+    const d = parseGameDate(g["Date"]);
+    if(!weekLatest[wk] || d > weekLatest[wk]) weekLatest[wk] = d;
+  });
+  const weeks = Object.keys(weekLatest).map(Number).sort((a,b) => a-b);
+  const today = new Date(); today.setHours(0,0,0,0);
+  for(const wk of weeks){
+    const lastGameDate = weekLatest[wk];
+    const sundayAfter = new Date(lastGameDate);
+    sundayAfter.setDate(sundayAfter.getDate() + ((7 - lastGameDate.getDay()) % 7));
+    sundayAfter.setHours(0,0,0,0);
+    if(today < sundayAfter) return wk;
+  }
+  return weeks.length ? weeks[weeks.length-1] : 1;
+}
+
 async function init(){
   try {
     const games = await loadCSV("data/Schedule.csv");
+    const currentWeek = getCurrentWeek(games);
     const byDivWeek = { "D-I": {}, "D-II": {}, "D-III": {} };
 
     games.forEach(g => {
@@ -293,17 +322,21 @@ async function init(){
 
     const container = document.getElementById('schedTables');
     container.innerHTML = Object.entries(byDivWeek).map(([div, weeks]) => {
-      const weekNums = Object.keys(weeks).map(Number).sort((a,b)=>a-b);
+      const allWeekNums = Object.keys(weeks).map(Number).sort((a,b)=>a-b);
+      // Reorder so the current week leads, followed by remaining upcoming weeks, then past weeks at the end.
+      const upcoming = allWeekNums.filter(w => w >= currentWeek);
+      const past = allWeekNums.filter(w => w < currentWeek);
+      const weekNums = [...upcoming, ...past];
       const blocksHTML = weekNums.map(wk => `
         <div class="week-block">
-          <h3>Week ${wk}</h3>
+          <h3>Week ${wk}${wk === currentWeek ? ' <span class="current-week-badge">Current Week</span>' : ''}</h3>
           <div class="games-grid">${weeks[wk].map(gameCardHTML).join('')}</div>
         </div>
       `).join('');
       return `<div data-group="schedDiv" data-val="${div}" style="${div==='D-I' ? '' : 'display:none;'}">${blocksHTML || '<p class="empty-note">No games found for this division.</p>'}</div>`;
     }).join('');
 
-    document.getElementById('schedStatus').textContent = `Showing ${games.length} games across the 2026 season.`;
+    document.getElementById('schedStatus').textContent = `Showing ${games.length} games across the 2026 season \u2014 Week ${currentWeek} is current.`;
   } catch(err){
     document.getElementById('schedStatus').innerHTML = 'Could not load the schedule. Make sure data/Schedule.csv is uploaded and reachable.';
     console.error(err);
