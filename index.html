@@ -214,6 +214,11 @@ function toggleMobileMenu(){
 
 <section class="page-sponsor-banner" id="sponsors">
   <div class="wrap">
+    <!-- PROMINENT PRESENTING SPONSOR: swap the placeholder box below for the real logo once you have one. -->
+    <div style="display:flex; align-items:center; justify-content:center; gap:18px; flex-wrap:wrap; background:var(--granite); border:2px solid var(--gold); padding:20px 28px; margin-bottom:26px;">
+      <span class="eyebrow" style="color:var(--gold); margin:0;">VFN Powered By</span>
+      <div style="background:var(--slate); border:1px dashed var(--steel); padding:12px 28px; font-family:'Anton',sans-serif; font-size:1.1rem; color:var(--steel);">Your Logo Here</div>
+    </div>
     <span class="eyebrow" style="display:block; text-align:center; margin-bottom:20px; color:var(--steel);">Brought to you by</span>
     <div class="sponsor-ticker" style="margin-bottom:22px;">
       <div class="sponsor-ticker-track">
@@ -238,8 +243,15 @@ function toggleMobileMenu(){
         <a href="https://hartfordautovt.com/repair-services/" target="_blank" rel="noopener">Hartford Auto</a>
       </div>
     </div>
-    <div class="inner" style="background:var(--granite); border:1px solid #2a3133; padding:16px 24px;">
-      <div><span class="ts-tag">Matchup of the Week Sponsor</span><span class="ts-name">Crosstown Motors</span></div>
+    <!-- MATCHUP OF THE WEEK: placeholder game below (BFA St. Albans @ Rutland, Week 1) — update to the actual featured game each week. -->
+    <div class="inner" style="background:var(--granite); border:1px solid #2a3133; padding:16px 24px; flex-wrap:wrap; gap:14px;">
+      <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+        <span class="ts-tag">Matchup of the Week</span>
+        <a href="team.html?team=BFA%20St.%20Albans" style="display:flex; align-items:center; gap:8px; font-weight:600;"><img src="assets/logos/BFA_SA.png" alt="BFA St. Albans" style="width:24px;height:24px;object-fit:contain;background:#fff;border-radius:4px;padding:2px;">BFA St. Albans</a>
+        <span style="color:var(--steel); font-family:'Barlow Condensed',sans-serif;">at</span>
+        <a href="team.html?team=Rutland" style="display:flex; align-items:center; gap:8px; font-weight:600;"><img src="assets/logos/rutland_copy.png" alt="Rutland" style="width:24px;height:24px;object-fit:contain;background:#fff;border-radius:4px;padding:2px;">Rutland</a>
+        <span class="ts-name" style="margin-left:6px;">Presented by Crosstown Motors</span>
+      </div>
       <a href="#" class="section-link">Become a Title Sponsor &rarr;</a>
     </div>
   </div>
@@ -362,10 +374,9 @@ document.addEventListener('DOMContentLoaded', renderHomeSchedule);
 const VFN_HIGHLIGHTS = [
   // featured: true marks the one prominent video — move this flag to whichever clip should lead each week.
   // ratio: set to match that specific video's actual shape — "9/16" vertical, "16/9" landscape, "1/1" square, "4/5" portrait, etc.
-  { url:"https://www.facebook.com/reel/803162512551210", tag:"Matchup of the Week", title:"Week 7 highlight — add real caption here", ratio:"9/16", featured:true },
+  { url:"https://www.facebook.com/reel/803162512551210", tag:"Matchup of the Week", title:"St. Johnsbury vs. Lyndon Institute — placeholder matchup, swap for the real Week 7 game", ratio:"9/16", featured:true },
   { url:"https://www.facebook.com/reel/1181013217166548", tag:"Top Play", title:"Week 7 highlight — add real caption here", ratio:"9/16", featured:false },
   { url:"https://www.facebook.com/reel/1320650009506793", tag:"Postgame", title:"Week 7 highlight — add real caption here", ratio:"9/16", featured:false },
-  { url:"https://www.facebook.com/share/v/1Dg6uet33y/", tag:"Highlight", title:"Week 7 highlight — add real caption here", ratio:"16/9", featured:false },
 ];
 
 function renderHighlights(){
@@ -521,7 +532,7 @@ document.addEventListener('DOMContentLoaded', renderHighlights);
       </div>
       <div class="footer-col">
         <h4>Network</h4>
-        <a href="standings.html">Standings &amp; RPI</a>
+        <a href="standings.html">Standings &amp; QPR</a>
         <a href="teams.html">All Teams</a>
         <a href="statistics.html">Statistics</a>
         <a href="player-of-the-week.html">Player of the Week</a>

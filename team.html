@@ -49,6 +49,9 @@ nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
 }
 .page-hero .eyebrow::before{content:""; width:16px; height:2px; background:var(--team-text); opacity:0.6;}
 .page-hero h1{font-size:clamp(1.9rem,5vw,3.1rem);}
+.rank-band{display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; padding-top:18px; border-top:1px solid #2a3133;}
+.rank-chip{background:var(--slate); border:1px solid #2a3133; padding:7px 12px; font-family:'Barlow Condensed',sans-serif; font-size:0.78rem; color:var(--steel);}
+.rank-chip strong{color:var(--snow); font-weight:700;}
 .team-record{font-family:'Barlow Condensed',sans-serif; color:var(--steel); font-size:1rem; margin-top:6px;}
 .team-record strong{color:var(--snow);}
 .cancelled-banner{background:var(--broadcast-red); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:0.85rem; padding:12px 20px; margin:0 0 18px;}
@@ -62,7 +65,7 @@ nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
 .stat-tab-row{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px;}
 .stat-tab-btn{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.8rem; color:var(--steel); background:var(--slate); border:1px solid #262c2e; padding:9px 18px; cursor:pointer; transition:all .15s;}
 .stat-tab-btn:hover{color:var(--snow); border-color:#3a4244;}
-.stat-tab-btn.active{background:var(--field-green); color:var(--snow); border-color:var(--field-green);}
+.stat-tab-btn.active{background:var(--team-primary); color:var(--team-text); border-color:var(--team-primary);}
 
 /* tables (roster + schedule) */
 .data-table{width:100%; border-collapse:collapse; font-family:'Barlow Condensed',sans-serif; margin-bottom:8px;}
@@ -121,6 +124,7 @@ footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--br
         <div class="team-record" id="teamRecord"></div>
       </div>
     </div>
+    <div class="rank-band" id="rankBand"></div>
   </div>
 </section>
 
@@ -135,6 +139,8 @@ footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--br
       <button class="stat-tab-btn" onclick="showTeamStatTab('receiving',this)">Receiving</button>
       <button class="stat-tab-btn" onclick="showTeamStatTab('defense',this)">Defense</button>
       <button class="stat-tab-btn" onclick="showTeamStatTab('kicking',this)">Kicking</button>
+      <button class="stat-tab-btn" onclick="showTeamStatTab('offense',this)">Total Offense</button>
+      <button class="stat-tab-btn" onclick="showTeamStatTab('teamdefense',this)">Total Defense</button>
     </div>
     <div id="statTables"></div>
   </div>
@@ -234,6 +240,50 @@ function aggregateByPlayer(rows, team, sumFields){
     sumFields.forEach(f => players[key][f] += num(r[f]));
   });
   return Object.values(players);
+}
+
+// Team-level offense/defense across ALL teams — same logic as statistics.html, needed here to compute
+// this team's totals plus its rank against divisional peers.
+function aggregateTeamOffense(passingRows, rushingRows){
+  const teams = {};
+  function ensure(t){ if(!teams[t]) teams[t] = {team:t, RushYds:0, PassYds:0, RushTD:0, PassTD:0}; return teams[t]; }
+  rushingRows.forEach(r => { const t = ensure(r["Team"]); t.RushYds += num(r["Yds"]); t.RushTD += num(r["TD"]); });
+  passingRows.forEach(r => { const t = ensure(r["Team"]); t.PassYds += num(r["Yds"]); t.PassTD += num(r["TD"]); });
+  return Object.values(teams).map(t => ({
+    team: t.team, RushYds:t.RushYds, PassYds:t.PassYds, TotalYds:t.RushYds+t.PassYds,
+    RushTD:t.RushTD, PassTD:t.PassTD, TotalTD:t.RushTD+t.PassTD,
+  }));
+}
+function aggregateTeamDefense(passingRows, rushingRows){
+  const teams = {};
+  function ensure(t){ if(!teams[t]) teams[t] = {team:t, RushYds:0, PassYds:0, RushTD:0, PassTD:0}; return teams[t]; }
+  rushingRows.forEach(r => { const t = ensure(r["Opponent"]); t.RushYds += num(r["Yds"]); t.RushTD += num(r["TD"]); });
+  passingRows.forEach(r => { const t = ensure(r["Opponent"]); t.PassYds += num(r["Yds"]); t.PassTD += num(r["TD"]); });
+  return Object.values(teams).map(t => ({
+    team: t.team, RushYdsAllowed:t.RushYds, PassYdsAllowed:t.PassYds, TotalYdsAllowed:t.RushYds+t.PassYds,
+    RushTDAllowed:t.RushTD, PassTDAllowed:t.PassTD, TotalTDAllowed:t.RushTD+t.PassTD,
+  }));
+}
+function computePointsPerGame(scheduleRows){
+  const teams = {};
+  function ensure(t){ if(!teams[t]) teams[t] = {scored:0, allowed:0, games:0}; return teams[t]; }
+  scheduleRows.forEach(g => {
+    if(g["Team1Score"] === "" || g["Team2Score"] === "") return;
+    const s1 = num(g["Team1Score"]), s2 = num(g["Team2Score"]);
+    const t1 = ensure(g["Team1"]); t1.scored += s1; t1.allowed += s2; t1.games++;
+    const t2 = ensure(g["Team2"]); t2.scored += s2; t2.allowed += s1; t2.games++;
+  });
+  return teams;
+}
+function ordinal(n){
+  const s = ["th","st","nd","rd"], v = n % 100;
+  return n + (s[(v-20)%10] || s[v] || s[0]);
+}
+function computeRank(rows, key, ascBetter, teamName){
+  const withData = rows.filter(r => r.team);
+  const sorted = withData.slice().sort((a,b) => ascBetter ? a[key]-b[key] : b[key]-a[key]);
+  const idx = sorted.findIndex(r => r.team === teamName);
+  return idx === -1 ? null : { rank: idx+1, of: sorted.length };
 }
 
 function topPlayer(rows, sortKey){
@@ -384,6 +434,15 @@ async function init(){
     const defense = aggregateByPlayer(defenseRows, team, ["Tackles","Sacks","TFL","INT","Pass Defended"]);
     const kicking = aggregateByPlayer(kickingRows, team, ["PAT Att","PAT Made","FG Att Under30","FG Made Under30","FG Att 30-39","FG Made 30-39","FG Att 40-49","FG Made 40-49","FG Att 50Plus","FG Made 50Plus"]);
 
+    // Team-level totals, computed across ALL teams (needed for ranking), then narrowed to just this team for its own tab.
+    const allTeamOffense = aggregateTeamOffense(passingRows, rushingRows);
+    const allTeamDefense = aggregateTeamDefense(passingRows, rushingRows);
+    const ppg = computePointsPerGame(scheduleRows);
+    allTeamOffense.forEach(t => { const p = ppg[t.team]; t.PPG = p && p.games ? p.scored/p.games : 0; });
+    allTeamDefense.forEach(t => { const p = ppg[t.team]; t.PAPG = p && p.games ? p.allowed/p.games : 0; });
+    const thisTeamOffense = allTeamOffense.filter(t => t.team === team);
+    const thisTeamDefense = allTeamDefense.filter(t => t.team === team);
+
     const nameCol = {label:"Player", key:"name", get:r=>r.name, fmt:r=>r.name};
 
     const categoryDefs = {
@@ -425,10 +484,28 @@ async function init(){
         {label:"FG 50+", key:"FG50", get:r=>r["FG Made 50Plus"], fmt:r=>`${r["FG Made 50Plus"]}/${r["FG Att 50Plus"]}`},
         {label:"Total FG Made", key:"FGTotal", get:r=>(r["FG Made Under30"]+r["FG Made 30-39"]+r["FG Made 40-49"]+r["FG Made 50Plus"]), fmt:r=>(r["FG Made Under30"]+r["FG Made 30-39"]+r["FG Made 40-49"]+r["FG Made 50Plus"])},
       ], defaultKey:"PATMade" },
+      offense: { rows: thisTeamOffense, cols: [
+        {label:"Total Yds", key:"TotalYds", get:r=>r.TotalYds, fmt:r=>r.TotalYds},
+        {label:"Rush Yds", key:"RushYds", get:r=>r.RushYds, fmt:r=>r.RushYds},
+        {label:"Pass Yds", key:"PassYds", get:r=>r.PassYds, fmt:r=>r.PassYds},
+        {label:"Total TD", key:"TotalTD", get:r=>r.TotalTD, fmt:r=>r.TotalTD},
+        {label:"Rush TD", key:"RushTD", get:r=>r.RushTD, fmt:r=>r.RushTD},
+        {label:"Pass TD", key:"PassTD", get:r=>r.PassTD, fmt:r=>r.PassTD},
+        {label:"Pts/Gm", key:"PPG", get:r=>r.PPG, fmt:r=>fmt1(r.PPG)},
+      ], defaultKey:"TotalYds" },
+      teamdefense: { rows: thisTeamDefense, cols: [
+        {label:"Total Yds Allowed", key:"TotalYdsAllowed", get:r=>r.TotalYdsAllowed, fmt:r=>r.TotalYdsAllowed},
+        {label:"Rush Yds Allowed", key:"RushYdsAllowed", get:r=>r.RushYdsAllowed, fmt:r=>r.RushYdsAllowed},
+        {label:"Pass Yds Allowed", key:"PassYdsAllowed", get:r=>r.PassYdsAllowed, fmt:r=>r.PassYdsAllowed},
+        {label:"Total TD Allowed", key:"TotalTDAllowed", get:r=>r.TotalTDAllowed, fmt:r=>r.TotalTDAllowed},
+        {label:"Rush TD Allowed", key:"RushTDAllowed", get:r=>r.RushTDAllowed, fmt:r=>r.RushTDAllowed},
+        {label:"Pass TD Allowed", key:"PassTDAllowed", get:r=>r.PassTDAllowed, fmt:r=>r.PassTDAllowed},
+        {label:"Pts Allowed/Gm", key:"PAPG", get:r=>r.PAPG, fmt:r=>fmt1(r.PAPG)},
+      ], defaultKey:"TotalYdsAllowed", defaultDir:"asc" },
     };
 
     Object.entries(categoryDefs).forEach(([key, def]) => {
-      statTableState[key] = { rows: def.rows, cols: def.cols, sortKey: def.defaultKey, sortDir: "desc" };
+      statTableState[key] = { rows: def.rows, cols: def.cols, sortKey: def.defaultKey, sortDir: def.defaultDir || "desc" };
     });
 
     document.getElementById('statTables').innerHTML = Object.keys(categoryDefs).map(key =>
@@ -436,6 +513,28 @@ async function init(){
         statTableState[key].rows.length ? renderStatTable(key) : '<p class="empty-note">No data yet.</p>'
       }</div>`
     ).join('');
+
+    // --- Division rank band (hero) ---
+    const divisionTeams = new Set(rosterRows.filter(r => r["Division"] === info.div).map(r => r["Team"]));
+    const divOffense = allTeamOffense.filter(t => divisionTeams.has(t.team));
+    const divDefense = allTeamDefense.filter(t => divisionTeams.has(t.team));
+    const rankItems = [
+      {label:"Total Yds", rows:divOffense, key:"TotalYds", asc:false},
+      {label:"Rush Yds", rows:divOffense, key:"RushYds", asc:false},
+      {label:"Pass Yds", rows:divOffense, key:"PassYds", asc:false},
+      {label:"Total TD", rows:divOffense, key:"TotalTD", asc:false},
+      {label:"Pts/Gm", rows:divOffense, key:"PPG", asc:false},
+      {label:"Total Yds Allowed", rows:divDefense, key:"TotalYdsAllowed", asc:true},
+      {label:"Rush Yds Allowed", rows:divDefense, key:"RushYdsAllowed", asc:true},
+      {label:"Pass Yds Allowed", rows:divDefense, key:"PassYdsAllowed", asc:true},
+      {label:"Total TD Allowed", rows:divDefense, key:"TotalTDAllowed", asc:true},
+      {label:"Pts Allowed/Gm", rows:divDefense, key:"PAPG", asc:true},
+    ];
+    const rankBandHTML = rankItems.map(it => {
+      const r = computeRank(it.rows, it.key, it.asc, team);
+      return r ? `<div class="rank-chip">${it.label}: <strong>${ordinal(r.rank)}</strong> of ${r.of} in ${info.div}</div>` : '';
+    }).join('');
+    document.getElementById('rankBand').innerHTML = rankBandHTML || '<div class="rank-chip">Rankings will appear once stats are entered.</div>';
 
   } catch(err){
     document.getElementById('rosterWrap').innerHTML = '<p class="empty-note">Could not load team data. Make sure data/Roster.csv, data/Schedule.csv, and the 5 stat CSVs are uploaded and reachable.</p>';
