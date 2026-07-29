@@ -61,6 +61,11 @@ nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
 .page-hero .eyebrow::before{content:""; width:16px; height:2px; background:var(--team-text); opacity:0.6;}
 .page-hero h1{font-size:clamp(1.9rem,5vw,3.1rem);}
 .rank-band{display:flex; flex-wrap:wrap; gap:8px; margin-top:20px; padding-top:18px; border-top:1px solid #2a3133;}
+.champ-badge{margin-left:auto; text-align:right; background:var(--slate); border:1px solid #2a3133; border-top:3px solid var(--gold); padding:14px 18px;}
+.champ-badge .title{font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; font-size:0.7rem; color:var(--gold); margin-bottom:8px; display:flex; align-items:center; gap:6px; justify-content:flex-end;}
+.champ-badge .years{display:flex; flex-wrap:wrap; gap:6px; justify-content:flex-end; max-width:220px;}
+.champ-badge .years span{background:var(--granite); border:1px solid #2a3133; padding:3px 8px; font-family:'Barlow Condensed',sans-serif; font-size:0.78rem; font-weight:600;}
+@media (max-width:640px){.champ-badge{margin-left:0; text-align:left;} .champ-badge .title, .champ-badge .years{justify-content:flex-start;}}
 .rank-chip{background:var(--slate); border:1px solid #2a3133; padding:7px 12px; font-family:'Barlow Condensed',sans-serif; font-size:0.78rem; color:var(--steel);}
 .rank-chip strong{color:var(--snow); font-weight:700;}
 .team-record{font-family:'Barlow Condensed',sans-serif; color:var(--steel); font-size:1rem; margin-top:6px;}
@@ -159,6 +164,7 @@ function toggleMobileMenu(){
         <h1 id="teamName">Loading&hellip;</h1>
         <div class="team-record" id="teamRecord"></div>
       </div>
+      <div class="champ-badge" id="champBadge" style="display:none;"></div>
     </div>
     <div class="rank-band" id="rankBand"></div>
   </div>
@@ -238,6 +244,7 @@ const TEAMS = {
 const DATA_CSV_URLS = {
   roster:    "data/Roster.csv",
   schedule:  "data/Schedule.csv",
+  champions: "data/StateChampions.csv",
   passing:   "data/Passing.csv",
   rushing:   "data/Rushing.csv",
   receiving: "data/Receiving.csv",
@@ -421,15 +428,35 @@ async function init(){
   }
 
   try {
-    const [rosterRows, scheduleRows, passingRows, rushingRows, receivingRows, defenseRows, kickingRows] = await Promise.all([
+    const [rosterRows, scheduleRows, championRows, passingRows, rushingRows, receivingRows, defenseRows, kickingRows] = await Promise.all([
       loadCSV(DATA_CSV_URLS.roster),
       loadCSV(DATA_CSV_URLS.schedule),
+      loadCSV(DATA_CSV_URLS.champions),
       loadCSV(DATA_CSV_URLS.passing),
       loadCSV(DATA_CSV_URLS.rushing),
       loadCSV(DATA_CSV_URLS.receiving),
       loadCSV(DATA_CSV_URLS.defense),
       loadCSV(DATA_CSV_URLS.kicking),
     ]);
+
+    // Historical name variants in StateChampions.csv -> current canonical team names
+    const CHAMP_NAME_MAP = {
+      "BFA-St. Albans": "BFA St. Albans",
+      "BFA-Fairfax": "Fairfax/Lamoille",
+      "BFA-Fairfax/Lamoille": "Fairfax/Lamoille",
+      "Burr & Burton": "Burr & Burton Academy",
+      "U-32": "Union-32",
+    };
+    const teamChampionships = championRows
+      .filter(r => (CHAMP_NAME_MAP[r["Champion"]] || r["Champion"]) === team)
+      .sort((a,b) => b["Year"] - a["Year"]);
+    if(teamChampionships.length){
+      document.getElementById('champBadge').style.display = '';
+      document.getElementById('champBadge').innerHTML = `
+        <div class="title">&#127942; ${teamChampionships.length} State Title${teamChampionships.length===1?'':'s'}</div>
+        <div class="years">${teamChampionships.map(c => `<span>${c["Year"]}</span>`).join('')}</div>
+      `;
+    }
 
     // --- Schedule + record ---
     const games = scheduleRows.filter(r => r["Team1"] === team || r["Team2"] === team);
