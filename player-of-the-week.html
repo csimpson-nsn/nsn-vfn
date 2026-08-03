@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Player of the Week | Vermont Football Network</title>
+<title>VFN Players of the Week | Vermont Football Network</title>
 <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <style>
@@ -35,17 +35,10 @@ nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
 .watch-btn:hover{background:#b9261f;}
 .menu-toggle{display:none; background:none; border:none; color:var(--snow); font-size:1.6rem; cursor:pointer;}
 @media (max-width:900px){nav.links{display:none;} .menu-toggle{display:block;}}
-.more-menu{position:relative;}
-.more-menu > span{cursor:pointer;}
-.more-dropdown{display:none; position:absolute; top:100%; right:0; background:var(--slate); border:1px solid #262c2e; min-width:220px; padding:6px 0; z-index:60;}
-.more-menu:hover .more-dropdown{display:block;}
-.more-dropdown a{display:block; padding:12px 18px; border-bottom:1px solid #262c2e; font-size:0.82rem;}
-.more-dropdown a:last-child{border-bottom:none;}
-.more-dropdown a:hover{background:#252c2e; color:var(--gold);}
-.mobile-menu{display:none; flex-direction:column; background:var(--slate); border-top:1px solid #262c2e;}
+.mobile-menu{display:none; flex-direction:column; background:var(--slate); border-bottom:3px solid var(--broadcast-red);}
 .mobile-menu.open{display:flex;}
-.mobile-menu a{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.95rem; color:var(--snow); padding:16px 28px; border-bottom:1px solid #262c2e;}
-.mobile-menu a:hover, .mobile-menu a.active{color:var(--gold); background:#252c2e;}
+.mobile-menu a{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.9rem; color:var(--snow); padding:14px 28px; border-bottom:1px solid #262c2e;}
+.mobile-menu a.active{color:var(--gold);}
 
 .page-hero{
   padding:54px 28px 38px; border-bottom:1px solid #24292b;
@@ -54,53 +47,80 @@ nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
 .page-hero .eyebrow{color:var(--gold); display:flex; align-items:center; gap:10px; margin-bottom:12px;}
 .page-hero .eyebrow::before{content:""; width:28px; height:2px; background:var(--gold);}
 .page-hero h1{font-size:clamp(2rem,5vw,3.4rem);}
-.page-hero p{color:var(--steel); max-width:600px; margin-top:12px; font-size:1rem; line-height:1.55;}
+.page-hero p{color:var(--steel); max-width:640px; margin-top:12px; font-size:1rem; line-height:1.55;}
 
 .section{padding:54px 28px;}
 .section-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:28px; flex-wrap:wrap; gap:12px; border-bottom:1px solid #262c2e; padding-bottom:16px;}
 .section-head .eyebrow{color:var(--field-green-light); margin-bottom:6px; display:block;}
 .section-head h2{font-size:clamp(1.5rem,3vw,2.2rem);}
+.section-link{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.85rem; color:var(--gold); border-bottom:1px solid var(--gold); padding-bottom:3px; white-space:nowrap;}
+.section-link:hover{color:var(--snow); border-color:var(--snow);}
 
+/* page-level sponsor banner */
 .page-sponsor-banner{background:var(--slate); border-top:1px solid #262c2e; border-bottom:1px solid #262c2e; padding:20px 28px;}
 .page-sponsor-banner .inner{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;}
 .ts-tag{background:var(--gold); color:var(--granite); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; padding:6px 10px; display:inline-block;}
 .ts-name{font-family:'Anton',sans-serif; font-size:1.05rem; margin-left:12px;}
-.section-link{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.85rem; color:var(--gold); border-bottom:1px solid var(--gold); padding-bottom:3px; white-space:nowrap;}
-.section-link:hover{color:var(--snow); border-color:var(--snow);}
 
-/* voting status banner */
-.voting-status{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; background:var(--slate); border:1px solid #262c2e; padding:18px 22px; margin-bottom:28px;}
-.voting-status .msg{font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; font-size:0.95rem;}
-.voting-status .msg.open{color:var(--field-green-light);}
-.voting-status .msg.closed{color:var(--steel);}
-.voting-status .msg.pending{color:var(--gold);}
-.voting-status .sub{font-family:'Barlow Condensed',sans-serif; font-size:0.8rem; color:var(--steel); margin-top:2px;}
-.vote-btn{display:inline-block; background:var(--broadcast-red); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.85rem; padding:12px 26px; border:none; cursor:pointer;}
-.vote-btn:hover{background:#b9261f;}
-.vote-btn.disabled{background:#3a4244; color:var(--steel); pointer-events:none;}
+/* ===== NETWORK NOD — standalone, staff-selected, no vote ===== */
+.nod-section{padding:54px 28px 20px;}
+.nod-card{
+  background:linear-gradient(135deg, rgba(217,161,58,0.10), transparent 55%), var(--slate);
+  border:1px solid var(--gold);
+  padding:36px;
+  display:flex; gap:30px; align-items:center; flex-wrap:wrap;
+  position:relative;
+}
+.nod-badge{
+  position:absolute; top:-14px; left:36px;
+  background:var(--gold); color:var(--granite);
+  font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.72rem;
+  letter-spacing:0.12em; text-transform:uppercase; padding:7px 14px;
+}
 
-/* nominee cards */
-.nominees-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
-@media (max-width:900px){.nominees-grid{grid-template-columns:1fr;}}
-.nominee-card{background:var(--slate); border:1px solid #262c2e; padding:26px; position:relative;}
-.nominee-card.winner{border-color:var(--gold);}
-.crown-badge{position:absolute; top:-12px; right:20px; background:var(--gold); color:var(--granite); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; padding:6px 12px;}
-.nominee-top{display:flex; gap:16px; align-items:center; margin-bottom:16px;}
-.nominee-photo{width:76px; height:76px; border-radius:8px; background:linear-gradient(135deg,#3c5a76,#14181a); flex-shrink:0;}
-.nominee-card h3{font-size:1.15rem;}
-.nominee-card .pos{font-family:'Barlow Condensed',sans-serif; color:var(--steel); font-size:0.85rem; margin-top:4px;}
-.nominee-card .stat-line{font-family:'Barlow Condensed',sans-serif; font-size:0.88rem; color:var(--field-green-light); margin-bottom:16px; font-weight:600; line-height:1.4;}
-.vote-bar-track{background:#0f1315; height:22px; position:relative; overflow:hidden;}
-.vote-bar-fill{background:var(--gold); height:100%; transition:width .4s ease;}
-.vote-bar-label{display:flex; justify-content:space-between; font-family:'Barlow Condensed',sans-serif; font-size:0.78rem; color:var(--steel); margin-top:6px;}
-.vote-bar-label strong{color:var(--snow);}
+.nod-body{flex:1; min-width:240px;}
+.nod-body h3{font-size:2rem;}
+.nod-body .pos{font-family:'Barlow Condensed',sans-serif; color:var(--steel); font-size:1rem; margin-top:4px;}
+.nod-body .stat-line{font-family:'Barlow Condensed',sans-serif; font-size:1.05rem; color:var(--gold); margin-top:12px; font-weight:600;}
+.nod-note{font-family:'Barlow Condensed',sans-serif; font-size:0.8rem; color:var(--steel); margin-top:14px; line-height:1.5; max-width:520px;}
+.nod-sponsor{font-family:'Barlow Condensed',sans-serif; font-size:0.78rem; color:var(--steel); letter-spacing:0.05em; text-transform:uppercase; margin-top:10px;}
+.nod-sponsor strong{color:var(--gold);}
 
+/* ===== Voting section — 3 division cards ===== */
+.vote-intro{display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:22px;}
+.vote-intro p{color:var(--steel); font-size:0.9rem; max-width:560px; line-height:1.5;}
+.division-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
+@media (max-width:980px){.division-grid{grid-template-columns:1fr;}}
+.division-card{background:var(--slate); border:1px solid #262c2e; padding:24px; display:flex; flex-direction:column; gap:14px; transition:border-color .15s;}
+.division-card:hover{border-color:var(--field-green-light);}
+.division-card .div-tag{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--field-green-light);}
+.division-card .sponsor-tag{font-family:'Barlow Condensed',sans-serif; font-size:0.72rem; color:var(--steel); letter-spacing:0.03em;}
+.division-card .sponsor-tag strong{color:var(--gold);}
+.division-card .sponsor-tag.open{color:var(--broadcast-red);}
+.nominee-row{display:flex; gap:16px; align-items:center;}
+.nominee-row h4{font-size:1.15rem;}
+.nominee-row .pos{font-family:'Barlow Condensed',sans-serif; color:var(--steel); font-size:0.85rem; margin-top:2px;}
+.nominee-row .stat-line{font-family:'Barlow Condensed',sans-serif; font-size:0.85rem; color:var(--field-green-light); margin-top:6px; font-weight:600;}
+.vote-btn{
+  display:inline-block; text-align:center; background:var(--team-color, var(--field-green)); color:var(--snow);
+  font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.06em;
+  font-size:0.82rem; padding:12px 18px; border:none; cursor:pointer; margin-top:4px;
+  filter:brightness(1);
+  transition:filter .15s;
+}
+.vote-btn:hover{filter:brightness(1.15);}
+.nominee-logo{width:74px; height:74px; border-radius:6px; object-fit:contain; background:#fff; padding:8px; flex-shrink:0;}
+.nod-logo{width:140px; height:140px; border-radius:8px; object-fit:contain; background:#fff; padding:16px; flex-shrink:0; border:2px solid var(--gold);}
+
+/* archive table */
 .potw-archive-table{width:100%; border-collapse:collapse; font-family:'Barlow Condensed',sans-serif;}
 .potw-archive-table th{text-align:left; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--steel); padding:10px 14px; border-bottom:1px solid #262c2e;}
 .potw-archive-table td{padding:13px 14px; border-bottom:1px solid #1d2224; font-size:0.9rem;}
 .potw-archive-table tr:hover td{background:#1c2123;}
 .potw-thumb-sm{width:38px; height:38px; border-radius:5px; background:linear-gradient(135deg,#3c5a76,#14181a); display:inline-block; vertical-align:middle; margin-right:10px;}
-.empty-note{color:var(--steel); font-size:0.88rem; padding:16px 0;}
+.cat-pill{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.68rem; letter-spacing:0.06em; text-transform:uppercase; padding:4px 8px; display:inline-block;}
+.cat-pill.nod{background:var(--gold); color:var(--granite);}
+.cat-pill.div{background:#262c2e; color:var(--steel);}
 
 footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--broadcast-red);}
 .footer-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr 1fr; gap:28px; padding-bottom:28px;}
@@ -119,95 +139,14 @@ footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--br
 </style>
 <script>
 function toggleMobileMenu(){
-  var m = document.getElementById('mobileMenu');
-  if(m) m.classList.toggle('open');
+  document.querySelector('.mobile-menu').classList.toggle('open');
 }
-</script>
-</head>
-<body>
 
-<header>
-  <div class="nav">
-    <a href="index.html" class="logo"><img src="assets/vfn-logo.jpg" alt="Vermont Football Network"> VERMONT FOOTBALL <span class="net">NETWORK</span></a>
-    <nav class="links">
-      <a href="index.html" class="">Home</a>
-      <a href="schedule.html" class="">Schedule</a>
-      <a href="standings.html" class="">Standings</a>
-      <a href="teams.html" class="">Teams</a>
-      <a href="statistics.html" class="">Statistics</a>
-      <a href="player-of-the-week.html" class="active">Player of the Week</a>
-      <div class="more-menu">
-        <span>More &#9662;</span>
-        <div class="more-dropdown">
-          <a href="articles-and-stories.html">Articles &amp; Stories</a>
-          <a href="hall-of-champions.html">Hall of Champions</a>
-          <a href="national-football-foundation.html">National Football Foundation VT Chapter</a>
-        </div>
-      </div>
-    </nav>
-    <a href="https://www.nsnsports.net" target="_blank" rel="noopener" class="watch-btn"><span>Watch Live</span></a>
-    <button class="menu-toggle" aria-label="Open menu" onclick="toggleMobileMenu()">&#9776;</button>
-  </div>
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="index.html">Home</a>
-    <a href="schedule.html">Schedule</a>
-    <a href="standings.html">Standings</a>
-    <a href="teams.html">Teams</a>
-    <a href="statistics.html">Statistics</a>
-    <a href="player-of-the-week.html" class="active">Player of the Week</a>
-    <a href="articles-and-stories.html">Articles &amp; Stories</a>
-    <a href="hall-of-champions.html">Hall of Champions</a>
-    <a href="national-football-foundation.html">National Football Foundation VT Chapter</a>
-  </div>
-</header>
-
-<section class="page-hero">
-  <div class="wrap">
-    <span class="eyebrow">Fan Vote</span>
-    <h1>Player of the Week</h1>
-    <p>Each week, NSN selects three standout performances from across the league. Fans vote for the winner — polling opens when the nominees are posted and closes before kickoff of the next week's games.</p>
-  </div>
-</section>
-
-<section class="page-sponsor-banner">
-  <div class="wrap inner">
-    <div><span class="ts-tag">Player of the Week Page Sponsor</span><span class="ts-name">[Open &mdash; Inquire About This Placement]</span></div>
-    <a href="#" class="section-link">Become a Sponsor &rarr;</a>
-  </div>
-</section>
-
-<section class="section">
-  <div class="wrap">
-    <div class="section-head">
-      <div><span class="eyebrow">This Week's Nominees</span><h2 id="weekHeading">Player of the Week</h2></div>
-    </div>
-
-    <div id="votingStatus" class="voting-status">
-      <div>
-        <div class="msg pending">Loading voting status&hellip;</div>
-      </div>
-    </div>
-
-    <div id="nomineesWrap">
-      <p class="empty-note">Loading nominees&hellip;</p>
-    </div>
-
-    <p style="color:var(--steel); font-size:0.82rem; margin-top:22px; line-height:1.6;">
-      <span class="ts-tag" style="margin-right:8px;">Voting Sponsored By</span>[Open &mdash; Inquire About This Placement]
-    </p>
-  </div>
-</section>
-
-<script>
-// ── Weekly config — NSN staff update these three things each week ──
-// 1. NOMINEES_CSV_URL: the published-to-web CSV link from the Google Sheet tally tab
-//    (Form responses → Sheet → a small COUNTIF tally tab → File > Share > Publish to web > CSV)
-// 2. VOTE_FORM_URL: the live link to the Google Form itself
-// 3. data/POTWNominees.csv holds this week's 3 nominees + the voting window dates — update that file each week
-const VOTE_FORM_URL = "https://forms.gle/r8chYMXkUN29SE9N7"; // paste the real Google Form link here
-const VOTES_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTiXhi-FRD5gSMcex5UGo1I8gGPSX5PHXIDBpyPApWGQVMo6P2j2ShCSyCcQOipQIBEg-qMdChp8ojK/pub?gid=1547328012&single=true&output=csv"; // paste the published tally-tab CSV URL here
-const NOMINEES_CSV_URL = "data/POTWNominees.csv";
-const ARCHIVE_CSV_URL = "data/POTWArchive.csv";
+// Everything below renders from data files instead of hand-written HTML:
+//   data/POTWNominees.csv — this week's 3 division nominees + the Network Nod
+//   data/POTWArchive.csv  — past weeks' honorees
+//   data/Teams.csv        — logo + color lookup, shared with the rest of the site
+// To change who's featured, edit POTWNominees.csv (or its published Google Sheet) — no code change needed.
 
 function parseCSV(text){
   const lines = text.trim().split(/\r?\n/);
@@ -219,137 +158,180 @@ function parseCSV(text){
     return row;
   });
 }
-function num(v){ return parseFloat(v) || 0; }
-
 async function loadCSV(url){
   const r = await fetch(url);
   if(!r.ok) throw new Error("Could not load " + url);
   return parseCSV(await r.text());
 }
 
-function teamLink(name){
-  return `<a href="team.html?team=${encodeURIComponent(name)}" style="color:inherit; text-decoration:underline; text-decoration-color:var(--steel);">${name}</a>`;
-}
+function catPillClass(cat){ return cat === "Network Nod" ? "cat-pill nod" : "cat-pill div"; }
 
 async function init(){
   try {
-    const nomineeRows = await loadCSV(NOMINEES_CSV_URL);
-    if(!nomineeRows.length){
-      document.getElementById('nomineesWrap').innerHTML = '<p class="empty-note">No nominees posted yet for this week.</p>';
-      return;
-    }
+    const [nominees, archive, teamRows] = await Promise.all([
+      loadCSV("data/POTWNominees.csv"),
+      loadCSV("data/POTWArchive.csv"),
+      loadCSV("data/Teams.csv")
+    ]);
+    const teams = {};
+    teamRows.forEach(t => teams[t.Team] = t);
 
-    const opens = new Date(nomineeRows[0]["Voting Opens"]);
-    const closes = new Date(nomineeRows[0]["Voting Closes"]);
-    const now = new Date();
-    const weekLabel = nomineeRows[0]["Week"] ? `Week ${nomineeRows[0]["Week"]} Player of the Week` : "Player of the Week";
-    document.getElementById('weekHeading').textContent = weekLabel;
+    // Current week = the highest week number present in the nominees file
+    const currentWeek = Math.max(...nominees.map(n => parseInt(n.Week, 10)));
+    const thisWeek = nominees.filter(n => parseInt(n.Week,10) === currentWeek);
 
-    let votes = {};
-    try {
-      const voteRows = await loadCSV(VOTES_CSV_URL);
-      voteRows.forEach(v => { votes[v["Nominee"]] = num(v["Votes"]); });
-    } catch(e){
-      // votes CSV not reachable yet — treat as zero votes, don't break the page
-      console.warn("Votes CSV not available yet:", e);
-    }
+    document.getElementById('nodWeekLabel').textContent = `Week ${currentWeek} \u00b7 Statewide Honor`;
+    document.getElementById('voteWeekLabel').textContent = `Week ${currentWeek} \u00b7 Fan Vote`;
 
-    const totalVotes = nomineeRows.reduce((sum, n) => sum + (votes[n["Name"]] || 0), 0);
-    const votingOpen = now >= opens && now <= closes;
-    const votingClosed = now > closes;
-
-    // --- Status banner ---
-    const statusEl = document.getElementById('votingStatus');
-    const fmt = d => d.toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric'});
-    if(votingClosed){
-      statusEl.innerHTML = `
-        <div><div class="msg closed">Voting Closed</div><div class="sub">Final results below &middot; polling ran ${fmt(opens)}&ndash;${fmt(closes)}</div></div>
-      `;
-    } else if(votingOpen){
-      statusEl.innerHTML = `
-        <div><div class="msg open">Voting Open</div><div class="sub">Polling closes ${fmt(closes)} &middot; ${totalVotes} vote${totalVotes===1?'':'s'} so far</div></div>
-        <a href="${VOTE_FORM_URL}" target="_blank" rel="noopener" class="vote-btn">Cast Your Vote &rarr;</a>
-      `;
-    } else {
-      statusEl.innerHTML = `
-        <div><div class="msg pending">Voting Opens Soon</div><div class="sub">Polling begins ${fmt(opens)}</div></div>
-        <span class="vote-btn disabled">Vote Not Yet Open</span>
-      `;
-    }
-
-    // --- Nominee cards ---
-    const maxVotes = Math.max(1, ...nomineeRows.map(n => votes[n["Name"]] || 0));
-    const showResults = votingOpen || votingClosed;
-
-    document.getElementById('nomineesWrap').innerHTML = `<div class="nominees-grid">${
-      nomineeRows.map(n => {
-        const v = votes[n["Name"]] || 0;
-        const pct = totalVotes ? Math.round((v/totalVotes)*100) : 0;
-        const barWidth = showResults ? Math.max(4, Math.round((v/maxVotes)*100)) : 0;
-        const isWinner = votingClosed && v === maxVotes && totalVotes > 0;
-        return `
-        <div class="nominee-card${isWinner ? ' winner' : ''}">
-          ${isWinner ? '<div class="crown-badge">Player of the Week</div>' : ''}
-          <div class="nominee-top">
-            <div class="nominee-photo"></div>
-            <div>
-              <h3>${n["Name"]}</h3>
-              <div class="pos">${n["Position"]} &middot; ${teamLink(n["Team"])} &middot; ${n["Class"]}</div>
-            </div>
+    // Network Nod (no vote)
+    const nod = thisWeek.find(n => n.Category === "Network Nod");
+    const nodContainer = document.getElementById('nodContainer');
+    if(nod){
+      const info = teams[nod.Team] || {};
+      nodContainer.innerHTML = `
+        <div class="nod-card">
+          <span class="nod-badge">Selected by VFN Staff &middot; Not Voted</span>
+          <img class="nod-logo" src="${info.LogoPath || ''}" alt="${nod.Team}">
+          <div class="nod-body">
+            <h3>${nod.Name}</h3>
+            <div class="pos">${nod.Position} &middot; ${nod.Team} &middot; ${nod.Class}</div>
+            <div class="stat-line">${nod['Stat Line']}</div>
+            <p class="nod-note">The Network Nod is VFN's single best performance in the state each week, chosen internally by VFN broadcast staff &mdash; independent of the division vote below. A player can earn the Nod and also appear as a division nominee in the same week.</p>
+            <div class="nod-sponsor">Presented by <strong>[Open &mdash; Inquire Above]</strong></div>
           </div>
-          <div class="stat-line">${n["Stat Line"]}</div>
-          ${showResults ? `
-            <div class="vote-bar-track"><div class="vote-bar-fill" style="width:${barWidth}%;"></div></div>
-            <div class="vote-bar-label"><span>${v} vote${v===1?'':'s'}</span><strong>${pct}%</strong></div>
-          ` : `<div class="empty-note" style="padding:8px 0 0;">Results shown once voting opens.</div>`}
         </div>`;
-      }).join('')
-    }</div>`;
+    } else {
+      nodContainer.innerHTML = '<p class="empty-note" style="color:var(--steel);">No Network Nod selected for this week yet.</p>';
+    }
+
+    // Division voting cards
+    const divisions = ["Division I","Division II","Division III"];
+    const grid = document.getElementById('divisionGrid');
+    grid.innerHTML = divisions.map(div => {
+      const nom = thisWeek.find(n => n.Category === div);
+      if(!nom) return `<div class="division-card"><span class="div-tag">${div}</span><p class="empty-note" style="color:var(--steel);">No nominee set yet.</p></div>`;
+      const info = teams[nom.Team] || {};
+      return `
+      <div class="division-card" data-team="${nom.Team}" style="--team-color:${info.PrimaryColor || '#8b969a'};">
+        <span class="div-tag">${div}</span>
+        <div class="nominee-row">
+          <img class="nominee-logo" src="${info.LogoPath || ''}" alt="${nom.Team}">
+          <div>
+            <h4>${nom.Name}</h4>
+            <div class="pos">${nom.Position} &middot; ${nom.Team} &middot; ${nom.Class}</div>
+            <div class="stat-line">${nom['Stat Line']}</div>
+          </div>
+        </div>
+        <span class="sponsor-tag open">[Open &mdash; Inquire About This Slot]</span>
+        <a href="https://forms.gle/r8chYMXkUN29SE9N7" target="_blank" rel="noopener" class="vote-btn">Vote for ${div} &rarr;</a>
+      </div>`;
+    }).join('');
+
+    // Archive table, most recent week first
+    archive.sort((a,b) => parseInt(b.Week,10) - parseInt(a.Week,10));
+    document.getElementById('archiveBody').innerHTML = archive.length ? archive.map(a => `
+      <tr><td>Week ${a.Week}</td><td><span class="${catPillClass(a.Category)}">${a.Category}</span></td>
+      <td><span class="potw-thumb-sm"></span>${a.Name}</td>
+      <td>${a.Position} &middot; ${a.Team} &middot; ${a.Class}</td>
+      <td>${a['Stat Line']}</td></tr>
+    `).join('') : '<tr><td colspan="5" class="empty-note">No past honorees on file yet.</td></tr>';
+    document.getElementById('archiveStatus').textContent = `${archive.length} past honoree${archive.length===1?'':'s'} on record.`;
 
   } catch(err){
-    document.getElementById('nomineesWrap').innerHTML = '<p class="empty-note">Could not load this week\'s nominees. Make sure data/POTWNominees.csv is uploaded and reachable.</p>';
-    document.getElementById('votingStatus').innerHTML = '';
     console.error(err);
+    document.getElementById('nodContainer').innerHTML = "<p class=\"empty-note\" style=\"color:var(--steel);\">Could not load this week's honorees. Make sure data/POTWNominees.csv and data/Teams.csv are uploaded and reachable.</p>";
+    document.getElementById('archiveStatus').textContent = "Could not load archive. Make sure data/POTWArchive.csv is uploaded and reachable.";
   }
 }
 init();
-
-async function initArchive(){
-  const tbody = document.getElementById('archiveBody');
-  try {
-    const rows = await loadCSV(ARCHIVE_CSV_URL);
-    if(!rows.length){
-      document.getElementById('archiveWrap').innerHTML = '<p class="empty-note">No past winners recorded yet.</p>';
-      return;
-    }
-    tbody.innerHTML = rows.map(r => `
-      <tr>
-        <td>Week ${r["Week"]}</td>
-        <td><span class="potw-thumb-sm"></span>${r["Name"]}</td>
-        <td>${r["Position"]} &middot; ${teamLink(r["Team"])} &middot; ${r["Class"]}</td>
-        <td>${r["Stat Line"]}</td>
-        <td>${r["Vote Pct"]}%</td>
-      </tr>
-    `).join('');
-  } catch(err){
-    document.getElementById('archiveWrap').innerHTML = '<p class="empty-note">No past winners recorded yet.</p>';
-    console.error(err);
-  }
-}
-initArchive();
 </script>
+</head>
+<body>
 
-<section class="section" style="background:var(--slate); border-top:1px solid #262c2e; border-bottom:1px solid #262c2e;">
-  <div class="wrap" id="archiveWrap">
+<header>
+  <div class="nav">
+    <a href="index.html" class="logo"><img src="assets/vfn-logo.jpg" alt="Vermont Football Network"> VERMONT FOOTBALL <span class="net">NETWORK</span></a>
+    <nav class="links">
+      <a href="index.html">Home</a>
+      <a href="schedule.html">Schedule</a>
+      <a href="standings.html">Standings</a>
+      <a href="teams.html">Teams</a>
+      <a href="statistics.html">Statistics</a>
+      <a href="player-of-the-week.html" class="active">Players of the Week</a>
+    </nav>
+    <a href="https://www.nsnsports.net" target="_blank" rel="noopener" class="watch-btn"><span>Watch Live</span></a>
+    <button class="menu-toggle" aria-label="Open menu" onclick="toggleMobileMenu()">&#9776;</button>
+  </div>
+  <div class="mobile-menu">
+    <a href="index.html">Home</a>
+    <a href="schedule.html">Schedule</a>
+    <a href="standings.html">Standings</a>
+    <a href="teams.html">Teams</a>
+    <a href="statistics.html">Statistics</a>
+    <a href="player-of-the-week.html" class="active">Players of the Week</a>
+  </div>
+</header>
+
+
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow">Updated Every Monday</span>
+    <h1>VFN Players of the Week</h1>
+    <p>Each week, VFN staff selects one nominee per division — fans then decide the winner by vote. Alongside that, the <strong>Network Nod</strong> is a separate, single statewide honor selected internally by VFN staff, with no public vote.</p>
+  </div>
+</section>
+
+
+<section class="page-sponsor-banner">
+  <div class="wrap inner">
+    <div><span class="ts-tag">Players of the Week Page Sponsor</span><span class="ts-name">[Open &mdash; Inquire About This Placement]</span></div>
+    <a href="#" class="section-link">Become a Sponsor &rarr;</a>
+  </div>
+</section>
+
+
+<!-- ===== NETWORK NOD ===== -->
+<section class="nod-section">
+  <div class="wrap">
     <div class="section-head">
-      <div><span class="eyebrow">Season Archive</span><h2>Past Winners</h2></div>
+      <div><span class="eyebrow" style="color:var(--gold);" id="nodWeekLabel">Statewide Honor</span><h2>The Network Nod</h2></div>
+      <a href="#" class="section-link">Sponsor the Network Nod &rarr;</a>
     </div>
+    <div id="nodContainer">
+      <p class="empty-note" style="color:var(--steel);">Loading this week's honor&hellip;</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== DIVISION VOTING ===== -->
+<section class="section">
+  <div class="wrap">
+    <div class="vote-intro">
+      <div><span class="eyebrow" style="color:var(--field-green-light); display:block; margin-bottom:6px;" id="voteWeekLabel">Fan Vote</span><h2 style="font-size:clamp(1.5rem,3vw,2.2rem);">Cast Your Vote</h2></div>
+      <p>One nominee per division. Voting closes Wednesday at midnight — cast your vote below.</p>
+    </div>
+    <div class="division-grid" id="divisionGrid">
+      <p class="empty-note" style="color:var(--steel);">Loading nominees&hellip;</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== ARCHIVE ===== -->
+<section class="section" style="background:var(--slate); border-top:1px solid #262c2e; border-bottom:1px solid #262c2e;">
+  <div class="wrap">
+    <div class="section-head">
+      <div><span class="eyebrow">Season Archive</span><h2>Past Honorees</h2></div>
+    </div>
+    <div id="archiveStatus" style="color:var(--steel); font-family:'Barlow Condensed',sans-serif; font-size:0.85rem; margin-bottom:14px;">Loading history&hellip;</div>
     <table class="potw-archive-table">
-      <thead><tr><th>Week</th><th>Player</th><th>Position</th><th>Performance</th><th>Vote %</th></tr></thead>
+      <thead><tr><th>Week</th><th>Category</th><th>Player</th><th>Position</th><th>Performance</th></tr></thead>
       <tbody id="archiveBody"></tbody>
     </table>
   </div>
 </section>
+
 
 <footer id="about">
   <div class="wrap">
@@ -369,7 +351,7 @@ initArchive();
         <a href="standings.html">Standings &amp; RPI</a>
         <a href="teams.html">All Teams</a>
         <a href="statistics.html">Statistics</a>
-        <a href="player-of-the-week.html">Player of the Week</a>
+        <a href="player-of-the-week.html">Players of the Week</a>
       </div>
       <div class="footer-col">
         <h4>League Resources</h4>

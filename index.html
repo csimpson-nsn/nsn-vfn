@@ -287,46 +287,30 @@ function toggleMobileMenu(){
 <section class="section" id="schedule-preview"><script>
 const SEASON_YEAR = 2026; // update at the start of each new season
 
-const VFN_LOGOS = {
-  "BFA St. Albans": "assets/logos/BFA_SA.png",
-  "Mt. Mansfield": "assets/logos/MMU.png",
-  "Burr & Burton Academy": "assets/logos/burr_and_burton.png",
-  "Champlain Valley": "assets/logos/Champlain_Valley.png",
-  "Essex": "assets/logos/Essex_High_School.png",
-  "Middlebury": "assets/logos/Middlebury.png",
-  "Mt. Anthony": "assets/logos/MAUlogo.png",
-  "Colchester": "assets/logos/colchester_logo_23.png",
-  "Fair Haven": "assets/logos/FairHaven.png",
-  "Hartford": "assets/logos/Hartford.png",
-  "Lyndon Institute": "assets/logos/LIlogo.png",
-  "Milton": "assets/logos/Milton_.png",
-  "Brattleboro": "assets/logos/brattleboro_bears.png",
-  "North Country": "assets/logos/North_Country_Falcons.png",
-  "Bellows Falls": "assets/logos/Bellows_Falls.png",
-  "Fairfax/Lamoille": "assets/logos/bfa_fairfax_logo.png",
-  "Mill River": "assets/logos/Mill_River_Minutemen_.png",
-  "Missisquoi": "assets/logos/mvulogo.png",
-  "Mt. Abraham": "assets/logos/Mt__Abraham.png",
-  "Otter Valley": "assets/logos/Otter_Valley.png",
-  "Poultney": "assets/logos/Poultney.png",
-  "Rice Memorial": "assets/logos/Rice.png",
-  "Rutland": "assets/logos/rutland_copy.png",
-  "Spaulding": "assets/logos/shs.png",
-  "Springfield": "assets/logos/Springfield.png",
-  "St. Johnsbury": "assets/logos/stja.png",
-  "Union-32": "assets/logos/U-32_Athletics_Logo.png",
-  "Windsor": "assets/logos/Windsor.png",
-  "Woodstock": "assets/logos/woodstock_wasps.png",
-  "Seawolves": "assets/logos/Seawolves.png"
-};
-const VFN_DIVS = {
-  "BFA St. Albans":"D-I","Mt. Mansfield":"D-I","Burr & Burton Academy":"D-I","Champlain Valley":"D-I","Essex":"D-I",
-  "Middlebury":"D-I","Mt. Anthony":"D-I","Rutland":"D-I","Seawolves":"D-I","St. Johnsbury":"D-I",
-  "Colchester":"D-II","Fair Haven":"D-II","Hartford":"D-II","Lyndon Institute":"D-II","Brattleboro":"D-II",
-  "North Country":"D-II","Rice Memorial":"D-II","Spaulding":"D-II","Union-32":"D-II",
-  "Bellows Falls":"D-III","Fairfax/Lamoille":"D-III","Mill River":"D-III","Milton":"D-III","Missisquoi":"D-III",
-  "Mt. Abraham":"D-III","Otter Valley":"D-III","Poultney":"D-III","Springfield":"D-III","Windsor":"D-III","Woodstock":"D-III",
-};
+// Team data (logo, division, colors, mascot) now lives in one place: data/Teams.csv
+// Every page fetches it instead of hardcoding its own copy — fix a team once, it's correct everywhere.
+let VFN_LOGOS = {};
+let VFN_DIVS = {};
+let TEAMS = {};
+const DIV_ABBR = {"Division I":"D-I","Division II":"D-II","Division III":"D-III"};
+
+async function loadTeamsCSV(){
+  const r = await fetch("data/Teams.csv");
+  if(!r.ok) throw new Error("Could not load data/Teams.csv");
+  const lines = (await r.text()).trim().split(/\r?\n/);
+  const headers = lines[0].split(",");
+  lines.slice(1).filter(l => l.trim().length).forEach(line => {
+    const cells = line.split(",");
+    const row = {};
+    headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
+    TEAMS[row.Team] = {
+      logo: row.LogoPath, div: row.Division, c1: row.PrimaryColor, c2: row.SecondaryColor,
+      t1: row.TextColor, mascot: row.Mascot, cancelled: row.Cancelled === "true"
+    };
+    VFN_LOGOS[row.Team] = row.LogoPath;
+    VFN_DIVS[row.Team] = DIV_ABBR[row.Division] || row.Division;
+  });
+}
 
 function vfnCrest(team){
   const path = VFN_LOGOS[team];
@@ -340,17 +324,21 @@ function gameMeta(t1, t2){
   if(d1 && d2 && d1 !== d2) return `${d1}/${d2} Crossover`;
   return d1 ? (d1==='D-I'?'Division I':d1==='D-II'?'Division II':'Division III') : '';
 }
-// Title sponsor short-tag -> full name(s) + link. LC/CM is a joint two-sponsor tag.
-const SPONSOR_MAP = {
-  "LC/CM": [{name:"Littleton Chevrolet", url:"https://www.littletonchevrolet.com/"}, {name:"Crosstown Motors", url:"https://www.crosstownmotors.net/"}],
-  "NWMC": [{name:"Northwestern Medical Center", url:"https://www.northwesternmedicalcenter.org/"}],
-  "Miosek": [{name:"Miosek Law", url:"https://www.mioseklaw.com/"}],
-  "Hartford Auto": [{name:"Hartford Auto", url:"https://hartfordautovt.com/repair-services/"}],
-  "Rockwood": [{name:"The Rockwood Agency", url:"https://www.therockwoodagency.com/"}],
-  "Larkin": [{name:"Larkin Realty", url:"https://www.larkinrealty.net/"}],
-  "Lovell": [{name:"Lovell Farm", url:"https://lovellfarmsvt.com/"}],
-  "D Newton": [{name:"Dennis Newton", url:"https://newtonerac.com/"}],
-};
+// Sponsor tag -> full name(s) + link now lives in one place: data/SponsorDirectory.csv
+let SPONSOR_MAP = {};
+async function loadSponsorDirectory(){
+  const r = await fetch("data/SponsorDirectory.csv");
+  if(!r.ok) throw new Error("Could not load data/SponsorDirectory.csv");
+  const lines = (await r.text()).trim().split(/\r?\n/);
+  const headers = lines[0].split(",");
+  lines.slice(1).filter(l => l.trim().length).forEach(line => {
+    const cells = line.split(",");
+    const row = {};
+    headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
+    if(!SPONSOR_MAP[row.SponsorTag]) SPONSOR_MAP[row.SponsorTag] = [];
+    SPONSOR_MAP[row.SponsorTag].push({name: row.Name, url: row.URL});
+  });
+}
 let TITLE_SPONSORS = [];
 function findTitleSponsor(week, teamA, teamB){
   const row = TITLE_SPONSORS.find(r =>
@@ -405,6 +393,7 @@ async function renderHomeSchedule(){
   const grid = document.getElementById('homeScheduleGrid');
   const heroWeekEl = document.getElementById('heroWeekLabel');
   try {
+    await Promise.all([loadTeamsCSV(), loadSponsorDirectory()]);
     const res = await fetch("data/Schedule.csv");
     if(!res.ok) throw new Error("Could not load data/Schedule.csv");
     const rows = parseScheduleCSV(await res.text());

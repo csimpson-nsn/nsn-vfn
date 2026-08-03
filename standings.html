@@ -243,38 +243,19 @@ function toggleMobileMenu(){
 </section>
 
 <script>
-const TEAMS = {
-  "BFA St. Albans": {logo:"assets/logos/BFA_SA.png", div:"Division I"},
-  "Mt. Mansfield": {logo:"assets/logos/MMU.png", div:"Division I"},
-  "Burr & Burton Academy": {logo:"assets/logos/burr_and_burton.png", div:"Division I"},
-  "Champlain Valley": {logo:"assets/logos/Champlain_Valley.png", div:"Division I"},
-  "Essex": {logo:"assets/logos/Essex_High_School.png", div:"Division I"},
-  "Middlebury": {logo:"assets/logos/Middlebury.png", div:"Division I"},
-  "Mt. Anthony": {logo:"assets/logos/MAUlogo.png", div:"Division I"},
-  "Rutland": {logo:"assets/logos/rutland_copy.png", div:"Division I"},
-  "Seawolves": {logo:"assets/logos/Seawolves.png", div:"Division I"},
-  "St. Johnsbury": {logo:"assets/logos/stja.png", div:"Division I"},
-  "Colchester": {logo:"assets/logos/colchester_logo_23.png", div:"Division II"},
-  "Fair Haven": {logo:"assets/logos/FairHaven.png", div:"Division II"},
-  "Hartford": {logo:"assets/logos/Hartford.png", div:"Division II"},
-  "Lyndon Institute": {logo:"assets/logos/LIlogo.png", div:"Division II"},
-  "Brattleboro": {logo:"assets/logos/brattleboro_bears.png", div:"Division II"},
-  "North Country": {logo:"assets/logos/North_Country_Falcons.png", div:"Division II"},
-  "Rice Memorial": {logo:"assets/logos/Rice.png", div:"Division II"},
-  "Spaulding": {logo:"assets/logos/shs.png", div:"Division II"},
-  "Union-32": {logo:"assets/logos/U-32_Athletics_Logo.png", div:"Division II"},
-  "Bellows Falls": {logo:"assets/logos/Bellows_Falls.png", div:"Division III"},
-  "Fairfax/Lamoille": {logo:"assets/logos/bfa_fairfax_logo.png", div:"Division III"},
-  "Mill River": {logo:"assets/logos/Mill_River_Minutemen_.png", div:"Division III"},
-  "Milton": {logo:"assets/logos/Milton_.png", div:"Division III"},
-  "Missisquoi": {logo:"assets/logos/mvulogo.png", div:"Division III"},
-  "Mt. Abraham": {logo:"assets/logos/Mt__Abraham.png", div:"Division III"},
-  "Otter Valley": {logo:"assets/logos/Otter_Valley.png", div:"Division III"},
-  "Poultney": {logo:"assets/logos/Poultney.png", div:"Division III", cancelled:true},
-  "Springfield": {logo:"assets/logos/Springfield.png", div:"Division III"},
-  "Windsor": {logo:"assets/logos/Windsor.png", div:"Division III"},
-  "Woodstock": {logo:"assets/logos/woodstock_wasps.png", div:"Division III"},
-};
+// Team data (logo, division, colors, mascot) now lives in one place: data/Teams.csv
+// Every page fetches it instead of hardcoding its own copy — fix a team once, it's correct everywhere.
+let TEAMS = {};
+async function loadTeams(){
+  const rows = await loadCSV("data/Teams.csv");
+  rows.forEach(row => {
+    TEAMS[row.Team] = {
+      logo: row.LogoPath, div: row.Division,
+      c1: row.PrimaryColor, c2: row.SecondaryColor, t1: row.TextColor,
+      mascot: row.Mascot, cancelled: row.Cancelled === "true"
+    };
+  });
+}
 const DIV_VALUE = {"Division I":10, "Division II":7, "Division III":5};
 const DIV_KEY = {"Division I":"d1", "Division II":"d2", "Division III":"d3"};
 
@@ -349,6 +330,7 @@ function teamRowHTML(team, rank, stats){
 
 async function init(){
   try {
+    await loadTeams();
     const scheduleRows = await loadCSV("data/Schedule.csv");
     const qprResults = computeQPR(scheduleRows);
 

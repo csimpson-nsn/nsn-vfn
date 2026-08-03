@@ -218,39 +218,24 @@ function toggleMobileMenu(){
 </section>
 
 <script>
-// Team name -> {logo file, division label} lookup, shared source of truth for this page
-const TEAMS = {
-  "BFA St. Albans": {logo:"assets/logos/BFA_SA.png", div:"Division I", c1:"#204030", c2:"#f0a020", t1:"#f3f5f3"},
-  "Mt. Mansfield": {logo:"assets/logos/MMU.png", div:"Division I", c1:"#a0c0e0", c2:"#002040", t1:"#14181a"},
-  "Burr & Burton Academy": {logo:"assets/logos/burr_and_burton.png", div:"Division I", c1:"#f0c000", c2:"#005020", t1:"#14181a"},
-  "Champlain Valley": {logo:"assets/logos/Champlain_Valley.png", div:"Division I", c1:"#e01020", c2:"#200000", t1:"#f3f5f3"},
-  "Essex": {logo:"assets/logos/Essex_High_School.png", div:"Division I", c1:"#d0a070", c2:"#104070", t1:"#14181a"},
-  "Middlebury": {logo:"assets/logos/Middlebury.png", div:"Division I", c1:"#f07010", c2:"#301000", t1:"#14181a"},
-  "Mt. Anthony": {logo:"assets/logos/MAUlogo.png", div:"Division I", c1:"#000080", c2:"#e00000", t1:"#f3f5f3"},
-  "Rutland": {logo:"assets/logos/rutland_copy.png", div:"Division I", c1:"#a00010", c2:"#f0d0e0", t1:"#f3f5f3"},
-  "Seawolves": {logo:"assets/logos/Seawolves.png", div:"Division I", c1:"#1a5276", c2:"#d9a13a", t1:"#f3f5f3"},
-  "St. Johnsbury": {logo:"assets/logos/stja.png", div:"Division I", c1:"#006020", c2:"#307040", t1:"#f3f5f3"},
-  "Colchester": {logo:"assets/logos/colchester_logo_23.png", div:"Division II", c1:"#006030", c2:"#005090", t1:"#f3f5f3"},
-  "Fair Haven": {logo:"assets/logos/FairHaven.png", div:"Division II", c1:"#002050", c2:"#8090a0", t1:"#f3f5f3"},
-  "Hartford": {logo:"assets/logos/Hartford.png", div:"Division II", c1:"#204090", c2:"#b01020", t1:"#f3f5f3"},
-  "Lyndon Institute": {logo:"assets/logos/LIlogo.png", div:"Division II", c1:"#301010", c2:"#c0a080", t1:"#f3f5f3"},
-  "Brattleboro": {logo:"assets/logos/brattleboro_bears.png", div:"Division II", c1:"#602090", c2:"#8060a0", t1:"#f3f5f3"},
-  "North Country": {logo:"assets/logos/North_Country_Falcons.png", div:"Division II", c1:"#500000", c2:"#2080b0", t1:"#f3f5f3"},
-  "Rice Memorial": {logo:"assets/logos/Rice.png", div:"Division II", c1:"#305040", c2:"#507060", t1:"#f3f5f3"},
-  "Spaulding": {logo:"assets/logos/shs.png", div:"Division II", c1:"#800010", c2:"#c03030", t1:"#f3f5f3"},
-  "Union-32": {logo:"assets/logos/U-32_Athletics_Logo.png", div:"Division II", c1:"#0020f0", c2:"#d0e0f0", t1:"#f3f5f3"},
-  "Bellows Falls": {logo:"assets/logos/Bellows_Falls.png", div:"Division III", c1:"#4b1f6b", c2:"#f3f5f3", t1:"#f3f5f3"},
-  "Fairfax/Lamoille": {logo:"assets/logos/bfa_fairfax_logo.png", div:"Division III", c1:"#502020", c2:"#604050", t1:"#f3f5f3"},
-  "Mill River": {logo:"assets/logos/Mill_River_Minutemen_.png", div:"Division III", c1:"#002050", c2:"#d02040", t1:"#f3f5f3"},
-  "Milton": {logo:"assets/logos/Milton_.png", div:"Division III", c1:"#000080", c2:"#f0b000", t1:"#f3f5f3"},
-  "Missisquoi": {logo:"assets/logos/mvulogo.png", div:"Division III", c1:"#203090", c2:"#6060a0", t1:"#f3f5f3"},
-  "Mt. Abraham": {logo:"assets/logos/Mt__Abraham.png", div:"Division III", c1:"#600000", c2:"#200000", t1:"#f3f5f3"},
-  "Otter Valley": {logo:"assets/logos/Otter_Valley.png", div:"Division III", c1:"#000080", c2:"#c0c0e0", t1:"#f3f5f3"},
-  "Poultney": {logo:"assets/logos/Poultney.png", div:"Division III", c1:"#204080", c2:"#203050", cancelled:true, t1:"#f3f5f3"},
-  "Springfield": {logo:"assets/logos/Springfield.png", div:"Division III", c1:"#007030", c2:"#c0e0d0", t1:"#f3f5f3"},
-  "Windsor": {logo:"assets/logos/Windsor.png", div:"Division III", c1:"#f0c010", c2:"#105030", t1:"#14181a"},
-  "Woodstock": {logo:"assets/logos/woodstock_wasps.png", div:"Division III", c1:"#105020", c2:"#608060", t1:"#f3f5f3"},
-};
+// Team data (logo, division, colors, mascot) now lives in one place: data/Teams.csv
+// Every page fetches it instead of hardcoding its own copy — fix a team once, it's correct everywhere.
+let TEAMS = {};
+async function loadTeams(){
+  const r = await fetch("data/Teams.csv");
+  if(!r.ok) throw new Error("Could not load data/Teams.csv");
+  const lines = (await r.text()).trim().split(/\r?\n/);
+  const headers = lines[0].split(",");
+  lines.slice(1).filter(l => l.trim().length).forEach(line => {
+    const cells = line.split(",");
+    const row = {};
+    headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
+    TEAMS[row.Team] = {
+      logo: row.LogoPath, div: row.Division, c1: row.PrimaryColor, c2: row.SecondaryColor,
+      t1: row.TextColor, mascot: row.Mascot, cancelled: row.Cancelled === "true"
+    };
+  });
+}
 
 const DATA_CSV_URLS = {
   roster:    "data/Roster.csv",
@@ -412,16 +397,21 @@ function opponentChip(name){
 }
 
 // Title sponsor short-tag -> full name(s) + link. LC/CM is a joint two-sponsor tag.
-const SPONSOR_MAP = {
-  "LC/CM": [{name:"Littleton Chevrolet", url:"https://www.littletonchevrolet.com/"}, {name:"Crosstown Motors", url:"https://www.crosstownmotors.net/"}],
-  "NWMC": [{name:"Northwestern Medical Center", url:"https://www.northwesternmedicalcenter.org/"}],
-  "Miosek": [{name:"Miosek Law", url:"https://www.mioseklaw.com/"}],
-  "Hartford Auto": [{name:"Hartford Auto", url:"https://hartfordautovt.com/repair-services/"}],
-  "Rockwood": [{name:"The Rockwood Agency", url:"https://www.therockwoodagency.com/"}],
-  "Larkin": [{name:"Larkin Realty", url:"https://www.larkinrealty.net/"}],
-  "Lovell": [{name:"Lovell Farm", url:"https://lovellfarmsvt.com/"}],
-  "D Newton": [{name:"Dennis Newton", url:"https://newtonerac.com/"}],
-};
+// Sponsor tag -> full name(s) + link now lives in one place: data/SponsorDirectory.csv
+let SPONSOR_MAP = {};
+async function loadSponsorDirectory(){
+  const r = await fetch("data/SponsorDirectory.csv");
+  if(!r.ok) throw new Error("Could not load data/SponsorDirectory.csv");
+  const lines = (await r.text()).trim().split(/\r?\n/);
+  const headers = lines[0].split(",");
+  lines.slice(1).filter(l => l.trim().length).forEach(line => {
+    const cells = line.split(",");
+    const row = {};
+    headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
+    if(!SPONSOR_MAP[row.SponsorTag]) SPONSOR_MAP[row.SponsorTag] = [];
+    SPONSOR_MAP[row.SponsorTag].push({name: row.Name, url: row.URL});
+  });
+}
 let TITLE_SPONSORS = [];
 function findTitleSponsor(week, teamA, teamB){
   const row = TITLE_SPONSORS.find(r =>
@@ -436,6 +426,7 @@ function sponsorBadgeHTML(sponsors){
 }
 
 async function init(){
+  await Promise.all([loadTeams(), loadSponsorDirectory()]);
   const params = new URLSearchParams(window.location.search);
   const team = params.get("team");
 
