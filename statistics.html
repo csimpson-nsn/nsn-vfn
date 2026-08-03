@@ -219,6 +219,15 @@ function toggleMobileMenu(){
 
 <section class="section">
   <div class="wrap">
+    <div class="section-head" style="border-bottom:none; margin-bottom:12px; padding-bottom:0;">
+      <div><span class="eyebrow">Filter By Division</span></div>
+    </div>
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="filterByDivision('All',this)">Statewide</button>
+      <button class="tab-btn" onclick="filterByDivision('Division I',this)">Division I</button>
+      <button class="tab-btn" onclick="filterByDivision('Division II',this)">Division II</button>
+      <button class="tab-btn" onclick="filterByDivision('Division III',this)">Division III</button>
+    </div>
     <div class="tab-row">
       <button class="tab-btn active" onclick="showStatTab('passing',this)">Passing</button>
       <button class="tab-btn" onclick="showStatTab('rushing',this)">Rushing</button>
@@ -250,6 +259,7 @@ const STATS_CSV_URLS = {
   defense:   "data/Defense.csv",
   kicking:   "data/Kicking.csv",
   schedule:  "data/Schedule.csv",
+  roster:    "data/Roster.csv",
 };
 
 function parseCSV(text){
@@ -320,6 +330,25 @@ function computePointsPerGame(scheduleRows){
 
 // Per-category sortable table state: { rows, cols, sortKey, sortDir }
 const statTableState = {};
+const FULL_CATEGORY_ROWS = {}; // unfiltered (statewide) rows per category, so division filtering never loses data
+const TEAM_DIVISION = {}; // Team -> Division, from Roster.csv
+let currentDivision = "All";
+
+function filterByDivision(div, btn){
+  currentDivision = div;
+  if(btn){
+    btn.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  Object.keys(FULL_CATEGORY_ROWS).forEach(key => {
+    const filtered = currentDivision === "All"
+      ? FULL_CATEGORY_ROWS[key]
+      : FULL_CATEGORY_ROWS[key].filter(r => TEAM_DIVISION[r.team] === currentDivision);
+    statTableState[key].rows = filtered;
+    const el = document.getElementById('statTable_' + key);
+    if(el) el.innerHTML = renderStatTable(key);
+  });
+}
 
 function renderStatTable(catKey){
   const state = statTableState[catKey];
@@ -374,13 +403,14 @@ async function loadCSV(url){
 
 async function init(){
   try {
-    const [passingRows, rushingRows, receivingRows, defenseRows, kickingRows, scheduleRows] = await Promise.all([
+    const [passingRows, rushingRows, receivingRows, defenseRows, kickingRows, scheduleRows, rosterRows] = await Promise.all([
       loadCSV(STATS_CSV_URLS.passing),
       loadCSV(STATS_CSV_URLS.rushing),
       loadCSV(STATS_CSV_URLS.receiving),
       loadCSV(STATS_CSV_URLS.defense),
       loadCSV(STATS_CSV_URLS.kicking),
       loadCSV(STATS_CSV_URLS.schedule),
+      loadCSV(STATS_CSV_URLS.roster),
     ]);
 
     const passing = aggregateBy(passingRows, ["Att","Comp","Yds","TD","INT","Fum"]);
@@ -467,7 +497,11 @@ async function init(){
 
     Object.entries(categoryDefs).forEach(([key, def]) => {
       statTableState[key] = { rows: def.rows, cols: def.cols, sortKey: def.defaultKey, sortDir: def.defaultDir || "desc" };
+      FULL_CATEGORY_ROWS[key] = def.rows;
     });
+
+    // Build Team -> Division from Roster.csv so tables can be filtered statewide or by division
+    rosterRows.forEach(r => { if(r["Team"]) TEAM_DIVISION[r["Team"]] = r["Division"]; });
 
     const container = document.getElementById('statTables');
     container.innerHTML = Object.keys(categoryDefs).map(key =>
@@ -491,7 +525,7 @@ init();
     <div class="footer-grid">
       <div class="footer-col">
         <a href="index.html" class="logo" style="font-size:1.2rem; margin-bottom:14px;"><img src="assets/vfn-logo.jpg" alt="VFN" style="height:28px;width:28px;"> VERMONT FOOTBALL <span class="net">NETWORK</span></a>
-        <p style="color:var(--steel); font-size:0.88rem; max-width:280px; line-height:1.6; margin-top:14px;">A Northeast Sports Network production. Bringing Vermont high school football to every living room, every Friday night.</p>
+        <p style="color:var(--steel); font-size:0.88rem; max-width:280px; line-height:1.6; margin-top:14px;">A Northeast Sports Network production. Bringing Vermont high school football to every living room, every game day.</p>
       </div>
       <div class="footer-col">
         <h4>Watch</h4>
@@ -501,7 +535,7 @@ init();
       </div>
       <div class="footer-col">
         <h4>Network</h4>
-        <a href="standings.html">Standings &amp; RPI</a>
+        <a href="standings.html">Standings &amp; QPR</a>
         <a href="teams.html">All Teams</a>
         <a href="statistics.html">Statistics</a>
         <a href="player-of-the-week.html">Player of the Week</a>
