@@ -30,6 +30,13 @@ header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); 
 nav.links{display:flex; gap:26px;}
 nav.links a{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.85rem; color:var(--snow); padding:6px 2px; border-bottom:2px solid transparent; transition:border-color .15s;}
 nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
+.more-menu{position:relative;}
+.more-menu > span{cursor:pointer;}
+.more-dropdown{display:none; position:absolute; top:100%; right:0; background:var(--slate); border:1px solid #262c2e; min-width:220px; padding:6px 0; z-index:60;}
+.more-menu:hover .more-dropdown{display:block;}
+.more-dropdown a{display:block; padding:12px 18px; border-bottom:1px solid #262c2e; font-size:0.82rem;}
+.more-dropdown a:last-child{border-bottom:none;}
+.more-dropdown a:hover{background:#252c2e; color:var(--gold);}
 .watch-btn{display:inline-block; background:var(--broadcast-red); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.85rem; padding:11px 22px; border:none; cursor:pointer; transform:skew(-6deg);}
 .watch-btn span{display:block; transform:skew(6deg);}
 .watch-btn:hover{background:#b9261f;}
@@ -258,6 +265,14 @@ init();
       <a href="teams.html">Teams</a>
       <a href="statistics.html">Statistics</a>
       <a href="player-of-the-week.html" class="active">Players of the Week</a>
+      <div class="more-menu">
+        <span>More &#9662;</span>
+        <div class="more-dropdown">
+          <a href="articles-and-stories.html">Articles &amp; Stories</a>
+          <a href="hall-of-champions.html">Hall of Champions</a>
+          <a href="national-football-foundation.html">National Football Foundation VT Chapter</a>
+        </div>
+      </div>
     </nav>
     <a href="https://www.nsnsports.net" target="_blank" rel="noopener" class="watch-btn"><span>Watch Live</span></a>
     <button class="menu-toggle" aria-label="Open menu" onclick="toggleMobileMenu()">&#9776;</button>
@@ -269,6 +284,9 @@ init();
     <a href="teams.html">Teams</a>
     <a href="statistics.html">Statistics</a>
     <a href="player-of-the-week.html" class="active">Players of the Week</a>
+    <a href="articles-and-stories.html">Articles &amp; Stories</a>
+    <a href="hall-of-champions.html">Hall of Champions</a>
+    <a href="national-football-foundation.html">National Football Foundation VT Chapter</a>
   </div>
 </header>
 
