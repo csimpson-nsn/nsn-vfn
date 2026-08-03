@@ -1,0 +1,31 @@
+Team,Division,Mascot,LogoPath,PrimaryColor,SecondaryColor,TextColor,Cancelled,Status,Note
+BFA St. Albans,Division I,Bobwhites/Comets,assets/logos/BFA_SA.png,#204030,#f0a020,#f3f5f3,false,verified,Locked from live team.html; matches research sheet direction (green/gold)
+Burr & Burton Academy,Division I,Bulldogs,assets/logos/burr_and_burton.png,#f0c000,#005020,#14181a,false,logo-confirmed,Logo is gold-dominant bulldog; flipped from research sheet's green-primary read
+Champlain Valley,Division I,Redhawks,assets/logos/Champlain_Valley.png,#C8102E,#000000,#f3f5f3,false,logo-confirmed,"Logo is red+black, not red+white as research sheet listed"
+Essex,Division I,Hornets,assets/logos/Essex_High_School.png,#00205B,#FFC72C,#f3f5f3,false,confirmed,Logo (blue/gold hornet) matches research sheet
+Middlebury,Division I,Tigers,assets/logos/Middlebury.png,#000000,#FF8200,#f3f5f3,false,confirmed,Logo (black/orange tiger) matches research sheet
+Mt. Anthony,Division I,Patriots,assets/logos/MAUlogo.png,#000080,#B22234,#f3f5f3,false,logo-confirmed,"Logo shows navy as dominant, red as thin accent — reordered from research sheet's red-first listing"
+Mt. Mansfield,Division I,Cougars,assets/logos/MMU.png,#AEC2E5,#0E204E,#14181a,false,official,Only school with a real published hex guide
+Rutland,Division I,Raiders,assets/logos/rutland_copy.png,#C8102E,#FFFFFF,#f3f5f3,false,confirmed,"Logo (red circle, white R) matches research sheet"
+Seawolves,Division I,Seawolves,assets/logos/Seawolves.png,#1a5276,#8b969a,#f3f5f3,false,corrected,"Chad confirmed blue/gray/gold; blue from live team.html, gray per Chad's correction, gold (#d9a13a) as tertiary accent"
+St. Johnsbury,Division I,Hilltoppers,assets/logos/stja.png,#004225,#FFFFFF,#f3f5f3,false,confirmed,Logo (green SJA monogram) matches research sheet
+Brattleboro,Division II,Bears,assets/logos/brattleboro_bears.png,#4B2E83,#FFFFFF,#f3f5f3,false,confirmed,"Purple/white per research sheet; rebranded from 'Colonels' to 'Bears' in 2023, colors unchanged"
+Colchester,Division II,Lakers,assets/logos/colchester_logo_23.png,#00843D,#002B7F,#f3f5f3,false,logo-confirmed,Logo (green dragon over blue C) is green-dominant — reordered from research sheet's blue-first listing
+Fair Haven,Division II,Slaters,assets/logos/FairHaven.png,#003DA5,#FFFFFF,#f3f5f3,false,confirmed,Logo (blue/white hammer) matches research sheet
+Hartford,Division II,Hurricanes,assets/logos/Hartford.png,#0038A8,#C8102E,#f3f5f3,false,confirmed,"Royal blue/red, per research sheet — already applied to POTW page"
+Lyndon Institute,Division II,Vikings,assets/logos/LIlogo.png,#5C0A21,#FFFFFF,#f3f5f3,false,confirmed,"Maroon/white per research sheet; logo itself is generic grayscale clip art, not brand-representative"
+Milton,Division II,Yellowjackets,assets/logos/Milton_.png,#000080,#f0b400,#f3f5f3,false,logo-confirmed,Logo shows navy+gold together — overturns research sheet's plain black/gold mascot-name guess
+North Country,Division II,Falcons,assets/logos/North_Country_Falcons.png,#5C0A21,#00205B,#f3f5f3,false,confirmed,Logo (maroon/blue falcon) matches research sheet
+Rice Memorial,Division II,Green Knights,assets/logos/Rice.png,#00843D,#FFFFFF,#f3f5f3,false,confirmed,Logo (green/white shield) matches research sheet
+Spaulding,Division II,Crimson Tide,assets/logos/shs.png,#9E1B32,#FFFFFF,#f3f5f3,false,inferred,Logo (maroon/crimson crest) consistent with inferred crimson; not independently school-confirmed
+Union-32,Division II,Raiders,assets/logos/U-32_Athletics_Logo.png,#0024fc,#9c9c9c,#f3f5f3,false,logo-confirmed,Logo confirms bright blue + gray; still no school-published source
+Bellows Falls,Division III,Terriers,assets/logos/Bellows_Falls.png,#4b1f6b,#f3f5f3,#f3f5f3,false,corrected,Chad confirmed purple/white; hex taken from live team.html's exact shade
+Fairfax/Lamoille,Division III,Bullets/Lancers,assets/logos/bfa_fairfax_logo.png,#501428,#FFFFFF,#f3f5f3,false,logo-confirmed,Logo shows maroon + white monogram; still no school-published source
+Mill River,Division III,Minutemen,assets/logos/Mill_River_Minutemen_.png,#B22234,#3C3B6E,#f3f5f3,false,confirmed,Logo (red/white/blue Minuteman) matches research sheet
+Missisquoi,Division III,Thunderbirds,assets/logos/mvulogo.png,#00205B,#FFFFFF,#f3f5f3,false,confirmed,"Research sheet blue/white; logo itself is monochrome blue, doesn't contradict"
+Mt. Abraham,Division III,Eagles,assets/logos/Mt__Abraham.png,#600000,#200000,#f3f5f3,false,verified,Locked from live team.html
+Otter Valley,Division III,Otters,assets/logos/Otter_Valley.png,#000080,#c0c0e0,#f3f5f3,false,verified,Locked from live team.html; logo confirms navy
+Poultney,Division III,Blue Devils,assets/logos/Poultney.png,#204080,#203050,#f3f5f3,true,verified,Locked from live team.html; 2026 season cancelled
+Springfield,Division III,Cosmos,assets/logos/Springfield.png,#007030,#c0e0d0,#f3f5f3,false,verified,Locked from live team.html; logo (green Cosmos badge) consistent
+Windsor,Division III,Yellowjackets,assets/logos/Windsor.png,#f0c010,#105030,#14181a,false,verified,Locked from live team.html; logo confirms gold/green
+Woodstock,Division III,Wasps,assets/logos/woodstock_wasps.png,#105020,#608060,#f3f5f3,false,verified,Locked from live team.html; logo confirms green/gray
