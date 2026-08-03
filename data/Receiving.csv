@@ -1,3 +1,171 @@
 Week,Date,Team,Opponent,Player Name,Rec,Yds,Drops,TD
-1,2026-09-04,St. Johnsbury,Essex,Jordan Mercier,1,8,0,0
-1,2026-09-04,Mt. Abraham,Otter Valley,Owen Beaudry,6,95,1,1
+1,9/4,BFA St. Albans,Rutland,Jordan Rousseau,2,20,0,1
+1,9/4,BFA St. Albans,Rutland,Logan Deforge,5,35,1,0
+2,9/10,BFA St. Albans,Seawolves,Jordan Rousseau,4,40,0,1
+2,9/10,BFA St. Albans,Seawolves,Logan Deforge,3,24,1,0
+3,9/18,BFA St. Albans,Essex,Jordan Rousseau,4,52,1,0
+3,9/18,BFA St. Albans,Essex,Logan Deforge,2,28,0,0
+1,9/4,Mt. Mansfield,Colchester,Bryce Whitcomb,6,54,0,0
+1,9/4,Mt. Mansfield,Colchester,Wesley Gauthier,2,18,0,1
+2,9/12,Mt. Mansfield,Rice Memorial,Bryce Whitcomb,3,33,0,1
+2,9/12,Mt. Mansfield,Rice Memorial,Wesley Gauthier,4,56,0,0
+3,9/19,Mt. Mansfield,Union-32,Bryce Whitcomb,3,39,1,0
+3,9/19,Mt. Mansfield,Union-32,Wesley Gauthier,3,45,0,0
+1,9/5,Burr & Burton Academy,Middlebury,Dylan Poulin,5,65,1,0
+1,9/5,Burr & Burton Academy,Middlebury,Cody Bushey,7,63,0,0
+2,9/11,Burr & Burton Academy,Mt. Anthony,Dylan Poulin,6,54,1,0
+2,9/11,Burr & Burton Academy,Mt. Anthony,Cody Bushey,6,90,0,0
+3,9/19,Burr & Burton Academy,Hartford,Dylan Poulin,6,60,1,1
+3,9/19,Burr & Burton Academy,Hartford,Cody Bushey,4,60,0,0
+1,9/5,Champlain Valley,Hartford,Cody Poulin,4,32,1,0
+1,9/5,Champlain Valley,Hartford,Dylan Charron,2,24,1,0
+2,9/12,Champlain Valley,Middlebury,Cody Poulin,4,32,1,0
+2,9/12,Champlain Valley,Middlebury,Dylan Charron,2,22,0,0
+3,9/18,Champlain Valley,Seawolves,Cody Poulin,6,84,0,0
+3,9/18,Champlain Valley,Seawolves,Dylan Charron,2,26,1,0
+1,9/4,Essex,St. Johnsbury,Wesley Pelkey,2,22,0,0
+1,9/4,Essex,St. Johnsbury,Jackson Roberge,6,72,0,0
+2,9/10,Essex,Colchester,Wesley Pelkey,7,98,0,0
+2,9/10,Essex,Colchester,Jackson Roberge,7,112,1,0
+3,9/18,Essex,BFA St. Albans,Wesley Pelkey,4,32,0,0
+3,9/18,Essex,BFA St. Albans,Jackson Roberge,7,70,0,1
+1,9/5,Middlebury,Burr & Burton Academy,Cody Gauthier,4,32,0,0
+1,9/5,Middlebury,Burr & Burton Academy,Riley Lafountain,4,56,0,1
+2,9/12,Middlebury,Champlain Valley,Cody Gauthier,2,24,0,0
+2,9/12,Middlebury,Champlain Valley,Riley Lafountain,2,20,1,0
+3,9/18,Middlebury,St. Johnsbury,Cody Gauthier,5,80,0,1
+3,9/18,Middlebury,St. Johnsbury,Riley Lafountain,4,56,0,1
+1,9/4,Mt. Anthony,Seawolves,Blake Kittell,3,36,1,0
+1,9/4,Mt. Anthony,Seawolves,Riley Fortin,4,40,0,0
+2,9/11,Mt. Anthony,Burr & Burton Academy,Blake Kittell,2,16,0,1
+2,9/11,Mt. Anthony,Burr & Burton Academy,Riley Fortin,5,70,0,0
+3,9/18,Mt. Anthony,Rutland,Blake Kittell,4,48,1,0
+3,9/18,Mt. Anthony,Rutland,Riley Fortin,5,75,0,1
+1,9/4,Rutland,BFA St. Albans,Jordan Menard,3,33,0,0
+1,9/4,Rutland,BFA St. Albans,Mason Perron,6,84,1,0
+2,9/11,Rutland,Hartford,Jordan Menard,2,22,0,0
+2,9/11,Rutland,Hartford,Mason Perron,5,40,1,0
+3,9/18,Rutland,Mt. Anthony,Jordan Menard,4,44,0,1
+3,9/18,Rutland,Mt. Anthony,Mason Perron,2,22,1,1
+1,9/4,Seawolves,Mt. Anthony,Bryce Ladd,3,39,0,1
+1,9/4,Seawolves,Mt. Anthony,Wesley Sargent,2,28,1,1
+2,9/10,Seawolves,BFA St. Albans,Bryce Ladd,3,27,0,0
+2,9/10,Seawolves,BFA St. Albans,Wesley Sargent,3,33,1,0
+3,9/18,Seawolves,Champlain Valley,Bryce Ladd,2,32,1,1
+3,9/18,Seawolves,Champlain Valley,Wesley Sargent,4,40,0,0
+1,9/4,St. Johnsbury,Essex,Cody Guyette,5,35,0,1
+1,9/4,St. Johnsbury,Essex,Colton Fortin,6,72,0,0
+2,9/11,St. Johnsbury,Brattleboro,Cody Guyette,2,16,0,0
+2,9/11,St. Johnsbury,Brattleboro,Colton Fortin,3,33,0,0
+3,9/18,St. Johnsbury,Middlebury,Cody Guyette,7,91,0,1
+3,9/18,St. Johnsbury,Middlebury,Colton Fortin,3,39,0,1
+1,9/4,Colchester,Mt. Mansfield,Aiden Pelkey,6,78,1,0
+1,9/4,Colchester,Mt. Mansfield,Caleb Gauthier,2,16,1,1
+2,9/10,Colchester,Essex,Aiden Pelkey,7,84,0,0
+2,9/10,Colchester,Essex,Caleb Gauthier,4,32,1,0
+3,9/18,Colchester,North Country,Aiden Pelkey,5,75,0,0
+3,9/18,Colchester,North Country,Caleb Gauthier,3,42,0,1
+1,9/4,Fair Haven,Union-32,Brody Pelkey,7,105,0,1
+1,9/4,Fair Haven,Union-32,Aiden Tetreault,7,112,0,1
+2,9/11,Fair Haven,Bellows Falls,Brody Pelkey,7,105,0,0
+2,9/11,Fair Haven,Bellows Falls,Aiden Tetreault,5,70,0,1
+3,9/18,Fair Haven,Lyndon Institute,Brody Pelkey,7,105,0,0
+3,9/18,Fair Haven,Lyndon Institute,Aiden Tetreault,6,42,0,0
+1,9/5,Hartford,Champlain Valley,Cole Rousseau,2,20,0,0
+1,9/5,Hartford,Champlain Valley,Austin Marchand,2,14,0,1
+2,9/11,Hartford,Rutland,Cole Rousseau,6,96,0,1
+2,9/11,Hartford,Rutland,Austin Marchand,2,32,0,0
+3,9/19,Hartford,Burr & Burton Academy,Cole Rousseau,7,56,0,1
+3,9/19,Hartford,Burr & Burton Academy,Austin Marchand,2,24,0,0
+1,9/4,Lyndon Institute,Spaulding,Trevor Gauthier,3,30,0,0
+1,9/4,Lyndon Institute,Spaulding,Ethan Sherwin,4,32,0,1
+2,9/12,Lyndon Institute,Union-32,Trevor Gauthier,3,48,0,1
+2,9/12,Lyndon Institute,Union-32,Ethan Sherwin,3,24,0,0
+3,9/18,Lyndon Institute,Fair Haven,Trevor Gauthier,7,98,1,0
+3,9/18,Lyndon Institute,Fair Haven,Ethan Sherwin,7,84,1,0
+1,9/4,Brattleboro,Springfield,Colton Sherwin,3,27,0,0
+1,9/4,Brattleboro,Springfield,Aiden Villemaire,7,70,0,1
+2,9/11,Brattleboro,St. Johnsbury,Colton Sherwin,3,33,0,0
+2,9/11,Brattleboro,St. Johnsbury,Aiden Villemaire,2,32,0,0
+3,9/18,Brattleboro,Bellows Falls,Colton Sherwin,6,48,0,0
+3,9/18,Brattleboro,Bellows Falls,Aiden Villemaire,3,27,0,0
+1,9/4,North Country,Bellows Falls,Wyatt Sherwin,5,45,0,0
+1,9/4,North Country,Bellows Falls,Aiden Perron,7,91,1,0
+2,9/11,North Country,Woodstock,Wyatt Sherwin,2,26,1,1
+2,9/11,North Country,Woodstock,Aiden Perron,5,75,1,0
+3,9/18,North Country,Colchester,Wyatt Sherwin,4,36,0,0
+3,9/18,North Country,Colchester,Aiden Perron,4,28,0,1
+1,9/5,Rice Memorial,Fairfax/Lamoille,Hunter Charron,5,45,0,0
+1,9/5,Rice Memorial,Fairfax/Lamoille,Chase Marchand,7,63,1,0
+2,9/12,Rice Memorial,Mt. Mansfield,Hunter Charron,5,55,1,0
+2,9/12,Rice Memorial,Mt. Mansfield,Chase Marchand,4,44,0,1
+3,9/18,Rice Memorial,Otter Valley,Hunter Charron,5,50,1,0
+3,9/18,Rice Memorial,Otter Valley,Chase Marchand,4,64,0,1
+1,9/4,Spaulding,Lyndon Institute,Brody Trombley,5,75,0,0
+1,9/4,Spaulding,Lyndon Institute,Carter Nadeau,2,28,0,0
+2,9/11,Spaulding,Mill River,Brody Trombley,6,72,1,0
+2,9/11,Spaulding,Mill River,Carter Nadeau,5,40,1,1
+3,9/19,Spaulding,Missisquoi,Brody Trombley,7,56,0,0
+3,9/19,Spaulding,Missisquoi,Carter Nadeau,4,44,0,0
+1,9/4,Union-32,Fair Haven,Cody Beaudry,3,42,1,0
+1,9/4,Union-32,Fair Haven,Hunter Poulin,5,45,0,0
+2,9/12,Union-32,Lyndon Institute,Cody Beaudry,7,77,0,1
+2,9/12,Union-32,Lyndon Institute,Hunter Poulin,2,28,1,0
+3,9/19,Union-32,Mt. Mansfield,Cody Beaudry,2,30,0,1
+3,9/19,Union-32,Mt. Mansfield,Hunter Poulin,2,30,0,0
+1,9/4,Bellows Falls,North Country,Jordan Sargent,6,90,0,0
+1,9/4,Bellows Falls,North Country,Brody Boutin,3,24,0,1
+2,9/11,Bellows Falls,Fair Haven,Jordan Sargent,3,45,1,0
+2,9/11,Bellows Falls,Fair Haven,Brody Boutin,3,27,1,1
+3,9/18,Bellows Falls,Brattleboro,Jordan Sargent,2,24,0,0
+3,9/18,Bellows Falls,Brattleboro,Brody Boutin,6,42,0,0
+1,9/5,Fairfax/Lamoille,Rice Memorial,Logan Provost,5,40,1,0
+1,9/5,Fairfax/Lamoille,Rice Memorial,Aiden Ladd,4,52,1,0
+2,9/12,Fairfax/Lamoille,Otter Valley,Logan Provost,4,40,0,0
+2,9/12,Fairfax/Lamoille,Otter Valley,Aiden Ladd,2,18,1,0
+3,9/17,Fairfax/Lamoille,Mt. Abraham,Logan Provost,5,55,1,1
+3,9/17,Fairfax/Lamoille,Mt. Abraham,Aiden Ladd,2,26,0,1
+1,9/5,Mill River,Otter Valley,Wesley Deforge,4,64,0,0
+1,9/5,Mill River,Otter Valley,Connor Kittell,6,66,1,1
+2,9/11,Mill River,Spaulding,Wesley Deforge,2,22,1,0
+2,9/11,Mill River,Spaulding,Connor Kittell,6,78,1,0
+3,9/19,Mill River,Windsor,Wesley Deforge,7,105,1,0
+3,9/19,Mill River,Windsor,Connor Kittell,6,60,0,1
+1,9/4,Milton,Mt. Abraham,Cole Perron,5,35,1,0
+1,9/4,Milton,Mt. Abraham,Mason Whitcomb,3,30,0,0
+2,9/12,Milton,Missisquoi,Cole Perron,5,40,0,0
+2,9/12,Milton,Missisquoi,Mason Whitcomb,4,60,0,0
+1,9/5,Missisquoi,Windsor,Cole Provost,3,42,1,0
+1,9/5,Missisquoi,Windsor,Ethan Lavoie,7,77,1,0
+2,9/12,Missisquoi,Milton,Cole Provost,4,36,1,0
+2,9/12,Missisquoi,Milton,Ethan Lavoie,4,48,0,0
+3,9/19,Missisquoi,Spaulding,Cole Provost,7,63,1,0
+3,9/19,Missisquoi,Spaulding,Ethan Lavoie,6,84,1,1
+1,9/4,Mt. Abraham,Milton,Nathan Roberge,5,75,0,0
+1,9/4,Mt. Abraham,Milton,Trevor Gagnon,3,21,1,1
+2,9/12,Mt. Abraham,Windsor,Nathan Roberge,4,32,1,0
+2,9/12,Mt. Abraham,Windsor,Trevor Gagnon,3,27,1,0
+3,9/17,Mt. Abraham,Fairfax/Lamoille,Nathan Roberge,7,112,0,0
+3,9/17,Mt. Abraham,Fairfax/Lamoille,Trevor Gagnon,7,98,0,0
+1,9/5,Otter Valley,Mill River,Tyler Lavoie,4,40,0,0
+1,9/5,Otter Valley,Mill River,Colton Lavoie,2,32,1,1
+2,9/12,Otter Valley,Fairfax/Lamoille,Tyler Lavoie,6,78,0,0
+2,9/12,Otter Valley,Fairfax/Lamoille,Colton Lavoie,5,35,1,0
+3,9/18,Otter Valley,Rice Memorial,Tyler Lavoie,7,56,0,1
+3,9/18,Otter Valley,Rice Memorial,Colton Lavoie,6,72,1,1
+1,9/4,Springfield,Brattleboro,Hunter Provost,6,90,1,1
+1,9/4,Springfield,Brattleboro,Connor Sherwin,2,30,0,0
+3,9/18,Springfield,Woodstock,Hunter Provost,4,32,0,0
+3,9/18,Springfield,Woodstock,Connor Sherwin,6,90,0,1
+1,9/5,Windsor,Missisquoi,Owen Trombley,6,66,0,0
+1,9/5,Windsor,Missisquoi,Xavier Poulin,2,24,0,0
+2,9/12,Windsor,Mt. Abraham,Owen Trombley,6,84,0,0
+2,9/12,Windsor,Mt. Abraham,Xavier Poulin,2,20,0,1
+3,9/19,Windsor,Mill River,Owen Trombley,4,28,1,0
+3,9/19,Windsor,Mill River,Xavier Poulin,7,84,0,1
+1,9/5,Woodstock,"Newport, NH",Austin Deforge,4,52,1,0
+1,9/5,Woodstock,"Newport, NH",Nathan Boutin,5,60,0,0
+2,9/11,Woodstock,North Country,Austin Deforge,4,48,1,0
+2,9/11,Woodstock,North Country,Nathan Boutin,7,98,0,1
+3,9/18,Woodstock,Springfield,Austin Deforge,7,112,1,0
+3,9/18,Woodstock,Springfield,Nathan Boutin,3,48,0,1
