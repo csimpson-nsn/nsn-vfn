@@ -58,6 +58,9 @@ nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
 .nff-links a{display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;}
 .nff-links a:hover{border-color:var(--gold); color:var(--gold);}
 .nff-links span.dot{width:8px;height:8px;border-radius:50%;background:var(--gold);}
+.nff-links a.primary{padding:20px 32px; font-size:1.1rem; background:var(--field-green); border-color:var(--field-green); color:var(--snow);}
+.nff-links a.primary span.dot{width:11px; height:11px; background:var(--gold);}
+.nff-links a.primary:hover{background:var(--field-green-light); border-color:var(--field-green-light); color:var(--snow);}
 .tab-row{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:24px;}
 .tab-btn{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.8rem; color:var(--steel); background:var(--slate); border:1px solid #262c2e; padding:9px 18px; cursor:pointer; transition:all .15s;}
 .tab-btn:hover{color:var(--snow); border-color:#3a4244;}
@@ -144,9 +147,9 @@ function showTab(group, val, btn){
 <section class="section">
   <div class="wrap">
     <div class="nff-links">
-      <a href="https://www.nffvt.org/" target="_blank" rel="noopener"><span class="dot"></span>NFF Vermont Official Site &#8599;</a>
+      <a href="https://www.nffvt.org/" target="_blank" rel="noopener" class="primary"><span class="dot"></span>NFF Vermont Official Site &#8599;</a>
+      <a href="https://www.nffvt.org/game" target="_blank" rel="noopener" class="primary"><span class="dot"></span>North/South All-Star Game &#8599;</a>
       <a href="https://www.nffvt.org/football-grants" target="_blank" rel="noopener"><span class="dot"></span>Football Grants &#8599;</a>
-      <a href="https://www.nffvt.org/game" target="_blank" rel="noopener"><span class="dot"></span>North/South All-Star Game &#8599;</a>
       <a href="https://www.nffvt.org/about-5" target="_blank" rel="noopener"><span class="dot"></span>Board of Directors &#8599;</a>
       <a href="https://caringcent.org/nff/membership" target="_blank" rel="noopener"><span class="dot"></span>Membership Application &#8599;</a>
     </div>
@@ -156,7 +159,7 @@ function showTab(group, val, btn){
     </div>
 
     <div class="caveat">
-      This page reflects publicly posted honoree data from nffvt.org. <strong>College Inductee</strong> entries are listed by year, but the specific college for each name could not be confirmed from the source page's layout &mdash; check nffvt.org/scholarship-banquet directly for the Castleton/Middlebury/Norwich/UVM breakdown. All other categories are transcribed as clean single-entry lists and should be accurate, but if you spot an error, it's a transcription issue on this end, not a reflection on the honoree &mdash; let us know and we'll fix it.
+      This page reflects publicly posted honoree data from nffvt.org, narrowed to six categories: HS Inductee, Community Service, HS Coach of the Year, HS Honoree, Most Courageous, and Sportsmanship (North &amp; South combined into one tab). Entries are transcribed as clean single-entry lists and should be accurate, but if you spot an error, it's a transcription issue on this end, not a reflection on the honoree &mdash; let us know and we'll fix it.
     </div>
 
     <div class="tab-row" id="categoryTabs"></div>
@@ -184,10 +187,20 @@ async function loadCSV(url){
 
 async function init(){
   try {
-    const rows = await loadCSV("data/NFFInductees.csv");
-    const categories = [...new Set(rows.map(r => r.Category))];
-    // Put HS Inductee first since that's the flagship "Hall of Fame" category
-    categories.sort((a,b) => (a==="HS Inductee"?-1:b==="HS Inductee"?1:a.localeCompare(b)));
+    const rawRows = await loadCSV("data/NFFInductees.csv");
+    // Page now shows only these 6 categories (per Chad's request) — everything else
+    // (Amateur Athletics, College Inductee, Distinguished American, Official of the Year,
+    // Youth Football Achievement) is still in the CSV but no longer surfaced here.
+    // Sportsmanship (Northern) and (Southern) are merged into one combined tab, tagged N/S per entry.
+    const rows = rawRows
+      .filter(r => ["HS Inductee","Community Service","HS Coach of the Year","HS Honoree","Most Courageous","Sportsmanship (Northern)","Sportsmanship (Southern)"].includes(r.Category))
+      .map(r => {
+        if(r.Category === "Sportsmanship (Northern)") return {...r, Category: "Sportsmanship N & S", School: "North"};
+        if(r.Category === "Sportsmanship (Southern)") return {...r, Category: "Sportsmanship N & S", School: "South"};
+        return r;
+      });
+    const categoryOrder = ["HS Inductee","Community Service","HS Coach of the Year","HS Honoree","Most Courageous","Sportsmanship N & S"];
+    const categories = categoryOrder.filter(c => rows.some(r => r.Category === c));
 
     document.getElementById('categoryTabs').innerHTML = categories.map((c,i) =>
       `<button class="tab-btn${i===0?' active':''}" onclick="showTab('nffcat','${c.replace(/'/g,"\\'")}',this)">${c}</button>`
