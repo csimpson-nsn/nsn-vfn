@@ -12,6 +12,7 @@
   --granite:#14181a; --slate:#1f2628; --field-green:#1f5c3a; --field-green-light:#2f7a4f;
   --broadcast-red:#d6332e; --snow:#f3f5f3; --steel:#8b969a; --gold:#d9a13a;
   --team-primary: var(--gold); --team-secondary: var(--field-green-light); --team-text: var(--granite);
+}
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{background:var(--granite); color:var(--snow); font-family:'Barlow',sans-serif; -webkit-font-smoothing:antialiased;}
@@ -56,11 +57,13 @@ header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); 
 .page-hero{
   padding:44px 28px 34px; border-bottom:3px solid var(--team-primary);
   background:linear-gradient(135deg, color-mix(in srgb, var(--team-primary) 22%, transparent), transparent 60%), var(--slate);
+}
 .team-hero-top{display:flex; align-items:center; gap:20px; flex-wrap:wrap;}
 .team-hero-crest{width:74px; height:74px; border-radius:10px; background:#fff; padding:6px; object-fit:contain; flex-shrink:0; border:2px solid var(--team-primary);}
 .page-hero .eyebrow{
   color:var(--team-text); background:var(--team-primary); display:inline-flex; align-items:center; gap:8px;
   margin-bottom:14px; padding:6px 12px; border-radius:3px;
+}
 .page-hero .eyebrow::before{content:""; width:16px; height:2px; background:var(--team-text); opacity:0.6;}
 .page-hero h1{font-size:clamp(2.025rem,5vw,3.225rem);}
 .rank-band{display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:20px; padding-top:18px; border-top:1px solid #2a3133;}
