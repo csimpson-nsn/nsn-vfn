@@ -16,64 +16,64 @@
 html{scroll-behavior:smooth;}
 body{background:var(--granite); color:var(--snow); font-family:'Barlow',sans-serif; -webkit-font-smoothing:antialiased;}
 h1,h2,h3,.display{font-family:'Anton',sans-serif; text-transform:uppercase; letter-spacing:0.02em;}
-.eyebrow{font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.18em; font-size:0.72rem;}
+.eyebrow{font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.18em; font-size:0.845rem;}
 a{color:inherit; text-decoration:none;}
 img{max-width:100%; display:block;}
 .wrap{max-width:1280px; margin:0 auto; padding:0 28px;}
 :focus-visible{outline:3px solid var(--gold); outline-offset:2px;}
 header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); position:sticky; top:0; z-index:50;}
 .nav{display:flex; align-items:center; justify-content:space-between; padding:16px 28px;}
-.logo{display:flex; align-items:center; gap:10px; font-family:'Anton',sans-serif; font-size:1.5rem;}
+.logo{display:flex; align-items:center; gap:10px; font-family:'Anton',sans-serif; font-size:1.625rem; white-space:nowrap;}
 .logo img{height:40px; width:40px; object-fit:contain;}
-.logo span.net{color:var(--steel); font-size:0.95rem; margin-left:2px;}
+.logo span.net{color:var(--steel); font-size:1.075rem; margin-left:2px;}
 nav.links{display:flex; gap:22px; align-items:center;}
-nav.links a{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.85rem; color:var(--snow); padding:6px 2px; border-bottom:2px solid transparent; transition:border-color .15s;}
+nav.links a{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.975rem; color:var(--snow); padding:6px 2px; border-bottom:2px solid transparent; transition:border-color .15s;}
 nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
 .more-menu{position:relative;}
 .more-menu > span{cursor:pointer;}
 .more-dropdown{display:none; position:absolute; top:100%; right:0; background:var(--slate); border:1px solid #262c2e; min-width:220px; padding:6px 0; z-index:60;}
 .more-menu:hover .more-dropdown{display:block;}
-.more-dropdown a{display:block; padding:12px 18px; border-bottom:1px solid #262c2e; font-size:0.82rem;}
+.more-dropdown a{display:block; padding:12px 18px; border-bottom:1px solid #262c2e; font-size:0.945rem;}
 .more-dropdown a:last-child{border-bottom:none;}
 .more-dropdown a:hover{background:#252c2e; color:var(--gold);}
-.watch-btn{display:inline-block; background:var(--broadcast-red); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.85rem; padding:11px 22px; border:none; cursor:pointer; transform:skew(-6deg);}
+.watch-btn{display:inline-block; background:var(--broadcast-red); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.975rem; padding:11px 22px; border:none; cursor:pointer; transform:skew(-6deg);}
 .watch-btn span{display:block; transform:skew(6deg);}
 .watch-btn:hover{background:#b9261f;}
-.menu-toggle{display:none; background:none; border:none; color:var(--snow); font-size:1.6rem; cursor:pointer;}
-@media (max-width:900px){nav.links{display:none;} .menu-toggle{display:block;}}
+.menu-toggle{display:none; background:none; border:none; color:var(--snow); font-size:1.725rem; cursor:pointer;}
+@media (max-width:1450px){nav.links{display:none;} .menu-toggle{display:block;}}
 .mobile-menu{display:none; flex-direction:column; background:var(--slate); border-top:1px solid #262c2e;}
 .mobile-menu.open{display:flex;}
-.mobile-menu a{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.95rem; color:var(--snow); padding:16px 28px; border-bottom:1px solid #262c2e;}
+.mobile-menu a{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:1.075rem; color:var(--snow); padding:16px 28px; border-bottom:1px solid #262c2e;}
 .mobile-menu a:hover, .mobile-menu a.active{color:var(--gold); background:#252c2e;}
 .page-hero{padding:54px 28px 38px; border-bottom:1px solid #24292b; background:linear-gradient(135deg, rgba(31,92,58,0.35), transparent 60%), var(--slate);}
 .page-hero .eyebrow{color:var(--gold); display:flex; align-items:center; gap:10px; margin-bottom:12px;}
 .page-hero .eyebrow::before{content:""; width:28px; height:2px; background:var(--gold);}
-.page-hero h1{font-size:clamp(2rem,5vw,3.4rem);}
-.page-hero p{color:var(--steel); max-width:680px; margin-top:12px; font-size:1rem; line-height:1.55;}
+.page-hero h1{font-size:clamp(2.125rem,5vw,3.525rem);}
+.page-hero p{color:var(--steel); max-width:680px; margin-top:12px; font-size:1.125rem; line-height:1.55;}
 .section{padding:54px 28px;}
 .section-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; border-bottom:1px solid #262c2e; padding-bottom:16px;}
 .section-head .eyebrow{color:var(--field-green-light); margin-bottom:6px; display:block;}
-.section-head h2{font-size:clamp(1.4rem,3vw,2rem);}
+.section-head h2{font-size:clamp(1.525rem,3vw,2.125rem);}
 .article-list{display:flex; flex-direction:column; gap:1px; background:#262c2e; border:1px solid #262c2e;}
 .article-row{background:var(--slate); padding:20px 22px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;}
-.article-row .meta{font-family:'Barlow Condensed',sans-serif; font-size:0.78rem; color:var(--steel); margin-top:6px;}
-.article-row h3{font-size:1rem;}
-.article-row p{color:var(--steel); font-size:0.86rem; margin-top:8px; max-width:640px; line-height:1.5;}
-.empty-note{color:var(--steel); font-size:0.88rem; padding:16px 0;}
+.article-row .meta{font-family:'Barlow Condensed',sans-serif; font-size:0.905rem; color:var(--steel); margin-top:6px;}
+.article-row h3{font-size:1.125rem;}
+.article-row p{color:var(--steel); font-size:0.985rem; margin-top:8px; max-width:640px; line-height:1.5;}
+.empty-note{color:var(--steel); font-size:1.005rem; padding:16px 0;}
 footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--broadcast-red);}
 .footer-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr 1fr; gap:28px; padding-bottom:28px;}
 @media (max-width:980px){.footer-grid{grid-template-columns:1fr 1fr 1fr;}}
 @media (max-width:640px){.footer-grid{grid-template-columns:1fr 1fr;}}
-.footer-col h4{font-family:'Barlow Condensed',sans-serif; font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--steel); margin-bottom:14px;}
-.footer-col a{display:block; font-size:0.92rem; color:var(--snow); margin-bottom:10px; opacity:0.85;}
+.footer-col h4{font-family:'Barlow Condensed',sans-serif; font-size:0.905rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--steel); margin-bottom:14px;}
+.footer-col a{display:block; font-size:1.045rem; color:var(--snow); margin-bottom:10px; opacity:0.85;}
 .footer-col a:hover{opacity:1; color:var(--field-green-light);}
-.footer-bottom{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; border-top:1px solid #1d2224; padding-top:20px; font-family:'Barlow Condensed',sans-serif; font-size:0.78rem; color:var(--steel);}
+.footer-bottom{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; border-top:1px solid #1d2224; padding-top:20px; font-family:'Barlow Condensed',sans-serif; font-size:0.905rem; color:var(--steel);}
 .nsn-subfooter{display:flex; align-items:center; gap:18px; margin-top:22px; padding-top:20px; border-top:1px solid #1d2224; flex-wrap:wrap;}
 .nsn-logo-video{width:70px; height:70px; object-fit:cover; border-radius:6px; background:#000; flex-shrink:0;}
-.nsn-subfooter-text .nsn-name{font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; font-size:0.85rem; color:var(--snow);}
-.nsn-subfooter-text a{font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.85rem; color:var(--gold);}
+.nsn-subfooter-text .nsn-name{font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; font-size:0.975rem; color:var(--snow);}
+.nsn-subfooter-text a{font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.975rem; color:var(--gold);}
 .nsn-subfooter-text a:hover{color:var(--snow);}
-.nsn-subfooter-text .nsn-tagline{font-size:0.78rem; color:var(--steel); margin-top:4px; max-width:520px; line-height:1.4;}
+.nsn-subfooter-text .nsn-tagline{font-size:0.905rem; color:var(--steel); margin-top:4px; max-width:520px; line-height:1.4;}
 </style>
 <script>
 function toggleMobileMenu(){ document.getElementById('mobileMenu').classList.toggle('open'); }
@@ -129,7 +129,7 @@ function toggleMobileMenu(){ document.getElementById('mobileMenu').classList.tog
     <div class="section-head">
       <div><span class="eyebrow">Archive</span><h2>All Articles</h2></div>
     </div>
-    <div id="articlesStatus" style="color:var(--steel); font-family:'Barlow Condensed',sans-serif; font-size:0.85rem; margin-bottom:18px;">Loading articles&hellip;</div>
+    <div id="articlesStatus" style="color:var(--steel); font-family:'Barlow Condensed',sans-serif; font-size:0.975rem; margin-bottom:18px;">Loading articles&hellip;</div>
     <div class="article-list" id="articleList"></div>
   </div>
 </section>
@@ -177,8 +177,8 @@ init();
   <div class="wrap">
     <div class="footer-grid">
       <div class="footer-col">
-        <a href="index.html" class="logo" style="font-size:1.2rem; margin-bottom:14px;"><img src="assets/vfn-logo.jpg" alt="VFN" style="height:28px;width:28px;"> VERMONT FOOTBALL <span class="net">NETWORK</span></a>
-        <p style="color:var(--steel); font-size:0.88rem; max-width:280px; line-height:1.6; margin-top:14px;">A Northeast Sports Network production. Bringing Vermont high school football to every living room, every game night.</p>
+        <a href="index.html" class="logo" style="font-size:1.325rem; margin-bottom:14px;"><img src="assets/vfn-logo.jpg" alt="VFN" style="height:28px;width:28px;"> VERMONT FOOTBALL <span class="net">NETWORK</span></a>
+        <p style="color:var(--steel); font-size:1.005rem; max-width:280px; line-height:1.6; margin-top:14px;">A Northeast Sports Network production. Bringing Vermont high school football to every living room, every game night.</p>
       </div>
       <div class="footer-col">
         <h4>Watch</h4>
