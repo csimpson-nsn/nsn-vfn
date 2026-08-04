@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Schedule | Vermont Football Network</title>
+<title>Live Scores | Vermont Football Network</title>
 <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <style>
@@ -103,6 +103,21 @@ header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); 
 .sponsor-badge a:hover{color:var(--snow);}
 .empty-note{color:var(--steel); font-size:1.005rem; padding:16px 0;}
 
+.live-dot{width:9px; height:9px; border-radius:50%; background:var(--broadcast-red); display:inline-block; margin-right:7px; animation:liveDotPulse 1.4s infinite;}
+@keyframes liveDotPulse{
+  0%{box-shadow:0 0 0 0 rgba(214,51,46,0.65);}
+  70%{box-shadow:0 0 0 8px rgba(214,51,46,0);}
+  100%{box-shadow:0 0 0 0 rgba(214,51,46,0);}
+}
+.live-card{display:block; background:var(--slate); border:1px solid var(--broadcast-red); padding:18px; transition:border-color .15s, transform .15s;}
+.live-card.clickable:hover{transform:translateY(-2px); border-color:var(--gold);}
+.live-status{display:flex; align-items:center; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--broadcast-red); margin-bottom:12px;}
+.watch-hint{font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.845rem; color:var(--gold); border-top:1px solid #262c2e; padding-top:10px; margin-top:12px;}
+.watch-hint.muted{color:var(--steel); font-weight:500;}
+.final-recent-grid{opacity:0.85;}
+.live-refresh-note{font-family:'Barlow Condensed',sans-serif; font-size:0.845rem; color:var(--steel); display:flex; align-items:center; gap:8px; margin-bottom:20px;}
+.live-refresh-note .pulse-sm{width:6px; height:6px; border-radius:50%; background:var(--field-green-light); display:inline-block; animation:liveDotPulse 1.8s infinite;}
+
 footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--broadcast-red);}
 .footer-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr 1fr; gap:28px; padding-bottom:28px;}
 @media (max-width:980px){.footer-grid{grid-template-columns:1fr 1fr 1fr;}}
@@ -153,8 +168,8 @@ function toggleMobileMenu(){
   </div>
   <div class="mobile-menu" id="mobileMenu">
     <a href="index.html">Home</a>
-    <a href="live-scores.html">Live Scores</a>
-    <a href="schedule.html" class="active">Schedule</a>
+    <a href="live-scores.html" class="active">Live Scores</a>
+    <a href="schedule.html">Schedule</a>
     <a href="standings.html">Standings</a>
     <a href="teams.html">Teams</a>
     <a href="statistics.html">Statistics</a>
@@ -167,15 +182,15 @@ function toggleMobileMenu(){
 
 <section class="page-hero">
   <div class="wrap">
-    <span class="eyebrow">2026 Season &middot; Weeks 1&ndash;8</span>
-    <h1>Schedule</h1>
-    <p>Full VIFL schedule by division. Loaded live from the season spreadsheet — scores update automatically once each week's games are entered.</p>
+    <span class="eyebrow">Updated Every Quarter</span>
+    <h1>Live Scores</h1>
+    <p>Real-time scores from broadcasted VIFL games, submitted by sideline stat-keepers after each quarter. Tap a live game to jump straight to its broadcast.</p>
   </div>
 </section>
 
 <section class="page-sponsor-banner">
   <div class="wrap inner">
-    <div><span class="ts-tag">Schedule Page Sponsor</span><span class="ts-name">[Open &mdash; Inquire About This Placement]</span></div>
+    <div><span class="ts-tag">Live Scores Page Sponsor</span><span class="ts-name">[Open &mdash; Inquire About This Placement]</span></div>
     <a href="#" class="section-link">Become a Sponsor &rarr;</a>
   </div>
 </section>
@@ -183,15 +198,20 @@ function toggleMobileMenu(){
 <section class="section">
   <div class="wrap">
     <div class="section-head">
-      <div><span class="eyebrow">2026 VIFL</span><h2>Schedule by Division</h2></div>
+      <div><span class="eyebrow">Friday Night</span><h2>Live Now</h2></div>
     </div>
-    <div class="tab-row">
-      <button class="tab-btn active" onclick="showTab('schedDiv','D-I',this)">Division I</button>
-      <button class="tab-btn" onclick="showTab('schedDiv','D-II',this)">Division II</button>
-      <button class="tab-btn" onclick="showTab('schedDiv','D-III',this)">Division III</button>
+    <div class="live-refresh-note"><span class="pulse-sm"></span>This page checks for updated scores automatically about once a minute.</div>
+    <div id="liveStatus" style="color:var(--steel); font-family:'Barlow Condensed',sans-serif; font-size:0.975rem; margin-bottom:18px;">Loading live scores&hellip;</div>
+    <div id="liveGrid" class="games-grid"></div>
+  </div>
+</section>
+
+<section class="section" style="border-top:1px solid #262c2e;">
+  <div class="wrap">
+    <div class="section-head">
+      <div><span class="eyebrow">Just Wrapped</span><h2>Recently Final</h2></div>
     </div>
-    <div id="schedStatus" style="color:var(--steel); font-family:'Barlow Condensed',sans-serif; font-size:0.975rem; margin-bottom:18px;">Loading schedule&hellip;</div>
-    <div id="schedTables"></div>
+    <div id="finalGrid" class="games-grid final-recent-grid"></div>
   </div>
 </section>
 
@@ -258,111 +278,85 @@ function findTitleSponsor(week, teamA, teamB){
   return row ? SPONSOR_MAP[row["SponsorTag"]] : null;
 }
 
-function sponsorBadgeHTML(sponsors){
-  if(!sponsors) return '';
-  return `<div class="sponsor-badge">Presented by ${sponsors.map(s => `<a href="${s.url}" target="_blank" rel="noopener">${s.name}</a>`).join(' &amp; ')}</div>`;
+// LiveScores.csv is append-only: every quarter-end submission from the Google Form
+// adds a NEW row rather than overwriting one. So for each game we take the row with
+// the latest Timestamp as its current state.
+function latestRowPerGame(rows){
+  const latest = {};
+  rows.forEach(r => {
+    const key = [r["Week"], r["Team1"], r["Team2"]].join("|");
+    const prev = latest[key];
+    if(!prev || new Date(r["Timestamp"]) > new Date(prev["Timestamp"])) latest[key] = r;
+  });
+  return Object.values(latest);
 }
 
-function gameCardHTML(g){
-  const s1 = g["Team1Score"], s2 = g["Team2Score"];
-  const played = s1 !== "" && s2 !== "";
-  const status = played ? "Final" : `${g["Date"] || "TBD"}${g["Time"] ? " &middot; " + g["Time"] : ""}`;
-  const score1 = played ? s1 : "&mdash;";
-  const score2 = played ? s2 : "&mdash;";
-  const scoreClass = played ? "score final" : "score";
-  let wl1 = "", wl2 = "";
-  if(played){
-    const n1 = Number(s1), n2 = Number(s2);
-    if(n1 > n2){ wl1 = '<span class="wl-badge wl-w">W</span>'; wl2 = '<span class="wl-badge wl-l">L</span>'; }
-    else if(n2 > n1){ wl1 = '<span class="wl-badge wl-l">L</span>'; wl2 = '<span class="wl-badge wl-w">W</span>'; }
-    else { wl1 = '<span class="wl-badge wl-t">T</span>'; wl2 = '<span class="wl-badge wl-t">T</span>'; }
-  }
-  const sponsors = findTitleSponsor(g["Week"], g["Team1"], g["Team2"]);
-  return `<div class="game-card">
-    <span class="game-status">${status}</span>
+function liveCardHTML(g){
+  const s1 = g["Team1Score"] || "0", s2 = g["Team2Score"] || "0";
+  const n1 = Number(s1), n2 = Number(s2);
+  const lead1 = n1 > n2 ? "score final" : "score";
+  const lead2 = n2 > n1 ? "score final" : "score";
+  const url = (g["BroadcastURL"] || "").trim();
+  const tag = url ? "a" : "div";
+  const openTag = url
+    ? `<a href="${url}" target="_blank" rel="noopener" class="live-card clickable">`
+    : `<div class="live-card">`;
+  return `${openTag}
+    <span class="live-status"><span class="live-dot"></span>Live &middot; ${g["Quarter"]}</span>
     <div class="matchup">
-      <div class="team-row">${teamChip(g["Team1"])}<span class="team-score-wrap">${wl1}<span class="${scoreClass}">${score1}</span></span></div>
-      <div class="team-row">${teamChip(g["Team2"])}<span class="team-score-wrap">${wl2}<span class="${scoreClass}">${score2}</span></span></div>
+      <div class="team-row">${teamChip(g["Team1"])}<span class="${lead1}">${s1}</span></div>
+      <div class="team-row">${teamChip(g["Team2"])}<span class="${lead2}">${s2}</span></div>
     </div>
-    <div class="game-meta">Week ${g["Week"]}</div>
-    ${sponsorBadgeHTML(sponsors)}
+    ${url ? '<div class="watch-hint">Watch This Broadcast &rarr;</div>' : '<div class="watch-hint muted">Score only &mdash; no live video for this game</div>'}
+  </${tag}>`;
+}
+
+function finalCardHTML(g){
+  const s1 = g["Team1Score"] || "0", s2 = g["Team2Score"] || "0";
+  const n1 = Number(s1), n2 = Number(s2);
+  let wl1 = "", wl2 = "";
+  if(n1 > n2){ wl1 = '<span class="wl-badge wl-w">W</span>'; wl2 = '<span class="wl-badge wl-l">L</span>'; }
+  else if(n2 > n1){ wl1 = '<span class="wl-badge wl-l">L</span>'; wl2 = '<span class="wl-badge wl-w">W</span>'; }
+  else { wl1 = '<span class="wl-badge wl-t">T</span>'; wl2 = '<span class="wl-badge wl-t">T</span>'; }
+  return `<div class="game-card">
+    <span class="game-status">Final</span>
+    <div class="matchup">
+      <div class="team-row">${teamChip(g["Team1"])}<span class="team-score-wrap">${wl1}<span class="score final">${s1}</span></span></div>
+      <div class="team-row">${teamChip(g["Team2"])}<span class="team-score-wrap">${wl2}<span class="score final">${s2}</span></span></div>
+    </div>
   </div>`;
 }
 
-function divisionsForGame(g){
-  const d1 = TEAMS[g["Team1"]] ? TEAMS[g["Team1"]].div : null;
-  const d2 = TEAMS[g["Team2"]] ? TEAMS[g["Team2"]].div : null;
-  const set = new Set();
-  if(d1) set.add(d1);
-  if(d2) set.add(d2);
-  return set;
-}
+async function loadLiveScores(){
+  try {
+    const rows = await loadCSV("data/LiveScores.csv");
+    const entries = latestRowPerGame(rows);
+    const live = entries.filter(r => r["Quarter"] !== "Final");
+    const final = entries.filter(r => r["Quarter"] === "Final");
 
-const SEASON_YEAR = 2026; // update at the start of each new season
+    document.getElementById('liveGrid').innerHTML = live.length
+      ? live.map(liveCardHTML).join('')
+      : '<p class="empty-note">No games are live right now. Check back Friday night.</p>';
 
-function parseGameDate(dateStr){
-  const [m,d] = dateStr.split('/').map(Number);
-  return new Date(SEASON_YEAR, m-1, d);
-}
-// Current week = the earliest week that hasn't yet passed its Sunday cutoff
-// (each week's Thu/Fri/Sat games are final as of the Sunday that follows).
-function getCurrentWeek(scheduleRows){
-  const weekLatest = {};
-  scheduleRows.forEach(g => {
-    const wk = Number(g["Week"]);
-    const d = parseGameDate(g["Date"]);
-    if(!weekLatest[wk] || d > weekLatest[wk]) weekLatest[wk] = d;
-  });
-  const weeks = Object.keys(weekLatest).map(Number).sort((a,b) => a-b);
-  const today = new Date(); today.setHours(0,0,0,0);
-  for(const wk of weeks){
-    const lastGameDate = weekLatest[wk];
-    const sundayAfter = new Date(lastGameDate);
-    sundayAfter.setDate(sundayAfter.getDate() + ((7 - lastGameDate.getDay()) % 7));
-    sundayAfter.setHours(0,0,0,0);
-    if(today < sundayAfter) return wk;
+    document.getElementById('finalGrid').innerHTML = final.length
+      ? final.map(finalCardHTML).join('')
+      : '<p class="empty-note">Nothing wrapped up yet tonight.</p>';
+
+    const now = new Date();
+    document.getElementById('liveStatus').textContent = live.length
+      ? `${live.length} game${live.length === 1 ? '' : 's'} live \u2014 last checked ${now.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'})}`
+      : `No live games \u2014 last checked ${now.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'})}`;
+  } catch(err){
+    document.getElementById('liveStatus').innerHTML = 'Could not load live scores. Make sure data/LiveScores.csv is uploaded and reachable.';
+    console.error(err);
   }
-  return weeks.length ? weeks[weeks.length-1] : 1;
 }
 
 async function init(){
-  try {
-    await Promise.all([loadTeams(), loadSponsorDirectory()]);
-    const games = await loadCSV("data/Schedule.csv");
-    try { TITLE_SPONSORS = await loadCSV("data/TitleSponsors.csv"); } catch(e) { console.warn("No title sponsor data yet:", e); }
-    const currentWeek = getCurrentWeek(games);
-    const byDivWeek = { "D-I": {}, "D-II": {}, "D-III": {} };
-
-    games.forEach(g => {
-      const divs = divisionsForGame(g);
-      divs.forEach(div => {
-        const wk = g["Week"];
-        if(!byDivWeek[div][wk]) byDivWeek[div][wk] = [];
-        byDivWeek[div][wk].push(g);
-      });
-    });
-
-    const container = document.getElementById('schedTables');
-    container.innerHTML = Object.entries(byDivWeek).map(([div, weeks]) => {
-      const allWeekNums = Object.keys(weeks).map(Number).sort((a,b)=>a-b);
-      // Reorder so the current week leads, followed by remaining upcoming weeks, then past weeks at the end.
-      const upcoming = allWeekNums.filter(w => w >= currentWeek);
-      const past = allWeekNums.filter(w => w < currentWeek);
-      const weekNums = [...upcoming, ...past];
-      const blocksHTML = weekNums.map(wk => `
-        <div class="week-block">
-          <h3>Week ${wk}${wk === currentWeek ? ' <span class="current-week-badge">Current Week</span>' : ''}</h3>
-          <div class="games-grid">${weeks[wk].map(gameCardHTML).join('')}</div>
-        </div>
-      `).join('');
-      return `<div data-group="schedDiv" data-val="${div}" style="${div==='D-I' ? '' : 'display:none;'}">${blocksHTML || '<p class="empty-note">No games found for this division.</p>'}</div>`;
-    }).join('');
-
-    document.getElementById('schedStatus').textContent = `Showing ${games.length} games across the 2026 season \u2014 Week ${currentWeek} is current.`;
-  } catch(err){
-    document.getElementById('schedStatus').innerHTML = 'Could not load the schedule. Make sure data/Schedule.csv is uploaded and reachable.';
-    console.error(err);
-  }
+  try { await loadTeams(); } catch(e) { console.warn("Could not load team directory:", e); }
+  await loadLiveScores();
+  // Poll for updates so scores move without the visitor refreshing the page.
+  setInterval(loadLiveScores, 45000);
 }
 init();
 </script>
@@ -376,6 +370,7 @@ init();
       </div>
       <div class="footer-col">
         <h4>Watch</h4>
+        <a href="live-scores.html">Live Scores</a>
         <a href="schedule.html">Full Schedule</a>
         <a href="index.html#video-archive">Video Archive</a>
         <a href="index.html#highlights">Highlights</a>

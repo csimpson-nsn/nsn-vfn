@@ -128,6 +128,11 @@ header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); 
 .team-row{display:flex; align-items:center; justify-content:space-between;}
 .team{display:flex; align-items:center; gap:10px; font-weight:600; font-size:1.045rem;}
 .score{font-family:'Anton',sans-serif; font-size:1.225rem; color:var(--steel);}
+.team-score-wrap{display:flex; align-items:center; gap:8px;}
+.wl-badge{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.775rem; letter-spacing:0.04em; width:20px; height:20px; border-radius:4px; display:inline-flex; align-items:center; justify-content:center;}
+.wl-badge.wl-w{background:rgba(47,122,79,0.18); color:var(--field-green-light);}
+.wl-badge.wl-l{background:rgba(214,51,46,0.15); color:var(--broadcast-red);}
+.wl-badge.wl-t{background:rgba(139,150,154,0.15); color:var(--steel);}
 .game-meta{font-family:'Barlow Condensed',sans-serif; font-size:0.885rem; color:var(--steel); border-top:1px solid #262c2e; padding-top:10px;}
 .sponsor-badge{font-family:'Barlow Condensed',sans-serif; font-size:0.845rem; color:var(--gold); margin-top:6px;}
 .sponsor-badge a{color:var(--gold); text-decoration:underline; text-decoration-color:rgba(217,161,58,0.4);}
@@ -204,6 +209,7 @@ function toggleMobileMenu(){
   </div>
   <div class="mobile-menu" id="mobileMenu">
     <a href="index.html" class="active">Home</a>
+    <a href="live-scores.html">Live Scores</a>
     <a href="schedule.html">Schedule</a>
     <a href="standings.html">Standings</a>
     <a href="teams.html">Teams</a>
@@ -408,13 +414,20 @@ async function renderHomeSchedule(){
       const status = played ? "Final" : `${g["Date"]}${g["Time"] ? " &middot; " + g["Time"] : ""}`;
       const s1 = played ? g["Team1Score"] : "&mdash;";
       const s2 = played ? g["Team2Score"] : "&mdash;";
+      let wl1 = "", wl2 = "";
+      if(played){
+        const n1 = Number(g["Team1Score"]), n2 = Number(g["Team2Score"]);
+        if(n1 > n2){ wl1 = '<span class="wl-badge wl-w">W</span>'; wl2 = '<span class="wl-badge wl-l">L</span>'; }
+        else if(n2 > n1){ wl1 = '<span class="wl-badge wl-l">L</span>'; wl2 = '<span class="wl-badge wl-w">W</span>'; }
+        else { wl1 = '<span class="wl-badge wl-t">T</span>'; wl2 = '<span class="wl-badge wl-t">T</span>'; }
+      }
       const sponsors = findTitleSponsor(g["Week"], g["Team1"], g["Team2"]);
       return `
       <div class="game-card">
         <span class="game-status">${status}</span>
         <div class="matchup">
-          <div class="team-row"><div class="team">${vfnCrest(g["Team1"])}${g["Team1"]}</div><span class="score">${s1}</span></div>
-          <div class="team-row"><div class="team">${vfnCrest(g["Team2"])}${g["Team2"]}</div><span class="score">${s2}</span></div>
+          <div class="team-row"><div class="team">${vfnCrest(g["Team1"])}${g["Team1"]}</div><span class="team-score-wrap">${wl1}<span class="score">${s1}</span></span></div>
+          <div class="team-row"><div class="team">${vfnCrest(g["Team2"])}${g["Team2"]}</div><span class="team-score-wrap">${wl2}<span class="score">${s2}</span></span></div>
         </div>
         <div class="game-meta">${gameMeta(g["Team1"], g["Team2"])}</div>
         ${sponsorBadgeHTML(sponsors)}
