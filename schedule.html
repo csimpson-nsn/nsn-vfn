@@ -22,6 +22,8 @@ img{max-width:100%; display:block;}
 :focus-visible{outline:3px solid var(--gold); outline-offset:2px;}
 
 header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); position:sticky; top:0; z-index:50;}
+.nav{display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 28px;}
+.logo{display:flex; align-items:center; gap:10px; font-family:'Anton',sans-serif; font-size:1.625rem; white-space:nowrap; min-width:0; overflow:hidden; text-overflow:ellipsis;}
 .logo img{height:40px; width:40px; object-fit:contain; flex-shrink:0;}
 .logo span.net{color:var(--steel); font-size:1.075rem; margin-left:2px;}
 .wordmark-short{display:none;}
@@ -128,11 +130,13 @@ function showTab(group, val, btn){
   });
   btn.parentElement.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
   btn.classList.add('active');
+}
 </script>
 <script>
 function toggleMobileMenu(){
   var m = document.getElementById('mobileMenu');
   if(m) m.classList.toggle('open');
+}
 </script>
 </head>
 <body>
@@ -206,6 +210,7 @@ async function loadTeams(){
       mascot: row.Mascot, cancelled: row.Cancelled === "true"
     };
   });
+}
 
 function parseCSV(text){
   const lines = text.trim().split(/\r?\n/);
@@ -216,12 +221,14 @@ function parseCSV(text){
     headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
     return row;
   });
+}
 function num(v){ return parseFloat(v) || 0; }
 
 async function loadCSV(url){
   const r = await fetch(url);
   if(!r.ok) throw new Error("Could not load " + url);
   return parseCSV(await r.text());
+}
 
 function teamChip(name){
   const info = TEAMS[name];
@@ -231,6 +238,7 @@ function teamChip(name){
   const href = info ? `team.html?team=${encodeURIComponent(name)}` : null;
   const inner = `${logoImg}${name}`;
   return href ? `<a href="${href}" class="team">${inner}</a>` : `<div class="team">${inner}</div>`;
+}
 
 // Sponsor tag -> full name(s) + link now lives in one place: data/SponsorDirectory.csv
 let SPONSOR_MAP = {};
@@ -240,6 +248,7 @@ async function loadSponsorDirectory(){
     if(!SPONSOR_MAP[row.SponsorTag]) SPONSOR_MAP[row.SponsorTag] = [];
     SPONSOR_MAP[row.SponsorTag].push({name: row.Name, url: row.URL});
   });
+}
 let TITLE_SPONSORS = []; // loaded from data/TitleSponsors.csv in init()
 
 function findTitleSponsor(week, teamA, teamB){
@@ -248,10 +257,12 @@ function findTitleSponsor(week, teamA, teamB){
     ((r["TeamA"] === teamA && r["TeamB"] === teamB) || (r["TeamA"] === teamB && r["TeamB"] === teamA))
   );
   return row ? SPONSOR_MAP[row["SponsorTag"]] : null;
+}
 
 function sponsorBadgeHTML(sponsors){
   if(!sponsors) return '';
   return `<div class="sponsor-badge">Presented by ${sponsors.map(s => `<a href="${s.url}" target="_blank" rel="noopener">${s.name}</a>`).join(' &amp; ')}</div>`;
+}
 
 function gameCardHTML(g){
   const s1 = g["Team1Score"], s2 = g["Team2Score"];
@@ -277,6 +288,7 @@ function gameCardHTML(g){
     <div class="game-meta">Week ${g["Week"]}</div>
     ${sponsorBadgeHTML(sponsors)}
   </div>`;
+}
 
 function divisionsForGame(g){
   const d1 = TEAMS[g["Team1"]] ? TEAMS[g["Team1"]].div : null;
@@ -285,12 +297,14 @@ function divisionsForGame(g){
   if(d1) set.add(d1);
   if(d2) set.add(d2);
   return set;
+}
 
 const SEASON_YEAR = 2026; // update at the start of each new season
 
 function parseGameDate(dateStr){
   const [m,d] = dateStr.split('/').map(Number);
   return new Date(SEASON_YEAR, m-1, d);
+}
 // Current week = the earliest week that hasn't yet passed its Sunday cutoff
 // (each week's Thu/Fri/Sat games are final as of the Sunday that follows).
 function getCurrentWeek(scheduleRows){
@@ -310,6 +324,7 @@ function getCurrentWeek(scheduleRows){
     if(today < sundayAfter) return wk;
   }
   return weeks.length ? weeks[weeks.length-1] : 1;
+}
 
 async function init(){
   try {
@@ -349,6 +364,7 @@ async function init(){
     document.getElementById('schedStatus').innerHTML = 'Could not load the schedule. Make sure data/Schedule.csv is uploaded and reachable.';
     console.error(err);
   }
+}
 init();
 </script>
 

@@ -22,6 +22,8 @@ img{max-width:100%; display:block;}
 :focus-visible{outline:3px solid var(--gold); outline-offset:2px;}
 
 header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); position:sticky; top:0; z-index:50;}
+.nav{display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 28px;}
+.logo{display:flex; align-items:center; gap:10px; font-family:'Anton',sans-serif; font-size:1.625rem; white-space:nowrap; min-width:0; overflow:hidden; text-overflow:ellipsis;}
 .logo img{height:40px; width:40px; object-fit:contain; flex-shrink:0;}
 .logo span.net{color:var(--steel); font-size:1.075rem; margin-left:2px;}
 .wordmark-short{display:none;}
@@ -151,6 +153,7 @@ footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--br
 <script>
 function toggleMobileMenu(){
   document.querySelector('.mobile-menu').classList.toggle('open');
+}
 
 // Everything below renders from data files instead of hand-written HTML:
 //   data/POTWNominees.csv — this week's 3 division nominees + the Network Nod
@@ -167,10 +170,12 @@ function parseCSV(text){
     headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
     return row;
   });
+}
 async function loadCSV(url){
   const r = await fetch(url);
   if(!r.ok) throw new Error("Could not load " + url);
   return parseCSV(await r.text());
+}
 
 function catPillClass(cat){ return cat === "Network Nod" ? "cat-pill nod" : "cat-pill div"; }
 
@@ -250,6 +255,7 @@ async function init(){
     document.getElementById('nodContainer').innerHTML = "<p class=\"empty-note\" style=\"color:var(--steel);\">Could not load this week's honorees. Make sure data/POTWNominees.csv and data/Teams.csv are uploaded and reachable.</p>";
     document.getElementById('archiveStatus').textContent = "Could not load archive. Make sure data/POTWArchive.csv is uploaded and reachable.";
   }
+}
 init();
 </script>
 </head>

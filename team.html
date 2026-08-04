@@ -23,6 +23,8 @@ img{max-width:100%; display:block;}
 :focus-visible{outline:3px solid var(--gold); outline-offset:2px;}
 
 header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); position:sticky; top:0; z-index:50;}
+.nav{display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 28px;}
+.logo{display:flex; align-items:center; gap:10px; font-family:'Anton',sans-serif; font-size:1.625rem; white-space:nowrap; min-width:0; overflow:hidden; text-overflow:ellipsis;}
 .logo img{height:40px; width:40px; object-fit:contain; flex-shrink:0;}
 .logo span.net{color:var(--steel); font-size:1.075rem; margin-left:2px;}
 .wordmark-short{display:none;}
@@ -131,6 +133,7 @@ footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--br
 function toggleMobileMenu(){
   var m = document.getElementById('mobileMenu');
   if(m) m.classList.toggle('open');
+}
 </script>
 </head>
 <body>
@@ -230,6 +233,7 @@ async function loadTeams(){
       t1: row.TextColor, mascot: row.Mascot, cancelled: row.Cancelled === "true"
     };
   });
+}
 
 const DATA_CSV_URLS = {
   roster:    "data/Roster.csv",
@@ -251,6 +255,7 @@ function parseCSV(text){
     headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
     return row;
   });
+}
 function num(v){ return parseFloat(v) || 0; }
 function fmt1(n){ return (Math.round(n*10)/10).toFixed(1); }
 
@@ -258,6 +263,7 @@ async function loadCSV(url){
   const r = await fetch(url);
   if(!r.ok) throw new Error("Could not load " + url);
   return parseCSV(await r.text());
+}
 
 function aggregateByPlayer(rows, team, sumFields){
   const players = {};
@@ -271,6 +277,7 @@ function aggregateByPlayer(rows, team, sumFields){
     sumFields.forEach(f => players[key][f] += num(r[f]));
   });
   return Object.values(players);
+}
 
 // Team-level offense/defense across ALL teams — same logic as statistics.html, needed here to compute
 // this team's totals plus its rank against divisional peers.
@@ -284,6 +291,7 @@ function aggregateTeamOffense(passingRows, rushingRows){
     team: t.team, RushYds:t.RushYds, PassYds:t.PassYds, TotalYds:t.RushYds+t.PassYds,
     RushTD:t.RushTD, PassTD:t.PassTD, TotalTD:t.RushTD+t.PassTD,
   }));
+}
 function aggregateTeamDefense(passingRows, rushingRows){
   const teams = {};
   function ensure(t){ if(!teams[t]) teams[t] = {team:t, RushYds:0, PassYds:0, RushTD:0, PassTD:0}; return teams[t]; }
@@ -294,6 +302,7 @@ function aggregateTeamDefense(passingRows, rushingRows){
     team: t.team, RushYdsAllowed:t.RushYds, PassYdsAllowed:t.PassYds, TotalYdsAllowed:t.RushYds+t.PassYds,
     RushTDAllowed:t.RushTD, PassTDAllowed:t.PassTD, TotalTDAllowed:t.RushTD+t.PassTD,
   }));
+}
 function computePointsPerGame(scheduleRows){
   const teams = {};
   function ensure(t){ if(!teams[t]) teams[t] = {scored:0, allowed:0, games:0}; return teams[t]; }
@@ -304,18 +313,22 @@ function computePointsPerGame(scheduleRows){
     const t2 = ensure(g["Team2"]); t2.scored += s2; t2.allowed += s1; t2.games++;
   });
   return teams;
+}
 function ordinal(n){
   const s = ["th","st","nd","rd"], v = n % 100;
   return n + (s[(v-20)%10] || s[v] || s[0]);
+}
 function computeRank(rows, key, ascBetter, teamName){
   const withData = rows.filter(r => r.team);
   const sorted = withData.slice().sort((a,b) => ascBetter ? a[key]-b[key] : b[key]-a[key]);
   const idx = sorted.findIndex(r => r.team === teamName);
   return idx === -1 ? null : { rank: idx+1, of: sorted.length };
+}
 
 function topPlayer(rows, sortKey){
   if(!rows.length) return null;
   return rows.slice().sort((a,b) => b[sortKey]-a[sortKey])[0];
+}
 
 // Sortable table state + renderer — same pattern as statistics.html
 const statTableState = {};
@@ -343,6 +356,7 @@ function renderStatTable(catKey){
   });
   html += '</tbody></table>';
   return html;
+}
 
 function sortStatTable(catKey, colKey){
   const state = statTableState[catKey];
@@ -353,6 +367,7 @@ function sortStatTable(catKey, colKey){
     state.sortDir = "desc";
   }
   document.getElementById('statTable_' + catKey).innerHTML = renderStatTable(catKey);
+}
 
 function showTeamStatTab(val, btn){
   document.querySelectorAll('[data-group="teamstattab"]').forEach(el => {
@@ -360,11 +375,13 @@ function showTeamStatTab(val, btn){
   });
   btn.parentElement.querySelectorAll('.stat-tab-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+}
 
 function resultClass(r){
   if(r === "W") return "result-w";
   if(r === "L") return "result-l";
   return "result-u";
+}
 
 function opponentChip(name){
   const info = TEAMS[name];
@@ -375,6 +392,7 @@ function opponentChip(name){
     return `<a href="team.html?team=${encodeURIComponent(name)}" style="color:inherit; display:inline-flex; align-items:center;">${logoImg}${name}</a>`;
   }
   return `<span style="display:inline-flex; align-items:center;">${logoImg}${name}</span>`;
+}
 
 // Title sponsor short-tag -> full name(s) + link. LC/CM is a joint two-sponsor tag.
 // Sponsor tag -> full name(s) + link now lives in one place: data/SponsorDirectory.csv
@@ -391,6 +409,7 @@ async function loadSponsorDirectory(){
     if(!SPONSOR_MAP[row.SponsorTag]) SPONSOR_MAP[row.SponsorTag] = [];
     SPONSOR_MAP[row.SponsorTag].push({name: row.Name, url: row.URL});
   });
+}
 let TITLE_SPONSORS = [];
 function findTitleSponsor(week, teamA, teamB){
   const row = TITLE_SPONSORS.find(r =>
@@ -398,9 +417,11 @@ function findTitleSponsor(week, teamA, teamB){
     ((r["TeamA"] === teamA && r["TeamB"] === teamB) || (r["TeamA"] === teamB && r["TeamB"] === teamA))
   );
   return row ? SPONSOR_MAP[row["SponsorTag"]] : null;
+}
 function sponsorBadgeHTML(sponsors){
   if(!sponsors) return '';
   return `<div class="sponsor-badge">Presented by ${sponsors.map(s => `<a href="${s.url}" target="_blank" rel="noopener">${s.name}</a>`).join(' &amp; ')}</div>`;
+}
 
 async function init(){
   await Promise.all([loadTeams(), loadSponsorDirectory()]);
@@ -624,6 +645,7 @@ async function init(){
     document.getElementById('rosterWrap').innerHTML = '<p class="empty-note">Could not load team data. Make sure data/Roster.csv, data/Schedule.csv, and the 5 stat CSVs are uploaded and reachable.</p>';
     console.error(err);
   }
+}
 init();
 </script>
 
