@@ -11,7 +11,6 @@
 :root{
   --granite:#14181a; --slate:#1f2628; --field-green:#1f5c3a; --field-green-light:#2f7a4f;
   --broadcast-red:#d6332e; --snow:#f3f5f3; --steel:#8b969a; --gold:#d9a13a;
-}
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{background:var(--granite); color:var(--snow); font-family:'Barlow',sans-serif; -webkit-font-smoothing:antialiased;}
@@ -23,26 +22,26 @@ img{max-width:100%; display:block;}
 :focus-visible{outline:3px solid var(--gold); outline-offset:2px;}
 
 header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); position:sticky; top:0; z-index:50;}
-.nav{display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:14px; padding:14px 28px;}
-.nsn-top-logo{height:34px; width:78px; max-width:none; object-fit:contain; display:block;}
-.logo{display:flex; align-items:center; gap:10px; font-family:'Anton',sans-serif; font-size:1.625rem; white-space:nowrap; justify-self:center;}
-.logo img{height:40px; width:40px; object-fit:contain;}
+.logo img{height:40px; width:40px; object-fit:contain; flex-shrink:0;}
 .logo span.net{color:var(--steel); font-size:1.075rem; margin-left:2px;}
+.wordmark-short{display:none;}
+.nav-left{display:flex; align-items:center; gap:16px; min-width:0;}
+.menu-toggle{display:flex; align-items:center; flex-shrink:0; background:none; border:none; color:var(--snow); font-size:1.725rem; cursor:pointer; padding:0;}
+.nav-actions{display:flex; align-items:center; gap:10px; flex-shrink:0;}
 .watch-btn{display:inline-block; background:var(--broadcast-red); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.975rem; padding:11px 22px; border:none; cursor:pointer; transform:skew(-6deg);}
 .watch-btn span{display:block; transform:skew(6deg);}
 .watch-btn:hover{background:#b9261f;}
-.nav-actions{display:flex; align-items:center; gap:10px; justify-self:end;}
 .purchase-btn{display:inline-block; background:transparent; color:var(--snow); border:2px solid var(--gold); font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.975rem; padding:9px 20px; cursor:pointer; transform:skew(-6deg); white-space:nowrap;}
 .purchase-btn span{display:block; transform:skew(6deg);}
 .purchase-btn:hover{background:var(--gold); color:var(--granite);}
-.menu-toggle{display:flex; align-items:center; background:none; border:none; color:var(--snow); font-size:1.725rem; cursor:pointer; padding:0;}
-@media (max-width:1080px){.purchase-btn{display:none;}}
+@media (max-width:900px){.purchase-btn{display:none;}}
 @media (max-width:700px){
-  .nav{display:flex; justify-content:space-between; align-items:center; padding:12px 16px;}
-  .nsn-top-logo{display:none;}
-  .logo{justify-self:auto; white-space:normal; font-size:1.15rem; line-height:1.15;}
+  .nav{padding:12px 16px; gap:8px;}
+  .nav-left{gap:10px;}
+  .logo{font-size:1.35rem;}
   .logo span.net{display:none;}
-  .nav-actions{gap:8px;}
+  .wordmark-full{display:none;}
+  .wordmark-short{display:inline;}
   .watch-btn{padding:9px 14px; font-size:0.845rem;}
   .menu-toggle{font-size:1.5rem;}
 }
@@ -54,7 +53,6 @@ header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); 
 .page-hero{
   padding:54px 28px 38px; border-bottom:1px solid #24292b;
   background:linear-gradient(135deg, rgba(31,92,58,0.35), transparent 60%), var(--slate);
-}
 .page-hero .eyebrow{color:var(--gold); display:flex; align-items:center; gap:10px; margin-bottom:12px;}
 .page-hero .eyebrow::before{content:""; width:28px; height:2px; background:var(--gold);}
 .page-hero h1{font-size:clamp(2.125rem,5vw,3.525rem);}
@@ -81,13 +79,11 @@ header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); 
   padding:36px;
   display:flex; gap:30px; align-items:center; flex-wrap:wrap;
   position:relative;
-}
 .nod-badge{
   position:absolute; top:-14px; left:36px;
   background:var(--gold); color:var(--granite);
   font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.845rem;
   letter-spacing:0.12em; text-transform:uppercase; padding:7px 14px;
-}
 
 .nod-body{flex:1; min-width:240px;}
 .nod-body h3{font-size:2.125rem;}
@@ -118,7 +114,6 @@ header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); 
   font-size:0.945rem; padding:12px 18px; border:none; cursor:pointer; margin-top:4px;
   filter:brightness(1);
   transition:filter .15s;
-}
 .vote-btn:hover{filter:brightness(1.15);}
 .nominee-logo{width:74px; height:74px; border-radius:6px; object-fit:contain; background:#fff; padding:8px; flex-shrink:0;}
 .nod-logo{width:140px; height:140px; border-radius:8px; object-fit:contain; background:#fff; padding:16px; flex-shrink:0; border:2px solid var(--gold);}
@@ -156,7 +151,6 @@ footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--br
 <script>
 function toggleMobileMenu(){
   document.querySelector('.mobile-menu').classList.toggle('open');
-}
 
 // Everything below renders from data files instead of hand-written HTML:
 //   data/POTWNominees.csv — this week's 3 division nominees + the Network Nod
@@ -173,12 +167,10 @@ function parseCSV(text){
     headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
     return row;
   });
-}
 async function loadCSV(url){
   const r = await fetch(url);
   if(!r.ok) throw new Error("Could not load " + url);
   return parseCSV(await r.text());
-}
 
 function catPillClass(cat){ return cat === "Network Nod" ? "cat-pill nod" : "cat-pill div"; }
 
@@ -258,7 +250,6 @@ async function init(){
     document.getElementById('nodContainer').innerHTML = "<p class=\"empty-note\" style=\"color:var(--steel);\">Could not load this week's honorees. Make sure data/POTWNominees.csv and data/Teams.csv are uploaded and reachable.</p>";
     document.getElementById('archiveStatus').textContent = "Could not load archive. Make sure data/POTWArchive.csv is uploaded and reachable.";
   }
-}
 init();
 </script>
 </head>
@@ -266,12 +257,13 @@ init();
 
 <header>
   <div class="nav">
-    <a href="https://www.nsnsports.net" target="_blank" rel="noopener"><img class="nsn-top-logo" src="assets/nsn-logo.png" alt="Northeast Sports Network"></a>
-    <a href="index.html" class="logo"><img src="assets/vfn-logo.jpg" alt="Vermont Football Network"> VERMONT FOOTBALL <span class="net">NETWORK</span></a>
+    <div class="nav-left">
+      <button class="menu-toggle" aria-label="Open menu" onclick="toggleMobileMenu()">&#9776;</button>
+      <a href="index.html" class="logo"><img src="assets/vfn-logo.jpg" alt="Vermont Football Network"><span class="wordmark-full">VERMONT FOOTBALL</span><span class="wordmark-short">VFN</span> <span class="net">NETWORK</span></a>
+    </div>
     <div class="nav-actions">
       <a href="https://www.nsnsports.net" target="_blank" rel="noopener" class="watch-btn"><span>Watch Live</span></a>
       <a href="#" class="purchase-btn"><span>Purchase Previous Games</span></a>
-      <button class="menu-toggle" aria-label="Open menu" onclick="toggleMobileMenu()">&#9776;</button>
     </div>
   </div>
   <div class="mobile-menu">

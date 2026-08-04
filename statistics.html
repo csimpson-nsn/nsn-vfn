@@ -23,26 +23,28 @@ img{max-width:100%; display:block;}
 :focus-visible{outline:3px solid var(--gold); outline-offset:2px;}
 
 header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); position:sticky; top:0; z-index:50;}
-.nav{display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:14px; padding:14px 28px;}
-.nsn-top-logo{height:34px; width:78px; max-width:none; object-fit:contain; display:block;}
-.logo{display:flex; align-items:center; gap:10px; font-family:'Anton',sans-serif; font-size:1.625rem; white-space:nowrap; justify-self:center;}
-.logo img{height:40px; width:40px; object-fit:contain;}
+.nav{display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 28px;}
+.nav-left{display:flex; align-items:center; gap:16px; min-width:0;}
+.menu-toggle{display:flex; align-items:center; flex-shrink:0; background:none; border:none; color:var(--snow); font-size:1.725rem; cursor:pointer; padding:0;}
+.logo{display:flex; align-items:center; gap:10px; font-family:'Anton',sans-serif; font-size:1.625rem; white-space:nowrap; min-width:0; overflow:hidden; text-overflow:ellipsis;}
+.logo img{height:40px; width:40px; object-fit:contain; flex-shrink:0;}
 .logo span.net{color:var(--steel); font-size:1.075rem; margin-left:2px;}
-.nav-actions{display:flex; align-items:center; gap:10px; justify-self:end;}
+.wordmark-short{display:none;}
+.nav-actions{display:flex; align-items:center; gap:10px; flex-shrink:0;}
 .watch-btn{display:inline-block; background:var(--broadcast-red); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.975rem; padding:11px 22px; border:none; cursor:pointer; transform:skew(-6deg);}
 .watch-btn span{display:block; transform:skew(6deg);}
 .watch-btn:hover{background:#b9261f;}
 .purchase-btn{display:inline-block; background:transparent; color:var(--snow); border:2px solid var(--gold); font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.975rem; padding:9px 20px; cursor:pointer; transform:skew(-6deg); white-space:nowrap;}
 .purchase-btn span{display:block; transform:skew(6deg);}
 .purchase-btn:hover{background:var(--gold); color:var(--granite);}
-.menu-toggle{display:flex; align-items:center; background:none; border:none; color:var(--snow); font-size:1.725rem; cursor:pointer; padding:0;}
-@media (max-width:1080px){.purchase-btn{display:none;}}
+@media (max-width:900px){.purchase-btn{display:none;}}
 @media (max-width:700px){
-  .nav{display:flex; justify-content:space-between; align-items:center; padding:12px 16px;}
-  .nsn-top-logo{display:none;}
-  .logo{justify-self:auto; white-space:normal; font-size:1.15rem; line-height:1.15;}
+  .nav{padding:12px 16px; gap:8px;}
+  .nav-left{gap:10px;}
+  .logo{font-size:1.35rem;}
   .logo span.net{display:none;}
-  .nav-actions{gap:8px;}
+  .wordmark-full{display:none;}
+  .wordmark-short{display:inline;}
   .watch-btn{padding:9px 14px; font-size:0.845rem;}
   .menu-toggle{font-size:1.5rem;}
 }
@@ -174,12 +176,13 @@ function toggleMobileMenu(){
 
 <header>
   <div class="nav">
-    <a href="https://www.nsnsports.net" target="_blank" rel="noopener"><img class="nsn-top-logo" src="assets/nsn-logo.png" alt="Northeast Sports Network"></a>
-    <a href="index.html" class="logo"><img src="assets/vfn-logo.jpg" alt="Vermont Football Network"> VERMONT FOOTBALL <span class="net">NETWORK</span></a>
+    <div class="nav-left">
+      <button class="menu-toggle" aria-label="Open menu" onclick="toggleMobileMenu()">&#9776;</button>
+      <a href="index.html" class="logo"><img src="assets/vfn-logo.jpg" alt="Vermont Football Network"><span class="wordmark-full">VERMONT FOOTBALL</span><span class="wordmark-short">VFN</span> <span class="net">NETWORK</span></a>
+    </div>
     <div class="nav-actions">
       <a href="https://www.nsnsports.net" target="_blank" rel="noopener" class="watch-btn"><span>Watch Live</span></a>
       <a href="#" class="purchase-btn"><span>Purchase Previous Games</span></a>
-      <button class="menu-toggle" aria-label="Open menu" onclick="toggleMobileMenu()">&#9776;</button>
     </div>
   </div>
   <div class="mobile-menu" id="mobileMenu">
