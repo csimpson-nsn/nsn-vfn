@@ -554,30 +554,26 @@ document.addEventListener('DOMContentLoaded', renderHighlights);
          SPONSOR OVERLAY: the Sticks & Stuff badge below is a clickable link layered on top of the video corner —
          swap assets/sticks-stuff-sponsor.png or the href if the sponsorship changes. -->
     <div id="podcastPlayerWrap" style="background:var(--granite); border:1px solid #2a3133; padding:24px;">
-      <div style="display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap;">
-        <div style="flex:1; min-width:280px; position:relative;">
-          <iframe src="https://vcloud.hudl.com/broadcast/embed/2957474?windowed=true" width="100%" height="320" frameborder="0" allowfullscreen style="display:block; background:#000;"></iframe>
-          <a href="https://www.sticksandstuff.com/" target="_blank" rel="noopener" title="Inside the Game is presented by Sticks &amp; Stuff" style="position:absolute; bottom:10px; right:10px; width:64px; height:64px; display:block; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.6)); transition:transform .15s;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+      <div style="display:flex; gap:24px; align-items:flex-start; flex-wrap:wrap;">
+        <div style="flex:0 1 420px; min-width:260px; position:relative;">
+          <iframe src="https://vcloud.hudl.com/broadcast/embed/2957474?windowed=true" width="100%" height="260" frameborder="0" allowfullscreen style="display:block; background:#000; width:100%;"></iframe>
+          <a href="https://www.sticksandstuff.com/" target="_blank" rel="noopener" title="Inside the Game is presented by Sticks &amp; Stuff" style="position:absolute; bottom:10px; right:10px; width:80px; height:80px; display:block; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.6)); transition:transform .15s;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
             <img src="assets/sticks-stuff-sponsor.png" alt="Sticks &amp; Stuff" style="width:100%; height:100%; object-fit:contain;">
           </a>
         </div>
-        <div style="flex:1; min-width:200px;">
-          <div style="display:flex; align-items:center; gap:14px; margin-bottom:12px;">
-            <div style="background:var(--snow); border-radius:8px; padding:6px; flex-shrink:0;">
-              <img src="assets/inside-the-game-logo.png" alt="Inside the Game with Eric Berry" style="width:76px; height:auto; display:block;">
+        <div style="flex:1; min-width:220px; display:flex; gap:18px; align-items:center;">
+          <img src="assets/inside-the-game-logo.png" alt="Inside the Game with Eric Berry" style="max-height:260px; height:auto; width:auto; max-width:100%; object-fit:contain; flex-shrink:0;">
+          <div>
+            <h3 style="font-size:1.05rem; line-height:1.15;">Inside the Game</h3>
+            <p style="font-size:0.78rem; color:var(--steel);">with Eric Berry</p>
+            <p style="font-size:0.82rem; color:var(--steel); line-height:1.5; margin-top:10px;">Weekly breakdowns, coach interviews, and predictions from around the VIFL.</p>
+            <p style="font-size:0.72rem; color:var(--gold); margin-top:8px; font-family:'Barlow Condensed',sans-serif; letter-spacing:0.04em; text-transform:uppercase;">Presented by <a href="https://www.sticksandstuff.com/" target="_blank" rel="noopener" style="color:var(--gold); text-decoration:underline; text-decoration-color:rgba(217,161,58,0.4);">Sticks &amp; Stuff</a></p>
+            <p style="font-size:0.72rem; color:var(--gold); margin-top:6px; font-family:'Barlow Condensed',sans-serif; letter-spacing:0.04em; text-transform:uppercase;">Placeholder clip &mdash; NSN broadcast archive, real podcast episode coming soon</p>
+            <div style="display:flex; gap:12px; margin-top:10px; flex-wrap:wrap;">
+              <a href="#" class="section-link" style="font-size:0.72rem;">Apple</a>
+              <a href="#" class="section-link" style="font-size:0.72rem;">Spotify</a>
+              <a href="https://www.nsnsports.net" target="_blank" rel="noopener" class="section-link" style="font-size:0.72rem;">Listen on NSN &rarr;</a>
             </div>
-            <div>
-              <h3 style="font-size:1.05rem; line-height:1.15;">Inside the Game</h3>
-              <p style="font-size:0.78rem; color:var(--steel);">with Eric Berry</p>
-            </div>
-          </div>
-          <p style="font-size:0.82rem; color:var(--steel); line-height:1.5;">Weekly breakdowns, coach interviews, and predictions from around the VIFL.</p>
-          <p style="font-size:0.72rem; color:var(--gold); margin-top:8px; font-family:'Barlow Condensed',sans-serif; letter-spacing:0.04em; text-transform:uppercase;">Presented by <a href="https://www.sticksandstuff.com/" target="_blank" rel="noopener" style="color:var(--gold); text-decoration:underline; text-decoration-color:rgba(217,161,58,0.4);">Sticks &amp; Stuff</a></p>
-          <p style="font-size:0.72rem; color:var(--gold); margin-top:6px; font-family:'Barlow Condensed',sans-serif; letter-spacing:0.04em; text-transform:uppercase;">Placeholder clip &mdash; NSN broadcast archive, real podcast episode coming soon</p>
-          <div style="display:flex; gap:12px; margin-top:10px; flex-wrap:wrap;">
-            <a href="#" class="section-link" style="font-size:0.72rem;">Apple</a>
-            <a href="#" class="section-link" style="font-size:0.72rem;">Spotify</a>
-            <a href="https://www.nsnsports.net" target="_blank" rel="noopener" class="section-link" style="font-size:0.72rem;">Listen on NSN &rarr;</a>
           </div>
         </div>
       </div>
