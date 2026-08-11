@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VFN Players of the Week | Vermont Football Network</title>
+<title>VFN Top 10 | Vermont Football Network</title>
 <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <style>
@@ -69,63 +69,48 @@ header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); 
 .section-link{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.975rem; color:var(--gold); border-bottom:1px solid var(--gold); padding-bottom:3px; white-space:nowrap;}
 .section-link:hover{color:var(--snow); border-color:var(--snow);}
 
+/* week selector tabs */
+.tab-row{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:24px;}
+.tab-btn{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.925rem; color:var(--steel); background:var(--slate); border:1px solid #262c2e; padding:9px 18px; cursor:pointer; transition:all .15s;}
+.tab-btn:hover{color:var(--snow); border-color:#3a4244;}
+.tab-btn.active{background:var(--field-green); color:var(--snow); border-color:var(--field-green);}
+
 /* page-level sponsor banner */
 .page-sponsor-banner{background:var(--slate); border-top:1px solid #262c2e; border-bottom:1px solid #262c2e; padding:20px 28px;}
 .page-sponsor-banner .inner{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;}
 .ts-tag{background:var(--gold); color:var(--granite); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.825rem; letter-spacing:0.1em; text-transform:uppercase; padding:6px 10px; display:inline-block;}
 .ts-name{font-family:'Anton',sans-serif; font-size:1.175rem; margin-left:12px;}
 
-/* ===== NETWORK NOD — standalone, staff-selected, no vote ===== */
-.nod-section{padding:54px 28px 20px;}
-.nod-card{
-  background:linear-gradient(135deg, rgba(217,161,58,0.10), transparent 55%), var(--slate);
-  border:1px solid var(--gold);
-  padding:36px;
-  display:flex; gap:30px; align-items:center; flex-wrap:wrap;
-  position:relative;
-}
-.nod-badge{
-  position:absolute; top:-14px; left:36px;
-  background:var(--gold); color:var(--granite);
-  font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.845rem;
-  letter-spacing:0.12em; text-transform:uppercase; padding:7px 14px;
-}
-
-.nod-body{flex:1; min-width:240px;}
-.nod-body h3{font-size:2.125rem;}
-.nod-body .pos{font-family:'Barlow Condensed',sans-serif; color:var(--steel); font-size:1.125rem; margin-top:4px;}
-.nod-body .stat-line{font-family:'Barlow Condensed',sans-serif; font-size:1.175rem; color:var(--gold); margin-top:12px; font-weight:600;}
-.nod-note{font-family:'Barlow Condensed',sans-serif; font-size:0.925rem; color:var(--steel); margin-top:14px; line-height:1.5; max-width:520px;}
-.nod-sponsor{font-family:'Barlow Condensed',sans-serif; font-size:0.905rem; color:var(--steel); letter-spacing:0.05em; text-transform:uppercase; margin-top:10px;}
-.nod-sponsor strong{color:var(--gold);}
-
-/* ===== Voting section — 3 division cards ===== */
+/* ===== VFN TOP 10 — video grid ===== */
 .vote-intro{display:flex; align-items:baseline; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:22px;}
 .vote-intro p{color:var(--steel); font-size:1.025rem; max-width:560px; line-height:1.5;}
-.division-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:18px;}
-@media (max-width:980px){.division-grid{grid-template-columns:1fr;}}
-.division-card{background:var(--slate); border:1px solid #262c2e; padding:24px; display:flex; flex-direction:column; gap:14px; transition:border-color .15s;}
-.division-card:hover{border-color:var(--field-green-light);}
-.division-card .div-tag{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.825rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--field-green-light);}
-.division-card .sponsor-tag{font-family:'Barlow Condensed',sans-serif; font-size:0.845rem; color:var(--steel); letter-spacing:0.03em;}
-.division-card .sponsor-tag strong{color:var(--gold);}
-.division-card .sponsor-tag.open{color:var(--broadcast-red);}
-.nominee-row{display:flex; gap:16px; align-items:center;}
-.nominee-row h4{font-size:1.275rem;}
-.nominee-row .pos{font-family:'Barlow Condensed',sans-serif; color:var(--steel); font-size:0.975rem; margin-top:2px;}
-.nominee-row .stat-line{font-family:'Barlow Condensed',sans-serif; font-size:0.975rem; color:var(--field-green-light); margin-top:6px; font-weight:600;}
-.nominee-logo{width:74px; height:74px; border-radius:6px; object-fit:contain; background:#fff; padding:8px; flex-shrink:0;}
-.nod-logo{width:140px; height:140px; border-radius:8px; object-fit:contain; background:#fff; padding:16px; flex-shrink:0; border:2px solid var(--gold);}
+.vote-cta-banner{background:linear-gradient(135deg, rgba(217,161,58,0.10), transparent 55%), var(--slate); border:1px solid var(--gold); padding:20px 26px; display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:28px;}
+.vote-cta-banner p{color:var(--steel); font-size:0.975rem; max-width:520px;}
+.vote-btn{display:inline-block; background:var(--gold); color:var(--granite); font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.975rem; padding:13px 26px; border:none; cursor:pointer; transform:skew(-6deg); white-space:nowrap; flex-shrink:0;}
+.vote-btn span{display:block; transform:skew(6deg);}
+.vote-btn:hover{background:#e8b459;}
 
-/* archive table */
-.potw-archive-table{width:100%; border-collapse:collapse; font-family:'Barlow Condensed',sans-serif;}
-.potw-archive-table th{text-align:left; font-size:0.825rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--steel); padding:10px 14px; border-bottom:1px solid #262c2e;}
-.potw-archive-table td{padding:13px 14px; border-bottom:1px solid #1d2224; font-size:1.025rem;}
-.potw-archive-table tr:hover td{background:#1c2123;}
-.potw-thumb-sm{width:38px; height:38px; border-radius:5px; background:linear-gradient(135deg,#3c5a76,#14181a); display:inline-block; vertical-align:middle; margin-right:10px;}
-.cat-pill{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.805rem; letter-spacing:0.06em; text-transform:uppercase; padding:4px 8px; display:inline-block;}
-.cat-pill.nod{background:var(--gold); color:var(--granite);}
-.cat-pill.div{background:#262c2e; color:var(--steel);}
+.top10-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(210px, 1fr)); gap:18px;}
+.top10-card{background:var(--slate); border:1px solid #262c2e; position:relative; transition:border-color .15s;}
+.top10-card:hover{border-color:var(--field-green-light);}
+.top10-card.is-winner{border-color:var(--gold);}
+.top10-rank{
+  position:absolute; top:10px; left:10px; z-index:2;
+  background:var(--granite); color:var(--snow);
+  font-family:'Anton',sans-serif; font-size:1.275rem;
+  width:38px; height:38px; display:flex; align-items:center; justify-content:center;
+  border:1px solid #2a3133;
+}
+.top10-card.is-winner .top10-rank{background:var(--gold); color:var(--granite); border-color:var(--gold);}
+.winner-badge{
+  position:absolute; top:10px; right:10px; z-index:2;
+  background:var(--gold); color:var(--granite);
+  font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.72rem;
+  letter-spacing:0.08em; text-transform:uppercase; padding:5px 10px;
+}
+.top10-card iframe{border:none; display:block; background:#000; width:100%;}
+.top10-card .cap{padding:14px;}
+.top10-card .cap h3{font-size:0.95rem; margin-top:4px; letter-spacing:0;}
 
 footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--broadcast-red);}
 .footer-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr 1fr; gap:28px; padding-bottom:28px;}
@@ -174,84 +159,82 @@ async function loadCSV(url){
   return parseCSV(await r.text());
 }
 
-function catPillClass(cat){ return cat === "Network Nod" ? "cat-pill nod" : "cat-pill div"; }
+// Everything below renders from data/TopPlays.csv — columns: Week, Rank, Team, Opponent, Description, VideoURL
+// To update this week's plays, edit that CSV (or its published Google Sheet). No code change needed.
+
+function fbEmbed(url, width, height){
+  return `<iframe src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=false&width=${width}" width="${width}" height="${height}" style="width:100%; height:${height}px;" allowfullscreen scrolling="no"></iframe>`;
+}
+
+function renderWeekGrid(containerEl, plays, showWinner){
+  containerEl.innerHTML = plays.map(p => {
+    const isTop = parseInt(p.Rank,10) === 1;
+    return `
+    <div class="top10-card${isTop && showWinner ? ' is-winner' : ''}">
+      <span class="top10-rank">${p.Rank}</span>
+      ${isTop && showWinner ? '<span class="winner-badge">Winner</span>' : ''}
+      ${fbEmbed(p.VideoURL, 210, 373)}
+      <div class="cap">
+        <span class="eyebrow" style="color:var(--field-green-light); font-size:0.72rem;">${p.Team}${p.Opponent ? ' vs. ' + p.Opponent : ''}</span>
+        <h3>${p.Description}</h3>
+      </div>
+    </div>`;
+  }).join('');
+}
 
 async function init(){
   try {
-    const [nominees, archive, teamRows] = await Promise.all([
-      loadCSV("data/POTWNominees.csv"),
-      loadCSV("data/POTWArchive.csv"),
-      loadCSV("data/Teams.csv")
-    ]);
-    const teams = {};
-    teamRows.forEach(t => teams[t.Team] = t);
+    const r = await fetch("data/TopPlays.csv");
+    if(!r.ok) throw new Error("Could not load data/TopPlays.csv");
+    const rows = parseCSV(await r.text());
 
-    // Current week = the highest week number present in the nominees file
-    const currentWeek = Math.max(...nominees.map(n => parseInt(n.Week, 10)));
-    const thisWeek = nominees.filter(n => parseInt(n.Week,10) === currentWeek);
+    const weeks = [...new Set(rows.map(row => parseInt(row.Week,10)))].sort((a,b) => b-a);
+    const currentWeek = weeks[0];
+    const pastWeeks = weeks.slice(1);
 
-    document.getElementById('nodWeekLabel').textContent = `Week ${currentWeek} \u00b7 Statewide Honor`;
-    document.getElementById('voteWeekLabel').textContent = `Week ${currentWeek} \u00b7 Honorees`;
+    document.getElementById('currentWeekLabel').textContent = `Week ${currentWeek} \u00b7 Cast Your Vote`;
 
-    // Network Nod (no vote)
-    const nod = thisWeek.find(n => n.Category === "Network Nod");
-    const nodContainer = document.getElementById('nodContainer');
-    if(nod){
-      const info = teams[nod.Team] || {};
-      nodContainer.innerHTML = `
-        <div class="nod-card">
-          <span class="nod-badge">Selected by VFN Staff &middot; Not Voted</span>
-          <img class="nod-logo" src="${info.LogoPath || ''}" alt="${nod.Team}">
-          <div class="nod-body">
-            <h3>${nod.Name}</h3>
-            <div class="pos">${nod.Position} &middot; ${nod.Team} &middot; ${nod.Class}</div>
-            <div class="stat-line">${nod['Stat Line']}</div>
-            <p class="nod-note">The Network Nod is VFN's single best performance in the state each week, chosen internally by VFN broadcast staff &mdash; independent of the division honorees below. A player can earn the Nod and also appear as a division honoree in the same week.</p>
-            <div class="nod-sponsor">Presented by <strong>[Open &mdash; Inquire Above]</strong></div>
-          </div>
-        </div>`;
+    // This week's Top 10 — no winner declared yet, voting is open
+    const thisWeekPlays = rows.filter(row => parseInt(row.Week,10) === currentWeek)
+                               .sort((a,b) => parseInt(a.Rank,10) - parseInt(b.Rank,10));
+    renderWeekGrid(document.getElementById('currentWeekGrid'), thisWeekPlays, false);
+
+    // Past weeks — tab selector, winner marked on each
+    const tabRow = document.getElementById('archiveTabs');
+    const archiveGrid = document.getElementById('archiveGrid');
+    const archiveEmpty = document.getElementById('archiveEmpty');
+
+    if(pastWeeks.length === 0){
+      tabRow.style.display = 'none';
+      archiveGrid.style.display = 'none';
+      archiveEmpty.style.display = 'block';
     } else {
-      nodContainer.innerHTML = '<p class="empty-note" style="color:var(--steel);">No Network Nod selected for this week yet.</p>';
+      archiveEmpty.style.display = 'none';
+      tabRow.innerHTML = pastWeeks.map((wk,i) =>
+        `<button class="tab-btn${i===0?' active':''}" onclick="showArchiveWeek(${wk}, this)">Week ${wk}</button>`
+      ).join('');
+      window.TOP10_ROWS = rows; // stash for tab clicks
+      showArchiveWeekInternal(pastWeeks[0]);
     }
-
-    // Division voting cards
-    const divisions = ["Division I","Division II","Division III"];
-    const grid = document.getElementById('divisionGrid');
-    grid.innerHTML = divisions.map(div => {
-      const nom = thisWeek.find(n => n.Category === div);
-      if(!nom) return `<div class="division-card"><span class="div-tag">${div}</span><p class="empty-note" style="color:var(--steel);">No honoree set yet.</p></div>`;
-      const info = teams[nom.Team] || {};
-      return `
-      <div class="division-card" data-team="${nom.Team}" style="--team-color:${info.PrimaryColor || '#8b969a'};">
-        <span class="div-tag">${div}</span>
-        <div class="nominee-row">
-          <img class="nominee-logo" src="${info.LogoPath || ''}" alt="${nom.Team}">
-          <div>
-            <h4>${nom.Name}</h4>
-            <div class="pos">${nom.Position} &middot; ${nom.Team} &middot; ${nom.Class}</div>
-            <div class="stat-line">${nom['Stat Line']}</div>
-          </div>
-        </div>
-        <span class="sponsor-tag open">[Open &mdash; Inquire About This Slot]</span>
-      </div>`;
-    }).join('');
-
-    // Archive table, most recent week first
-    archive.sort((a,b) => parseInt(b.Week,10) - parseInt(a.Week,10));
-    document.getElementById('archiveBody').innerHTML = archive.length ? archive.map(a => `
-      <tr><td>Week ${a.Week}</td><td><span class="${catPillClass(a.Category)}">${a.Category}</span></td>
-      <td><span class="potw-thumb-sm"></span>${a.Name}</td>
-      <td>${a.Position} &middot; ${a.Team} &middot; ${a.Class}</td>
-      <td>${a['Stat Line']}</td></tr>
-    `).join('') : '<tr><td colspan="5" class="empty-note">No past honorees on file yet.</td></tr>';
-    document.getElementById('archiveStatus').textContent = `${archive.length} past honoree${archive.length===1?'':'s'} on record.`;
 
   } catch(err){
     console.error(err);
-    document.getElementById('nodContainer').innerHTML = "<p class=\"empty-note\" style=\"color:var(--steel);\">Could not load this week's honorees. Make sure data/POTWNominees.csv and data/Teams.csv are uploaded and reachable.</p>";
-    document.getElementById('archiveStatus').textContent = "Could not load archive. Make sure data/POTWArchive.csv is uploaded and reachable.";
+    document.getElementById('currentWeekGrid').innerHTML = '<p style="color:var(--steel);">Could not load this week\'s Top 10. Make sure data/TopPlays.csv is uploaded and reachable.</p>';
+    document.getElementById('archiveEmpty').textContent = "Could not load the archive. Make sure data/TopPlays.csv is uploaded and reachable.";
   }
 }
+
+function showArchiveWeekInternal(week){
+  const plays = window.TOP10_ROWS.filter(row => parseInt(row.Week,10) === week)
+                                  .sort((a,b) => parseInt(a.Rank,10) - parseInt(b.Rank,10));
+  renderWeekGrid(document.getElementById('archiveGrid'), plays, true);
+}
+function showArchiveWeek(week, btn){
+  btn.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  showArchiveWeekInternal(week);
+}
+
 init();
 </script>
 </head>
@@ -275,8 +258,8 @@ init();
     <a href="standings.html">Standings</a>
     <a href="teams.html">Teams</a>
     <a href="statistics.html">Statistics</a>
-    <a href="player-of-the-week.html" class="active">Players of the Week</a>
-    <a href="top10.html">VFN Top 10</a>
+    <a href="player-of-the-week.html">Players of the Week</a>
+    <a href="top10.html" class="active">VFN Top 10</a>
     <a href="articles-and-stories.html">Articles &amp; Stories</a>
     <a href="hall-of-champions.html">Hall of Champions</a>
     <a href="national-football-foundation.html">National Football Foundation VT Chapter</a>
@@ -286,60 +269,48 @@ init();
 
 <section class="page-hero">
   <div class="wrap">
-    <span class="eyebrow">Updated Every Monday</span>
-    <h1>VFN Players of the Week</h1>
-    <p>Each week, VFN staff selects one honoree per division, recognizing the top performance in Division I, II, and III. Alongside that, the <strong>Network Nod</strong> is a separate, single statewide honor selected internally by VFN staff.</p>
+    <span class="eyebrow">Updated Every Week</span>
+    <h1>VFN Top 10</h1>
+    <p>The ten best plays from around the VIFL this week — watch them all below, then cast your vote for #1. Past weeks' winners are archived further down the page.</p>
   </div>
 </section>
 
 
 <section class="page-sponsor-banner">
   <div class="wrap inner">
-    <div><span class="ts-tag">Players of the Week Page Sponsor</span><span class="ts-name">[Open &mdash; Inquire About This Placement]</span></div>
+    <div><span class="ts-tag">VFN Top 10 Page Sponsor</span><span class="ts-name">[Open &mdash; Inquire About This Placement]</span></div>
     <a href="#" class="section-link">Become a Sponsor &rarr;</a>
   </div>
 </section>
 
 
-<!-- ===== NETWORK NOD ===== -->
-<section class="nod-section">
-  <div class="wrap">
-    <div class="section-head">
-      <div><span class="eyebrow" style="color:var(--gold);" id="nodWeekLabel">Statewide Honor</span><h2>The Network Nod</h2></div>
-      <a href="#" class="section-link">Sponsor the Network Nod &rarr;</a>
-    </div>
-    <div id="nodContainer">
-      <p class="empty-note" style="color:var(--steel);">Loading this week's honor&hellip;</p>
-    </div>
-  </div>
-</section>
-
-
-<!-- ===== DIVISION HONOREES ===== -->
+<!-- ===== THIS WEEK'S TOP 10 ===== -->
 <section class="section">
   <div class="wrap">
-    <div class="vote-intro">
-      <div><span class="eyebrow" style="color:var(--field-green-light); display:block; margin-bottom:6px;" id="voteWeekLabel">This Week's Honorees</span><h2 style="font-size:clamp(1.625rem,3vw,2.325rem);">Division Honorees</h2></div>
-      <p>One honoree per division, selected weekly by VFN staff.</p>
+    <div class="section-head">
+      <div><span class="eyebrow" style="color:var(--field-green-light);" id="currentWeekLabel">This Week</span><h2>This Week's Top 10</h2></div>
     </div>
-    <div class="division-grid" id="divisionGrid">
-      <p class="empty-note" style="color:var(--steel);">Loading honorees&hellip;</p>
+    <!-- VOTE LINK: swap this href for the real voting form once you have one (same pattern as the old POTW Google Form). -->
+    <div class="vote-cta-banner">
+      <p>Watched them all? Cast your vote for this week's #1 play. Voting closes Wednesday at midnight.</p>
+      <a href="#" target="_blank" rel="noopener" class="vote-btn"><span>Vote for #1 &rarr;</span></a>
+    </div>
+    <div class="top10-grid" id="currentWeekGrid">
+      <p style="color:var(--steel);">Loading this week's Top 10&hellip;</p>
     </div>
   </div>
 </section>
 
 
-<!-- ===== ARCHIVE ===== -->
+<!-- ===== PAST WEEKS ===== -->
 <section class="section" style="background:var(--slate); border-top:1px solid #262c2e; border-bottom:1px solid #262c2e;">
   <div class="wrap">
     <div class="section-head">
-      <div><span class="eyebrow">Season Archive</span><h2>Past Honorees</h2></div>
+      <div><span class="eyebrow">Season Archive</span><h2>Past Winners</h2></div>
     </div>
-    <div id="archiveStatus" style="color:var(--steel); font-family:'Barlow Condensed',sans-serif; font-size:0.975rem; margin-bottom:14px;">Loading history&hellip;</div>
-    <table class="potw-archive-table">
-      <thead><tr><th>Week</th><th>Category</th><th>Player</th><th>Position</th><th>Performance</th></tr></thead>
-      <tbody id="archiveBody"></tbody>
-    </table>
+    <div class="tab-row" id="archiveTabs"></div>
+    <p id="archiveEmpty" style="color:var(--steel); display:none;">No past weeks on file yet &mdash; check back after this week's vote closes.</p>
+    <div class="top10-grid" id="archiveGrid"></div>
   </div>
 </section>
 
@@ -354,8 +325,7 @@ init();
       <div class="footer-col">
         <h4>Watch</h4>
         <a href="schedule.html">Full Schedule</a>
-        <a href="index.html#video-archive">Video Archive</a>
-        <a href="index.html#highlights">Highlights</a>
+        <a href="top10.html">VFN Top 10</a>
       </div>
       <div class="footer-col">
         <h4>Network</h4>
@@ -363,7 +333,6 @@ init();
         <a href="teams.html">All Teams</a>
         <a href="statistics.html">Statistics</a>
         <a href="player-of-the-week.html">Players of the Week</a>
-        <a href="top10.html">VFN Top 10</a>
       </div>
       <div class="footer-col">
         <h4>League Resources</h4>

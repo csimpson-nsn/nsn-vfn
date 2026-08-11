@@ -23,32 +23,34 @@ img{max-width:100%; display:block;}
 :focus-visible{outline:3px solid var(--gold); outline-offset:2px;}
 
 header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); position:sticky; top:0; z-index:50;}
-.nav{display:flex; align-items:center; justify-content:space-between; padding:16px 28px;}
-.logo{display:flex; align-items:center; gap:10px; font-family:'Anton',sans-serif; font-size:1.5rem;}
-.logo img{height:40px; width:40px; object-fit:contain;}
-.logo span.net{color:var(--steel); font-size:0.95rem; margin-left:2px;}
-nav.links{display:flex; gap:26px;}
-nav.links a{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.85rem; color:var(--snow); padding:6px 2px; border-bottom:2px solid transparent; transition:border-color .15s;}
-nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
-.watch-btn{display:inline-block; background:var(--broadcast-red); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.85rem; padding:11px 22px; border:none; cursor:pointer; transform:skew(-6deg);}
+.nav{display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 28px;}
+.logo{display:flex; align-items:center; gap:10px; font-family:'Anton',sans-serif; font-size:1.625rem; white-space:nowrap; min-width:0; overflow:hidden; text-overflow:ellipsis;}
+.logo img{height:40px; width:40px; object-fit:contain; flex-shrink:0;}
+.logo span.net{color:var(--steel); font-size:1.075rem; margin-left:2px;}
+.wordmark-short{display:none;}
+.nav-left{display:flex; align-items:center; gap:16px; min-width:0;}
+.menu-toggle{display:flex; align-items:center; flex-shrink:0; background:none; border:none; color:var(--snow); font-size:1.725rem; cursor:pointer; padding:0;}
+.nav-actions{display:flex; align-items:center; gap:10px; flex-shrink:0;}
+.watch-btn{display:inline-block; background:var(--broadcast-red); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.975rem; padding:11px 22px; border:none; cursor:pointer; transform:skew(-6deg);}
 .watch-btn span{display:block; transform:skew(6deg);}
 .watch-btn:hover{background:#b9261f;}
-.menu-toggle{display:none; background:none; border:none; color:var(--snow); font-size:1.6rem; cursor:pointer;}
-@media (max-width:900px){nav.links{display:none;} .menu-toggle{display:block;}}
-.more-menu{position:relative;}
-.more-menu > span{cursor:pointer;}
-.more-dropdown{display:none; position:absolute; top:100%; right:0; background:var(--slate); border:1px solid #262c2e; min-width:220px; padding:6px 0; z-index:60;}
-.more-menu:hover .more-dropdown{display:block;}
-.more-dropdown a{display:block; padding:12px 18px; border-bottom:1px solid #262c2e; font-size:0.82rem;}
-.more-dropdown a:last-child{border-bottom:none;}
-.more-dropdown a:hover{background:#252c2e; color:var(--gold);}
+.purchase-btn{display:inline-block; background:transparent; color:var(--snow); border:2px solid var(--gold); font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.975rem; padding:9px 20px; cursor:pointer; transform:skew(-6deg); white-space:nowrap;}
+.purchase-btn span{display:block; transform:skew(6deg);}
+.purchase-btn:hover{background:var(--gold); color:var(--granite);}
+@media (max-width:900px){.purchase-btn{display:none;}}
+@media (max-width:700px){
+  .nav{padding:12px 16px; gap:8px;}
+  .nav-left{gap:10px;}
+  .logo{font-size:1.35rem;}
+  .logo span.net{display:none;}
+  .wordmark-full{display:none;}
+  .wordmark-short{display:inline;}
+  .watch-btn{padding:9px 14px; font-size:0.845rem;}
+  .menu-toggle{font-size:1.5rem;}
+}
 .mobile-menu{display:none; flex-direction:column; background:var(--slate); border-top:1px solid #262c2e;}
 .mobile-menu.open{display:flex;}
-.mobile-menu a{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.95rem; color:var(--snow); padding:16px 28px; border-bottom:1px solid #262c2e;}
-.mobile-menu a:hover, .mobile-menu a.active{color:var(--gold); background:#252c2e;}
-.mobile-menu{display:none; flex-direction:column; background:var(--slate); border-top:1px solid #262c2e;}
-.mobile-menu.open{display:flex;}
-.mobile-menu a{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.95rem; color:var(--snow); padding:16px 28px; border-bottom:1px solid #262c2e;}
+.mobile-menu a{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:1.075rem; color:var(--snow); padding:16px 28px; border-bottom:1px solid #262c2e;}
 .mobile-menu a:hover, .mobile-menu a.active{color:var(--gold); background:#252c2e;}
 
 .page-hero{
@@ -160,13 +162,7 @@ footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--br
 .c4{background:#3c5a76;} .c5{background:#7a5c3c;} .c6{background:#5c4a7a;}
 
 /* highlights — horizontal scroll row, any number of items */
-.highlights-row{display:flex; gap:18px; overflow-x:auto; padding-bottom:8px; scroll-snap-type:x mandatory; align-items:flex-start;}
-.highlight-card{flex:0 0 auto; scroll-snap-align:start; background:var(--granite); border:1px solid #262c2e;}
-.highlight-card.is-featured{border-color:var(--broadcast-red);}
-.highlight-card iframe{border:none; display:block; background:#000;}
-.highlight-card .cap{padding:14px;}
-.highlight-card .cap h3{font-size:0.92rem; margin-top:4px; letter-spacing:0;}
-.featured-tag{display:inline-block; background:var(--broadcast-red); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.62rem; letter-spacing:0.08em; text-transform:uppercase; padding:3px 8px; margin-bottom:6px;}
+/* highlights CSS removed — see VFN Top 10 section styling above (inline) */
 </style>
 <script>
 function showTab(group, val, btn){
@@ -185,34 +181,24 @@ function toggleMobileMenu(){
 
 <header>
   <div class="nav">
-    <a href="index.html" class="logo"><img src="assets/vfn-logo.jpg" alt="Vermont Football Network"> VERMONT FOOTBALL <span class="net">NETWORK</span></a>
-    <nav class="links">
-      <a href="index.html" class="active">Home</a>
-      <a href="schedule.html" class="">Schedule</a>
-      <a href="standings.html" class="">Standings</a>
-      <a href="teams.html" class="">Teams</a>
-      <a href="statistics.html" class="">Statistics</a>
-      <a href="player-of-the-week.html" class="">Players of the Week</a>
-      
-      <div class="more-menu">
-        <span>More &#9662;</span>
-        <div class="more-dropdown">
-          <a href="articles-and-stories.html">Articles &amp; Stories</a>
-          <a href="hall-of-champions.html">Hall of Champions</a>
-          <a href="national-football-foundation.html">National Football Foundation VT Chapter</a>
-        </div>
-      </div>
-    </nav>
-    <a href="https://www.nsnsports.net" target="_blank" rel="noopener" class="watch-btn"><span>Watch Live</span></a>
-    <button class="menu-toggle" aria-label="Open menu" onclick="toggleMobileMenu()">&#9776;</button>
+    <div class="nav-left">
+      <button class="menu-toggle" aria-label="Open menu" onclick="toggleMobileMenu()">&#9776;</button>
+      <a href="index.html" class="logo"><img src="assets/vfn-logo.jpg" alt="Vermont Football Network"><span class="wordmark-full">VERMONT FOOTBALL</span><span class="wordmark-short">VFN</span> <span class="net">NETWORK</span></a>
+    </div>
+    <div class="nav-actions">
+      <a href="https://www.nsnsports.net" target="_blank" rel="noopener" class="watch-btn"><span>Watch Live</span></a>
+      <a href="#" class="purchase-btn"><span>Purchase Previous Games</span></a>
+    </div>
   </div>
   <div class="mobile-menu" id="mobileMenu">
     <a href="index.html" class="active">Home</a>
+    <a href="live-scores.html">Live Scores</a>
     <a href="schedule.html">Schedule</a>
     <a href="standings.html">Standings</a>
     <a href="teams.html">Teams</a>
     <a href="statistics.html">Statistics</a>
     <a href="player-of-the-week.html">Players of the Week</a>
+    <a href="top10.html">VFN Top 10</a>
     <a href="articles-and-stories.html">Articles &amp; Stories</a>
     <a href="hall-of-champions.html">Hall of Champions</a>
     <a href="national-football-foundation.html">National Football Foundation VT Chapter</a>
@@ -443,70 +429,103 @@ document.addEventListener('DOMContentLoaded', renderHomeSchedule);
   </div>
 </section>
 
-<section class="section" id="highlights" style="background:var(--slate); border-top:1px solid #262c2e; border-bottom:1px solid #262c2e;">
+<section class="section" id="top10" style="background:var(--slate); border-top:1px solid #262c2e; border-bottom:1px solid #262c2e;">
   <div class="wrap">
     <div class="section-head">
-      <div><span class="eyebrow">Don't Miss It</span><h2>Highlights</h2></div>
-      <a href="#" class="section-link">All Highlights &rarr;</a>
+      <div><span class="eyebrow">Fan Vote</span><h2>VFN Top 10</h2></div>
+      <!-- VOTE LINK: swap this href for the real voting form once you have one (same pattern as the POTW Google Form). -->
+      <a href="top10.html" class="section-link">Vote for #1 &rarr;</a>
     </div>
-    <!-- To add/remove highlights, just edit the VFN_HIGHLIGHTS array below — the row updates automatically, no layout changes needed. -->
-    <div class="highlights-row" id="highlightsRow"></div>
+    <p style="color:var(--steel); font-size:0.92rem; max-width:640px; margin:-14px 0 24px;">The ten best plays from around the VIFL this week. You decide who's #1 &mdash; cast your vote above.</p>
+    <!-- To update this week's Top 10, edit data/TopPlays.csv — no code change needed. -->
+    <div id="top10List" style="display:flex; flex-direction:column; gap:1px; background:#262c2e; border:1px solid #262c2e;">
+      <p style="color:var(--steel); padding:16px 20px; background:var(--granite); margin:0;">Loading this week's Top 10&hellip;</p>
+    </div>
   </div>
 </section>
 <script>
-const VFN_HIGHLIGHTS = [
-  // featured: true marks the one prominent video — move this flag to whichever clip should lead each week.
-  // ratio: set to match that specific video's actual shape — "9/16" vertical, "16/9" landscape, "1/1" square, "4/5" portrait, etc.
-  { url:"https://www.facebook.com/reel/803162512551210", tag:"Matchup of the Week", title:"St. Johnsbury vs. Lyndon Institute — placeholder matchup, swap for the real Week 7 game", ratio:"9/16", featured:true },
-  { url:"https://www.facebook.com/reel/1181013217166548", tag:"Top Play", title:"Week 7 highlight — add real caption here", ratio:"9/16", featured:false },
-  { url:"https://www.facebook.com/reel/1320650009506793", tag:"Postgame", title:"Week 7 highlight — add real caption here", ratio:"9/16", featured:false },
-];
+async function renderTop10(){
+  const container = document.getElementById('top10List');
+  if(!container) return;
+  try {
+    const res = await fetch("data/TopPlays.csv");
+    if(!res.ok) throw new Error("Could not load data/TopPlays.csv");
+    const lines = (await res.text()).trim().split(/\r?\n/);
+    const headers = lines[0].split(",");
+    const rows = lines.slice(1).filter(l => l.trim().length).map(line => {
+      const cells = line.split(",");
+      const row = {};
+      headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
+      return row;
+    });
+    const currentWeek = Math.max(...rows.map(r => parseInt(r.Week, 10)));
+    const plays = rows.filter(r => parseInt(r.Week,10) === currentWeek)
+                       .sort((a,b) => parseInt(a.Rank,10) - parseInt(b.Rank,10));
 
-function renderHighlights(){
-  const row = document.getElementById('highlightsRow');
-  if(!row) return;
-  row.innerHTML = VFN_HIGHLIGHTS.map(h => {
-    const [w,hgt] = h.ratio.split('/').map(Number);
-    const targetHeight = h.featured ? 380 : 250;
-    const width = Math.round(targetHeight * (w/hgt));
-    return `
-    <div class="highlight-card${h.featured?' is-featured':''}" style="width:${width}px;">
-      <iframe src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(h.url)}&show_text=false&width=${width}" width="${width}" height="${targetHeight}" style="width:${width}px; height:${targetHeight}px;" allowfullscreen scrolling="no"></iframe>
-      <div class="cap">
-        ${h.featured ? '<span class="featured-tag">Featured</span><br>' : ''}
-        <span class="eyebrow" style="color:var(--broadcast-red);">${h.tag}</span>
-        <h3>${h.title}</h3>
-      </div>
-    </div>
-  `;
-  }).join('');
+    container.innerHTML = plays.map(p => {
+      const isTop = parseInt(p.Rank,10) === 1;
+      return `
+      <a href="${p.VideoURL}" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:16px; background:var(--granite); padding:16px 20px; ${isTop ? 'border-left:3px solid var(--gold);' : ''}">
+        <span style="font-family:'Anton',sans-serif; font-size:1.6rem; width:38px; flex-shrink:0; color:${isTop ? 'var(--gold)' : 'var(--steel)'};">${p.Rank}</span>
+        <div style="flex:1; min-width:0;">
+          <span class="eyebrow" style="color:var(--field-green-light);">${p.Team}${p.Opponent ? ' vs. ' + p.Opponent : ''}</span>
+          <h3 style="font-size:0.95rem; margin-top:4px; letter-spacing:0;">${p.Description}${isTop ? ' <span style="color:var(--gold); font-family:\'Barlow Condensed\',sans-serif; text-transform:uppercase; font-size:0.72rem; letter-spacing:0.06em;">&middot; Fan Voted #1</span>' : ''}</h3>
+        </div>
+        <span class="section-link" style="font-size:0.72rem; flex-shrink:0;">Watch &#8599;</span>
+      </a>`;
+    }).join('');
+  } catch(err){
+    container.innerHTML = '<p style="color:var(--steel); padding:16px 20px; background:var(--granite); margin:0;">Could not load this week\'s Top 10. Make sure data/TopPlays.csv is uploaded and reachable.</p>';
+    console.error(err);
+  }
 }
-document.addEventListener('DOMContentLoaded', renderHighlights);
+document.addEventListener('DOMContentLoaded', renderTop10);
 </script>
 
-<section class="section" id="articles">
+<section class="section" id="media">
   <div class="wrap">
     <div class="section-head">
-      <div><span class="eyebrow">From the Sideline</span><h2>Articles &amp; Stories</h2></div>
+      <div><span class="eyebrow">Outside the Lines</span><h2>Media Coverage Around the State</h2></div>
       <a href="articles-and-stories.html" class="section-link">All Stories &rarr;</a>
     </div>
-    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:18px;">
-      <a href="articles-and-stories.html" style="background:var(--slate); border:1px solid #262c2e; display:block;">
-        <div style="aspect-ratio:16/10; background:linear-gradient(135deg,#234430,#14181a 70%);"></div>
-        <div style="padding:16px;"><span class="eyebrow" style="color:var(--gold);">Game Recap</span><h3 style="font-size:0.98rem; margin-top:6px; letter-spacing:0;">St. J's defense stiffens in the fourth to hold off Lyndon</h3></div>
+
+    <!-- Recent coverage: hand-picked real links from VT papers/stations. Swap these out as new coverage runs. -->
+    <div style="display:flex; flex-direction:column; gap:1px; background:#262c2e; border:1px solid #262c2e; margin-bottom:28px;">
+      <a href="https://www.caledonianrecord.com/sports/local/first-look-h-s-football-fires-up-in-vermont/article_6429c60f-e8a8-5ccb-a4f2-68112b59e41f.html" target="_blank" rel="noopener" style="display:flex; align-items:center; justify-content:space-between; gap:16px; background:var(--slate); padding:18px 20px; flex-wrap:wrap;">
+        <div>
+          <span class="eyebrow" style="color:var(--gold);">Caledonian Record</span>
+          <h3 style="font-size:1rem; margin-top:6px; letter-spacing:0;">First Look: H.S. Football Fires Up In Vermont</h3>
+        </div>
+        <span class="section-link" style="font-size:0.72rem; flex-shrink:0;">Read &#8599;</span>
       </a>
-      <a href="articles-and-stories.html" style="background:var(--slate); border:1px solid #262c2e; display:block;">
-        <div style="aspect-ratio:16/10; background:linear-gradient(135deg,#234430,#14181a 70%);"></div>
-        <div style="padding:16px;"><span class="eyebrow" style="color:var(--gold);">Feature</span><h3 style="font-size:0.98rem; margin-top:6px; letter-spacing:0;">Inside Hartford's run-heavy offense</h3></div>
+      <a href="https://www.rutlandherald.com/sports/local/it-all-begins-for-vermont-grid-teams/article_d78aaf5b-f3f6-59a0-a5ed-fdbe5ec1924b.html" target="_blank" rel="noopener" style="display:flex; align-items:center; justify-content:space-between; gap:16px; background:var(--slate); padding:18px 20px; flex-wrap:wrap;">
+        <div>
+          <span class="eyebrow" style="color:var(--gold);">Rutland Herald</span>
+          <h3 style="font-size:1rem; margin-top:6px; letter-spacing:0;">It All Begins For Vermont Grid Teams</h3>
+        </div>
+        <span class="section-link" style="font-size:0.72rem; flex-shrink:0;">Read &#8599;</span>
       </a>
-      <a href="articles-and-stories.html" style="background:var(--slate); border:1px solid #262c2e; display:block;">
-        <div style="aspect-ratio:16/10; background:linear-gradient(135deg,#234430,#14181a 70%);"></div>
-        <div style="padding:16px;"><span class="eyebrow" style="color:var(--gold);">Power Rankings</span><h3 style="font-size:0.98rem; margin-top:6px; letter-spacing:0;">Week 7 VFN Power Rankings</h3></div>
+      <a href="https://www.wcax.com/2025/11/16/middlebury-colchester-bellows-falls-take-home-hs-football-titles/" target="_blank" rel="noopener" style="display:flex; align-items:center; justify-content:space-between; gap:16px; background:var(--slate); padding:18px 20px; flex-wrap:wrap;">
+        <div>
+          <span class="eyebrow" style="color:var(--gold);">WCAX</span>
+          <h3 style="font-size:1rem; margin-top:6px; letter-spacing:0;">Middlebury, Colchester, Bellows Falls Take Home H.S. Football Titles</h3>
+        </div>
+        <span class="section-link" style="font-size:0.72rem; flex-shrink:0;">Read &#8599;</span>
       </a>
-      <a href="articles-and-stories.html" style="background:var(--slate); border:1px solid #262c2e; display:block;">
-        <div style="aspect-ratio:16/10; background:linear-gradient(135deg,#234430,#14181a 70%);"></div>
-        <div style="padding:16px;"><span class="eyebrow" style="color:var(--gold);">Spotlight</span><h3 style="font-size:0.98rem; margin-top:6px; letter-spacing:0;">CVU honors its 2026 senior class</h3></div>
-      </a>
+    </div>
+
+    <!-- Vermont newspapers & stations, linked to their sports sections where available. -->
+    <div style="display:flex; flex-wrap:wrap; gap:14px;">
+      <a href="https://www.caledonianrecord.com/sports/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>Caledonian Record &#8599;</a>
+      <a href="https://www.burlingtonfreepress.com/sports/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>Burlington Free Press &#8599;</a>
+      <a href="https://www.vnews.com/Sports" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>Valley News &#8599;</a>
+      <a href="https://www.rutlandherald.com/sports/local/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>Rutland Herald &#8599;</a>
+      <a href="https://www.samessenger.com/sports/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>St. Albans Messenger &#8599;</a>
+      <a href="https://www.timesargus.com/sports/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>Times Argus &#8599;</a>
+      <a href="https://www.reformer.com/sports/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>Brattleboro Reformer &#8599;</a>
+      <a href="https://www.benningtonbanner.com/sports/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>Bennington Banner &#8599;</a>
+      <a href="https://www.addisonindependent.com/category/sports/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>Addison Independent &#8599;</a>
+      <a href="https://www.wcax.com/sports/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>WCAX &#8599;</a>
     </div>
   </div>
 </section>
@@ -594,20 +613,6 @@ document.addEventListener('DOMContentLoaded', renderHighlights);
   </div>
 </section>
 
-<section class="section" id="regional-news">
-  <div class="wrap">
-    <div class="section-head">
-      <div><span class="eyebrow">Around the State</span><h2>Regional Newspaper Coverage</h2></div>
-    </div>
-    <div style="display:flex; flex-wrap:wrap; gap:14px;">
-      <a href="#" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>Caledonian Record &#8599;</a>
-      <a href="#" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>Burlington Free Press &#8599;</a>
-      <a href="#" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>Valley News &#8599;</a>
-      <a href="#" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>Rutland Herald &#8599;</a>
-      <a href="#" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>St. Albans Messenger &#8599;</a>
-    </div>
-  </div>
-</section>
 
 
 <footer id="about">
@@ -621,7 +626,7 @@ document.addEventListener('DOMContentLoaded', renderHighlights);
         <h4>Watch</h4>
         <a href="schedule.html">Full Schedule</a>
         <a href="index.html#video-archive">Video Archive</a>
-        <a href="index.html#highlights">Highlights</a>
+        <a href="top10.html">VFN Top 10</a>
       </div>
       <div class="footer-col">
         <h4>Network</h4>
