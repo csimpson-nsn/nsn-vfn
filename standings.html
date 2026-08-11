@@ -331,7 +331,9 @@ function teamRowHTML(team, rank, stats){
 async function init(){
   try {
     await loadTeams();
-    const scheduleRows = await loadCSV("data/Schedule.csv");
+    // Schedule now lives in the "VFN Data Hub" Google Sheet (Schedule tab), published to web as CSV.
+    // To swap sources later, change this one URL — no other code needs to change.
+    const scheduleRows = await loadCSV("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=128915362&single=true&output=csv");
     const qprResults = computeQPR(scheduleRows);
 
     const byDiv = {"Division I":[], "Division II":[], "Division III":[]};
@@ -358,7 +360,7 @@ async function init(){
       ? "QPR calculated live from completed games in the schedule."
       : "No completed games yet this season — QPR will populate as scores are entered in the schedule.";
   } catch(err){
-    document.getElementById('standingsStatus').textContent = "Could not load standings. Make sure data/Schedule.csv is uploaded and reachable.";
+    document.getElementById('standingsStatus').textContent = "Could not load standings. Make sure the VFN Data Hub Schedule tab is published to web and reachable.";
     console.error(err);
   }
 }

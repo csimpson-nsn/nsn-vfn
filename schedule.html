@@ -331,7 +331,9 @@ function getCurrentWeek(scheduleRows){
 async function init(){
   try {
     await Promise.all([loadTeams(), loadSponsorDirectory()]);
-    const games = await loadCSV("data/Schedule.csv");
+    // Schedule now lives in the "VFN Data Hub" Google Sheet (Schedule tab), published to web as CSV.
+    // To swap sources later, change this one URL — no other code needs to change.
+    const games = await loadCSV("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=128915362&single=true&output=csv");
     try { TITLE_SPONSORS = await loadCSV("data/TitleSponsors.csv"); } catch(e) { console.warn("No title sponsor data yet:", e); }
     const currentWeek = getCurrentWeek(games);
     const byDivWeek = { "D-I": {}, "D-II": {}, "D-III": {} };
@@ -363,7 +365,7 @@ async function init(){
 
     document.getElementById('schedStatus').textContent = `Showing ${games.length} games across the 2026 season \u2014 Week ${currentWeek} is current.`;
   } catch(err){
-    document.getElementById('schedStatus').innerHTML = 'Could not load the schedule. Make sure data/Schedule.csv is uploaded and reachable.';
+    document.getElementById('schedStatus').innerHTML = 'Could not load the schedule. Make sure the VFN Data Hub Schedule tab is published to web and reachable.';
     console.error(err);
   }
 }

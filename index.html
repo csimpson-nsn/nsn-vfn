@@ -126,6 +126,11 @@ header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); 
 .team-row{display:flex; align-items:center; justify-content:space-between;}
 .team{display:flex; align-items:center; gap:10px; font-weight:600; font-size:0.92rem;}
 .score{font-family:'Anton',sans-serif; font-size:1.1rem; color:var(--steel);}
+.team-score-wrap{display:flex; align-items:center; gap:8px;}
+.wl-badge{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.775rem; letter-spacing:0.04em; width:20px; height:20px; border-radius:4px; display:inline-flex; align-items:center; justify-content:center;}
+.wl-badge.wl-w{background:rgba(47,122,79,0.18); color:var(--field-green-light);}
+.wl-badge.wl-l{background:rgba(214,51,46,0.15); color:var(--broadcast-red);}
+.wl-badge.wl-t{background:rgba(139,150,154,0.15); color:var(--steel);}
 .game-meta{font-family:'Barlow Condensed',sans-serif; font-size:0.76rem; color:var(--steel); border-top:1px solid #262c2e; padding-top:10px;}
 .sponsor-badge{font-family:'Barlow Condensed',sans-serif; font-size:0.72rem; color:var(--gold); margin-top:6px;}
 .sponsor-badge a{color:var(--gold); text-decoration:underline; text-decoration-color:rgba(217,161,58,0.4);}
@@ -380,8 +385,10 @@ async function renderHomeSchedule(){
   const heroWeekEl = document.getElementById('heroWeekLabel');
   try {
     await Promise.all([loadTeamsCSV(), loadSponsorDirectory()]);
-    const res = await fetch("data/Schedule.csv");
-    if(!res.ok) throw new Error("Could not load data/Schedule.csv");
+    // Schedule now lives in the "VFN Data Hub" Google Sheet (Schedule tab), published to web as CSV.
+    // To swap sources later, change this one URL — no other code needs to change.
+    const res = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=128915362&single=true&output=csv");
+    if(!res.ok) throw new Error("Could not load the schedule from the VFN Data Hub sheet");
     const rows = parseScheduleCSV(await res.text());
     try {
       const sponsorRes = await fetch("data/TitleSponsors.csv");
@@ -394,17 +401,25 @@ async function renderHomeSchedule(){
     if(labelEl) labelEl.textContent = `Week ${currentWeek}`;
     if(!grid) return;
     grid.innerHTML = weekGames.slice(0,6).map(g => {
-      const played = g["Team1Score"] !== "" && g["Team2Score"] !== "";
+      const s1 = g["Team1Score"], s2 = g["Team2Score"];
+      const played = s1 !== "" && s2 !== "";
       const status = played ? "Final" : `${g["Date"]}${g["Time"] ? " &middot; " + g["Time"] : ""}`;
-      const s1 = played ? g["Team1Score"] : "&mdash;";
-      const s2 = played ? g["Team2Score"] : "&mdash;";
+      const score1 = played ? s1 : "&mdash;";
+      const score2 = played ? s2 : "&mdash;";
+      let wl1 = "", wl2 = "";
+      if(played){
+        const n1 = Number(s1), n2 = Number(s2);
+        if(n1 > n2){ wl1 = '<span class="wl-badge wl-w">W</span>'; wl2 = '<span class="wl-badge wl-l">L</span>'; }
+        else if(n2 > n1){ wl1 = '<span class="wl-badge wl-l">L</span>'; wl2 = '<span class="wl-badge wl-w">W</span>'; }
+        else { wl1 = '<span class="wl-badge wl-t">T</span>'; wl2 = '<span class="wl-badge wl-t">T</span>'; }
+      }
       const sponsors = findTitleSponsor(g["Week"], g["Team1"], g["Team2"]);
       return `
       <div class="game-card">
         <span class="game-status">${status}</span>
         <div class="matchup">
-          <div class="team-row"><div class="team">${vfnCrest(g["Team1"])}${g["Team1"]}</div><span class="score">${s1}</span></div>
-          <div class="team-row"><div class="team">${vfnCrest(g["Team2"])}${g["Team2"]}</div><span class="score">${s2}</span></div>
+          <div class="team-row"><div class="team">${vfnCrest(g["Team1"])}${g["Team1"]}</div><span class="team-score-wrap">${wl1}<span class="score">${score1}</span></span></div>
+          <div class="team-row"><div class="team">${vfnCrest(g["Team2"])}${g["Team2"]}</div><span class="team-score-wrap">${wl2}<span class="score">${score2}</span></span></div>
         </div>
         <div class="game-meta">${gameMeta(g["Team1"], g["Team2"])}</div>
         ${sponsorBadgeHTML(sponsors)}
@@ -412,7 +427,7 @@ async function renderHomeSchedule(){
     }).join('');
   } catch(err){
     if(labelEl) labelEl.textContent = "Schedule unavailable";
-    if(grid) grid.innerHTML = '<p style="color:var(--steel);">Could not load the schedule. Make sure data/Schedule.csv is uploaded and reachable.</p>';
+    if(grid) grid.innerHTML = '<p style="color:var(--steel);">Could not load the schedule. Make sure the VFN Data Hub Schedule tab is published to web and reachable.</p>';
     console.error(err);
   }
 }
