@@ -83,6 +83,7 @@ header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); 
 .champ-badge .years span .div{color:var(--gold); margin-left:4px;}
 @media (max-width:640px){.champ-badge{margin-left:0; text-align:left;} .champ-badge .title, .champ-badge .years{justify-content:flex-start;}}
 .team-record{font-family:'Barlow Condensed',sans-serif; color:var(--steel); font-size:1.125rem; margin-top:6px;}
+.team-seed{font-family:'Barlow Condensed',sans-serif; color:var(--gold); font-weight:600; font-size:0.975rem; letter-spacing:0.02em; margin-top:4px;}
 .team-record strong{color:var(--snow);}
 .cancelled-banner{background:var(--broadcast-red); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:0.975rem; padding:12px 20px; margin:0 0 18px;}
 
@@ -175,6 +176,7 @@ function toggleMobileMenu(){
       <div>
         <h1 id="teamName">Loading&hellip;</h1>
         <div class="team-record" id="teamRecord"></div>
+        <div class="team-seed" id="teamSeed"></div>
       </div>
       <div class="champ-badge" id="champBadge" style="display:none;"></div>
     </div>
@@ -240,7 +242,9 @@ async function loadTeams(){
 
 const DATA_CSV_URLS = {
   roster:    "data/Roster.csv",
-  schedule:  "data/Schedule.csv",
+  // Schedule now lives in the "VFN Data Hub" Google Sheet (Schedule tab), published to web as CSV.
+  // To swap sources later, change this one URL — no other code needs to change.
+  schedule:  "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=128915362&single=true&output=csv",
   champions: "data/StateChampions.csv",
   passing:   "data/Passing.csv",
   rushing:   "data/Rushing.csv",
@@ -260,6 +264,49 @@ function parseCSV(text){
   });
 }
 function num(v){ return parseFloat(v) || 0; }
+
+// Copied from standings.html to keep the division seed on this page consistent with the Standings page.
+const DIV_VALUE = {"Division I":10, "Division II":7, "Division III":5};
+function computeQPR(scheduleRows){
+  const completed = scheduleRows.filter(g => g["Team1Score"] !== "" && g["Team2Score"] !== "");
+  const wins = {}, losses = {};
+  Object.keys(TEAMS).forEach(t => { wins[t]=0; losses[t]=0; });
+
+  completed.forEach(g => {
+    const s1 = num(g["Team1Score"]), s2 = num(g["Team2Score"]);
+    if(s1 === s2) return;
+    const winner = s1 > s2 ? g["Team1"] : g["Team2"];
+    const loser  = s1 > s2 ? g["Team2"] : g["Team1"];
+    if(wins[winner] !== undefined) wins[winner]++;
+    if(losses[loser] !== undefined) losses[loser]++;
+  });
+
+  const results = {};
+  Object.keys(TEAMS).forEach(team => {
+    const myDiv = TEAMS[team].div;
+    const myGames = completed.filter(g => g["Team1"] === team || g["Team2"] === team);
+    let ownValue = 0, oppValue = 0;
+    myGames.forEach(g => {
+      const isT1 = g["Team1"] === team;
+      const opponent = isT1 ? g["Team2"] : g["Team1"];
+      const myScore = num(isT1 ? g["Team1Score"] : g["Team2Score"]);
+      const oppScore = num(isT1 ? g["Team2Score"] : g["Team1Score"]);
+      const oppDiv = TEAMS[opponent] ? TEAMS[opponent].div : myDiv;
+      const oppDivValue = DIV_VALUE[oppDiv] || DIV_VALUE[myDiv];
+      const myDivValue = DIV_VALUE[myDiv];
+      if(myScore > oppScore){
+        ownValue += oppDivValue;
+      } else if(myScore < oppScore && oppDivValue > myDivValue){
+        ownValue += (oppDivValue - myDivValue);
+      }
+      oppValue += 2 * (wins[opponent] || 0);
+    });
+    const gamesPlayed = myGames.length;
+    const qpr = gamesPlayed ? (ownValue + oppValue) / gamesPlayed : 0;
+    results[team] = { wins: wins[team], losses: losses[team], qpr, gamesPlayed };
+  });
+  return results;
+}
 function fmt1(n){ return (Math.round(n*10)/10).toFixed(1); }
 
 async function loadCSV(url){
@@ -513,6 +560,18 @@ async function init(){
     document.getElementById('scheduleWrap').innerHTML = games.length ? schedHTML : '<p class="empty-note">No games found for this team in the schedule data yet.</p>';
     document.getElementById('teamRecord').innerHTML = `Record: <strong>${wins}-${losses}</strong>`;
 
+    // --- Division seed (QPR rank within division, same math as Standings) ---
+    if(!info.cancelled){
+      const qprResults = computeQPR(scheduleRows);
+      const divTeams = Object.keys(TEAMS).filter(t => TEAMS[t].div === info.div && !TEAMS[t].cancelled);
+      divTeams.sort((a,b) => qprResults[b].qpr - qprResults[a].qpr);
+      const seed = divTeams.indexOf(team) + 1;
+      const anyGamesPlayed = Object.values(qprResults).some(r => r.gamesPlayed > 0);
+      document.getElementById('teamSeed').textContent = anyGamesPlayed && seed > 0
+        ? `Seeded ${ordinal(seed)} in ${info.div}`
+        : '';
+    }
+
     // --- Roster ---
     const roster = rosterRows.filter(r => r["Team"] === team && r["Player Name"]);
     let rosterHTML = '<table class="data-table"><thead><tr><th>#</th><th>Name</th><th>Class</th><th>Off. Position</th><th>Def. Position</th></tr></thead><tbody>';
@@ -645,7 +704,7 @@ async function init(){
     `;
 
   } catch(err){
-    document.getElementById('rosterWrap').innerHTML = '<p class="empty-note">Could not load team data. Make sure data/Roster.csv, data/Schedule.csv, and the 5 stat CSVs are uploaded and reachable.</p>';
+    document.getElementById('rosterWrap').innerHTML = '<p class="empty-note">Could not load team data. Make sure data/Roster.csv, the VFN Data Hub Schedule tab, and the 5 stat CSVs are uploaded and reachable.</p>';
     console.error(err);
   }
 }
