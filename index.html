@@ -436,17 +436,21 @@ document.addEventListener('DOMContentLoaded', renderHomeSchedule);
       <!-- VOTE LINK: swap this href for the real voting form once you have one (same pattern as the POTW Google Form). -->
       <a href="top10.html" class="section-link">Vote for #1 &rarr;</a>
     </div>
-    <p style="color:var(--steel); font-size:0.92rem; max-width:640px; margin:-14px 0 24px;">The ten best plays from around the VIFL this week. You decide who's #1 &mdash; cast your vote above.</p>
+    <p style="color:var(--steel); font-size:0.92rem; max-width:640px; margin:-14px 0 24px;">The ten best plays from around the VIFL this week, all in one countdown video. You decide who's #1 &mdash; cast your vote above.</p>
     <!-- To update this week's Top 10, edit data/TopPlays.csv — no code change needed. -->
-    <div id="top10List" style="display:flex; flex-direction:column; gap:1px; background:#262c2e; border:1px solid #262c2e;">
-      <p style="color:var(--steel); padding:16px 20px; background:var(--granite); margin:0;">Loading this week's Top 10&hellip;</p>
+    <div id="top10Video" style="background:var(--granite); border:1px solid #2a3133;">
+      <p style="color:var(--steel); padding:16px 20px; margin:0;">Loading this week's video&hellip;</p>
+    </div>
+    <div id="top10List" style="background:var(--granite); border:1px solid #2a3133; border-top:none; padding:18px 22px; display:flex; flex-direction:column; gap:10px;">
+      <p style="color:var(--steel); margin:0;">Loading this week's Top 10&hellip;</p>
     </div>
   </div>
 </section>
 <script>
 async function renderTop10(){
-  const container = document.getElementById('top10List');
-  if(!container) return;
+  const videoEl = document.getElementById('top10Video');
+  const listEl = document.getElementById('top10List');
+  if(!videoEl || !listEl) return;
   try {
     const res = await fetch("data/TopPlays.csv");
     if(!res.ok) throw new Error("Could not load data/TopPlays.csv");
@@ -462,20 +466,18 @@ async function renderTop10(){
     const plays = rows.filter(r => parseInt(r.Week,10) === currentWeek)
                        .sort((a,b) => parseInt(a.Rank,10) - parseInt(b.Rank,10));
 
-    container.innerHTML = plays.map(p => {
-      const isTop = parseInt(p.Rank,10) === 1;
-      return `
-      <a href="${p.VideoURL}" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:16px; background:var(--granite); padding:16px 20px; ${isTop ? 'border-left:3px solid var(--gold);' : ''}">
-        <span style="font-family:'Anton',sans-serif; font-size:1.6rem; width:38px; flex-shrink:0; color:${isTop ? 'var(--gold)' : 'var(--steel)'};">${p.Rank}</span>
-        <div style="flex:1; min-width:0;">
-          <span class="eyebrow" style="color:var(--field-green-light);">${p.Team}${p.Opponent ? ' vs. ' + p.Opponent : ''}</span>
-          <h3 style="font-size:0.95rem; margin-top:4px; letter-spacing:0;">${p.Description}${isTop ? ' <span style="color:var(--gold); font-family:\'Barlow Condensed\',sans-serif; text-transform:uppercase; font-size:0.72rem; letter-spacing:0.06em;">&middot; Fan Voted #1</span>' : ''}</h3>
-        </div>
-        <span class="section-link" style="font-size:0.72rem; flex-shrink:0;">Watch &#8599;</span>
-      </a>`;
-    }).join('');
+    // One countdown video per week — pull whichever row has the link filled in.
+    const videoUrl = (plays.find(p => p.VideoURL && p.VideoURL.trim()) || {}).VideoURL;
+    videoEl.innerHTML = videoUrl
+      ? `<iframe src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(videoUrl)}&show_text=false&width=560" width="100%" height="315" style="width:100%; height:315px; display:block;" allowfullscreen scrolling="no"></iframe>`
+      : `<p style="color:var(--steel); padding:16px 20px; margin:0;">This week's countdown video is coming soon.</p>`;
+
+    listEl.innerHTML = plays.map(p =>
+      `<div style="font-size:0.92rem; line-height:1.5; color:var(--snow);"><strong style="color:var(--gold); font-family:'Anton',sans-serif; font-size:1rem; margin-right:4px;">#${p.Rank}</strong> &mdash; ${p.Team} &mdash; ${p.Player} &mdash; ${p.Description}</div>`
+    ).join('');
   } catch(err){
-    container.innerHTML = '<p style="color:var(--steel); padding:16px 20px; background:var(--granite); margin:0;">Could not load this week\'s Top 10. Make sure data/TopPlays.csv is uploaded and reachable.</p>';
+    videoEl.innerHTML = '';
+    listEl.innerHTML = '<p style="color:var(--steel); margin:0;">Could not load this week\'s Top 10. Make sure data/TopPlays.csv is uploaded and reachable.</p>';
     console.error(err);
   }
 }
@@ -533,8 +535,8 @@ document.addEventListener('DOMContentLoaded', renderTop10);
 <section class="section" id="potw-preview" style="border-bottom:1px solid #262c2e;">
   <div class="wrap">
     <div class="section-head">
-      <div><span class="eyebrow">Vote Now</span><h2>Players of the Week</h2></div>
-      <a href="player-of-the-week.html" class="section-link">Cast Your Vote &rarr;</a>
+      <div><span class="eyebrow">Recognition</span><h2>Players of the Week</h2></div>
+      <a href="player-of-the-week.html" class="section-link">See Past Recipients &rarr;</a>
     </div>
     <div style="display:flex; flex-direction:column; gap:1px; background:#262c2e; border:1px solid #262c2e;">
       <a href="player-of-the-week.html" style="display:flex; align-items:center; justify-content:space-between; gap:16px; background:var(--slate); padding:18px 20px; flex-wrap:wrap;">

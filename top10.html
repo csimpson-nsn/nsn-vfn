@@ -90,27 +90,16 @@ header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); 
 .vote-btn span{display:block; transform:skew(6deg);}
 .vote-btn:hover{background:#e8b459;}
 
-.top10-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(210px, 1fr)); gap:18px;}
-.top10-card{background:var(--slate); border:1px solid #262c2e; position:relative; transition:border-color .15s;}
-.top10-card:hover{border-color:var(--field-green-light);}
-.top10-card.is-winner{border-color:var(--gold);}
-.top10-rank{
-  position:absolute; top:10px; left:10px; z-index:2;
-  background:var(--granite); color:var(--snow);
-  font-family:'Anton',sans-serif; font-size:1.275rem;
-  width:38px; height:38px; display:flex; align-items:center; justify-content:center;
-  border:1px solid #2a3133;
-}
-.top10-card.is-winner .top10-rank{background:var(--gold); color:var(--granite); border-color:var(--gold);}
-.winner-badge{
-  position:absolute; top:10px; right:10px; z-index:2;
-  background:var(--gold); color:var(--granite);
-  font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.72rem;
-  letter-spacing:0.08em; text-transform:uppercase; padding:5px 10px;
-}
-.top10-card iframe{border:none; display:block; background:#000; width:100%;}
-.top10-card .cap{padding:14px;}
-.top10-card .cap h3{font-size:0.95rem; margin-top:4px; letter-spacing:0;}
+.top10-video-wrap{background:var(--granite); border:1px solid #2a3133;}
+.top10-list{background:var(--granite); border:1px solid #2a3133; border-top:none; padding:18px 22px; display:flex; flex-direction:column; gap:10px;}
+.top10-line{font-size:0.98rem; line-height:1.5; color:var(--snow);}
+.top10-line strong{color:var(--gold); font-family:'Anton',sans-serif; font-size:1.05rem; margin-right:4px;}
+
+.archive-block{display:flex; gap:24px; align-items:flex-start; flex-wrap:wrap;}
+.archive-block .top10-video-wrap{flex:1 1 420px; min-width:280px;}
+.archive-statement{flex:1 1 260px; min-width:220px; background:var(--slate); border:1px solid #262c2e; padding:24px;}
+.winner-statement{font-family:'Anton',sans-serif; font-size:1.5rem; color:var(--gold); text-transform:uppercase; letter-spacing:0.02em;}
+.winner-detail{color:var(--steel); font-size:0.92rem; margin-top:10px; line-height:1.5;}
 
 footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--broadcast-red);}
 .footer-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr 1fr; gap:28px; padding-bottom:28px;}
@@ -159,27 +148,37 @@ async function loadCSV(url){
   return parseCSV(await r.text());
 }
 
-// Everything below renders from data/TopPlays.csv — columns: Week, Rank, Team, Opponent, Description, VideoURL
-// To update this week's plays, edit that CSV (or its published Google Sheet). No code change needed.
+// Everything below renders from data/TopPlays.csv — columns: Week, Rank, Team, Player, Description, VideoURL
+// Each week is ONE countdown video (link goes on any one row for that week — doesn't matter which).
+// Current week: full numbered list below the video, no winner declared yet.
+// Past weeks: just the video and a one-line statement of which number won (WinningRank column,
+// filled in on any one row for that week once voting closes). To update, edit that CSV. No code change needed.
 
-function fbEmbed(url, width, height){
-  return `<iframe src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=false&width=${width}" width="${width}" height="${height}" style="width:100%; height:${height}px;" allowfullscreen scrolling="no"></iframe>`;
+function fbEmbed(url){
+  return `<iframe src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=false&width=560" width="100%" height="315" style="width:100%; height:315px; display:block;" allowfullscreen scrolling="no"></iframe>`;
+}
+function renderVideo(videoEl, plays){
+  const videoUrl = (plays.find(p => p.VideoURL && p.VideoURL.trim()) || {}).VideoURL;
+  videoEl.innerHTML = videoUrl
+    ? fbEmbed(videoUrl)
+    : '<p style="color:var(--steel); padding:16px 20px; margin:0;">This week\'s countdown video is coming soon.</p>';
 }
 
-function renderWeekGrid(containerEl, plays, showWinner){
-  containerEl.innerHTML = plays.map(p => {
-    const isTop = parseInt(p.Rank,10) === 1;
-    return `
-    <div class="top10-card${isTop && showWinner ? ' is-winner' : ''}">
-      <span class="top10-rank">${p.Rank}</span>
-      ${isTop && showWinner ? '<span class="winner-badge">Winner</span>' : ''}
-      ${fbEmbed(p.VideoURL, 210, 373)}
-      <div class="cap">
-        <span class="eyebrow" style="color:var(--field-green-light); font-size:0.72rem;">${p.Team}${p.Opponent ? ' vs. ' + p.Opponent : ''}</span>
-        <h3>${p.Description}</h3>
-      </div>
-    </div>`;
-  }).join('');
+function renderCurrentWeek(videoEl, listEl, plays){
+  renderVideo(videoEl, plays);
+  listEl.innerHTML = plays.map(p =>
+    `<div class="top10-line"><strong>#${p.Rank}</strong> &mdash; ${p.Team} &mdash; ${p.Player} &mdash; ${p.Description}</div>`
+  ).join('');
+}
+
+function renderArchiveWeek(videoEl, statementEl, plays){
+  renderVideo(videoEl, plays);
+  const winningRankRow = plays.find(p => p.WinningRank && p.WinningRank.trim());
+  const winningRank = winningRankRow ? winningRankRow.WinningRank.trim() : null;
+  const winningPlay = winningRank ? plays.find(p => parseInt(p.Rank,10) === parseInt(winningRank,10)) : null;
+  statementEl.innerHTML = winningPlay
+    ? `<p class="winner-statement">Winner was #${winningRank}</p><p class="winner-detail">${winningPlay.Team} &mdash; ${winningPlay.Player} &mdash; ${winningPlay.Description}</p>`
+    : '<p class="winner-statement" style="color:var(--steel);">Winner not yet recorded for this week.</p>';
 }
 
 async function init(){
@@ -197,16 +196,18 @@ async function init(){
     // This week's Top 10 — no winner declared yet, voting is open
     const thisWeekPlays = rows.filter(row => parseInt(row.Week,10) === currentWeek)
                                .sort((a,b) => parseInt(a.Rank,10) - parseInt(b.Rank,10));
-    renderWeekGrid(document.getElementById('currentWeekGrid'), thisWeekPlays, false);
+    renderCurrentWeek(document.getElementById('currentWeekVideo'), document.getElementById('currentWeekList'), thisWeekPlays);
 
-    // Past weeks — tab selector, winner marked on each
+    // Past weeks — tab selector, just video + winner statement
     const tabRow = document.getElementById('archiveTabs');
-    const archiveGrid = document.getElementById('archiveGrid');
+    const archiveVideo = document.getElementById('archiveVideo');
+    const archiveStatement = document.getElementById('archiveStatement');
     const archiveEmpty = document.getElementById('archiveEmpty');
 
     if(pastWeeks.length === 0){
       tabRow.style.display = 'none';
-      archiveGrid.style.display = 'none';
+      archiveVideo.style.display = 'none';
+      archiveStatement.style.display = 'none';
       archiveEmpty.style.display = 'block';
     } else {
       archiveEmpty.style.display = 'none';
@@ -219,7 +220,7 @@ async function init(){
 
   } catch(err){
     console.error(err);
-    document.getElementById('currentWeekGrid').innerHTML = '<p style="color:var(--steel);">Could not load this week\'s Top 10. Make sure data/TopPlays.csv is uploaded and reachable.</p>';
+    document.getElementById('currentWeekList').innerHTML = '<p style="color:var(--steel);">Could not load this week\'s Top 10. Make sure data/TopPlays.csv is uploaded and reachable.</p>';
     document.getElementById('archiveEmpty').textContent = "Could not load the archive. Make sure data/TopPlays.csv is uploaded and reachable.";
   }
 }
@@ -227,7 +228,7 @@ async function init(){
 function showArchiveWeekInternal(week){
   const plays = window.TOP10_ROWS.filter(row => parseInt(row.Week,10) === week)
                                   .sort((a,b) => parseInt(a.Rank,10) - parseInt(b.Rank,10));
-  renderWeekGrid(document.getElementById('archiveGrid'), plays, true);
+  renderArchiveWeek(document.getElementById('archiveVideo'), document.getElementById('archiveStatement'), plays);
 }
 function showArchiveWeek(week, btn){
   btn.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -292,11 +293,14 @@ init();
     </div>
     <!-- VOTE LINK: swap this href for the real voting form once you have one (same pattern as the old POTW Google Form). -->
     <div class="vote-cta-banner">
-      <p>Watched them all? Cast your vote for this week's #1 play. Voting closes Wednesday at midnight.</p>
+      <p>Watched the countdown? Cast your vote for this week's #1 play. Voting closes Wednesday at midnight.</p>
       <a href="#" target="_blank" rel="noopener" class="vote-btn"><span>Vote for #1 &rarr;</span></a>
     </div>
-    <div class="top10-grid" id="currentWeekGrid">
-      <p style="color:var(--steel);">Loading this week's Top 10&hellip;</p>
+    <div class="top10-video-wrap" id="currentWeekVideo">
+      <p style="color:var(--steel); padding:16px 20px; margin:0;">Loading this week's video&hellip;</p>
+    </div>
+    <div class="top10-list" id="currentWeekList">
+      <p style="color:var(--steel); padding:16px 20px; background:var(--granite); margin:0;">Loading this week's Top 10&hellip;</p>
     </div>
   </div>
 </section>
@@ -310,7 +314,10 @@ init();
     </div>
     <div class="tab-row" id="archiveTabs"></div>
     <p id="archiveEmpty" style="color:var(--steel); display:none;">No past weeks on file yet &mdash; check back after this week's vote closes.</p>
-    <div class="top10-grid" id="archiveGrid"></div>
+    <div class="archive-block">
+      <div class="top10-video-wrap" id="archiveVideo"></div>
+      <div class="archive-statement" id="archiveStatement"></div>
+    </div>
   </div>
 </section>
 
