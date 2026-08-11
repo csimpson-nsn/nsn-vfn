@@ -253,12 +253,14 @@ function toggleMobileMenu(){
 
 <script>
 const STATS_CSV_URLS = {
-  passing:   "data/Passing.csv",
-  rushing:   "data/Rushing.csv",
-  receiving: "data/Receiving.csv",
-  defense:   "data/Defense.csv",
-  kicking:   "data/Kicking.csv",
-  schedule:  "data/Schedule.csv",
+  // All 5 stat tabs + Schedule now live in the "VFN Data Hub" Google Sheet, published to web as CSV.
+  // To swap sources later, change these URLs — no other code needs to change.
+  passing:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=258628113&single=true&output=csv",
+  rushing:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=1788407260&single=true&output=csv",
+  receiving: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=1921613145&single=true&output=csv",
+  defense:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=266376049&single=true&output=csv",
+  kicking:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=102754010&single=true&output=csv",
+  schedule:  "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=128915362&single=true&output=csv",
   roster:    "data/Roster.csv",
 };
 
@@ -512,7 +514,7 @@ async function init(){
       `Showing season totals: ${passing.length} passers, ${rushing.length} rushers, ${receiving.length} receivers, ${defense.length} defenders, ${kicking.length} kickers. Click any column header to sort.`;
   } catch(err){
     document.getElementById('statStatus').innerHTML =
-      'Could not load one or more stat tabs. Make sure each URL in STATS_CSV_URLS points to that tab\'s published CSV link, and that each tab is published to the web individually.';
+      'Could not load one or more stat tabs. Make sure each tab in the VFN Data Hub sheet is published to the web individually as CSV, and that data/Roster.csv is uploaded and reachable.';
     console.error(err);
   }
 }

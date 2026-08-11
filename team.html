@@ -242,15 +242,15 @@ async function loadTeams(){
 
 const DATA_CSV_URLS = {
   roster:    "data/Roster.csv",
-  // Schedule now lives in the "VFN Data Hub" Google Sheet (Schedule tab), published to web as CSV.
-  // To swap sources later, change this one URL — no other code needs to change.
+  // Schedule + all 5 stat tabs now live in the "VFN Data Hub" Google Sheet, published to web as CSV.
+  // To swap sources later, change these URLs — no other code needs to change.
   schedule:  "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=128915362&single=true&output=csv",
   champions: "data/StateChampions.csv",
-  passing:   "data/Passing.csv",
-  rushing:   "data/Rushing.csv",
-  receiving: "data/Receiving.csv",
-  defense:   "data/Defense.csv",
-  kicking:   "data/Kicking.csv",
+  passing:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=258628113&single=true&output=csv",
+  rushing:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=1788407260&single=true&output=csv",
+  receiving: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=1921613145&single=true&output=csv",
+  defense:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=266376049&single=true&output=csv",
+  kicking:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=102754010&single=true&output=csv",
 };
 
 function parseCSV(text){
@@ -704,7 +704,7 @@ async function init(){
     `;
 
   } catch(err){
-    document.getElementById('rosterWrap').innerHTML = '<p class="empty-note">Could not load team data. Make sure data/Roster.csv, the VFN Data Hub Schedule tab, and the 5 stat CSVs are uploaded and reachable.</p>';
+    document.getElementById('rosterWrap').innerHTML = '<p class="empty-note">Could not load team data. Make sure data/Roster.csv is uploaded, and that every tab in the VFN Data Hub sheet (Schedule + the 5 stat tabs) is published to the web.</p>';
     console.error(err);
   }
 }
