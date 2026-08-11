@@ -192,7 +192,7 @@ function toggleMobileMenu(){
     </div>
     <div class="nav-actions">
       <a href="https://www.nsnsports.net" target="_blank" rel="noopener" class="watch-btn"><span>Watch Live</span></a>
-      <a href="#" class="purchase-btn"><span>Purchase Previous Games</span></a>
+      <a href="mailto:csimpson@nsnsports.net?subject=Purchase%20Previous%20Games" class="purchase-btn"><span>Purchase Previous Games</span></a>
     </div>
   </div>
   <div class="mobile-menu" id="mobileMenu">
@@ -269,7 +269,7 @@ function toggleMobileMenu(){
         <a href="team.html?team=Rutland" style="display:flex; align-items:center; gap:8px; font-weight:600;"><img src="assets/logos/rutland_copy.png" alt="Rutland" style="width:24px;height:24px;object-fit:contain;background:#fff;border-radius:4px;padding:2px;">Rutland</a>
         <span class="ts-name" style="margin-left:6px;">Presented by Crosstown Motors</span>
       </div>
-      <a href="#" class="section-link">Become a Title Sponsor &rarr;</a>
+      <a href="mailto:csimpson@nsnsports.net?subject=Sponsorship%20Inquiry" class="section-link">Become a Title Sponsor &rarr;</a>
     </div>
   </div>
 </section>
@@ -448,56 +448,14 @@ document.addEventListener('DOMContentLoaded', renderHomeSchedule);
   <div class="wrap">
     <div class="section-head">
       <div><span class="eyebrow">Fan Vote</span><h2>VFN Top 10</h2></div>
-      <!-- VOTE LINK: swap this href for the real voting form once you have one (same pattern as the POTW Google Form). -->
       <a href="top10.html" class="section-link">Vote for #1 &rarr;</a>
     </div>
-    <p style="color:var(--steel); font-size:0.92rem; max-width:640px; margin:-14px 0 24px;">The ten best plays from around the VIFL this week, all in one countdown video. You decide who's #1 &mdash; cast your vote above.</p>
-    <!-- To update this week's Top 10, edit data/TopPlays.csv — no code change needed. -->
-    <div id="top10Video" style="background:var(--granite); border:1px solid #2a3133;">
-      <p style="color:var(--steel); padding:16px 20px; margin:0;">Loading this week's video&hellip;</p>
-    </div>
-    <div id="top10List" style="background:var(--granite); border:1px solid #2a3133; border-top:none; padding:18px 22px; display:flex; flex-direction:column; gap:10px;">
-      <p style="color:var(--steel); margin:0;">Loading this week's Top 10&hellip;</p>
-    </div>
+    <p style="color:var(--steel); font-size:0.92rem; max-width:640px; margin:-14px 0 24px;">The ten best plays from around the VIFL this week, all in one countdown video. You decide who's #1.</p>
+    <a href="top10.html" style="display:block; background:var(--granite); border:1px solid #2a3133; max-width:420px; margin:0 auto; transition:border-color .15s;" onmouseover="this.style.borderColor='var(--broadcast-red)'" onmouseout="this.style.borderColor='#2a3133'">
+      <img src="assets/vfn-top10-logo.jpg" alt="VFN Top 10 — Plays of the Week" style="width:100%; display:block;">
+    </a>
   </div>
 </section>
-<script>
-async function renderTop10(){
-  const videoEl = document.getElementById('top10Video');
-  const listEl = document.getElementById('top10List');
-  if(!videoEl || !listEl) return;
-  try {
-    const res = await fetch("data/TopPlays.csv");
-    if(!res.ok) throw new Error("Could not load data/TopPlays.csv");
-    const lines = (await res.text()).trim().split(/\r?\n/);
-    const headers = lines[0].split(",");
-    const rows = lines.slice(1).filter(l => l.trim().length).map(line => {
-      const cells = line.split(",");
-      const row = {};
-      headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
-      return row;
-    });
-    const currentWeek = Math.max(...rows.map(r => parseInt(r.Week, 10)));
-    const plays = rows.filter(r => parseInt(r.Week,10) === currentWeek)
-                       .sort((a,b) => parseInt(a.Rank,10) - parseInt(b.Rank,10));
-
-    // One countdown video per week — pull whichever row has the link filled in.
-    const videoUrl = (plays.find(p => p.VideoURL && p.VideoURL.trim()) || {}).VideoURL;
-    videoEl.innerHTML = videoUrl
-      ? `<iframe src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(videoUrl)}&show_text=false&width=560" width="100%" height="315" style="width:100%; height:315px; display:block;" allowfullscreen scrolling="no"></iframe>`
-      : `<p style="color:var(--steel); padding:16px 20px; margin:0;">This week's countdown video is coming soon.</p>`;
-
-    listEl.innerHTML = plays.map(p =>
-      `<div style="font-size:0.92rem; line-height:1.5; color:var(--snow);"><strong style="color:var(--gold); font-family:'Anton',sans-serif; font-size:1rem; margin-right:4px;">#${p.Rank}</strong> &mdash; ${p.Team} &mdash; ${p.Player} &mdash; ${p.Description}</div>`
-    ).join('');
-  } catch(err){
-    videoEl.innerHTML = '';
-    listEl.innerHTML = '<p style="color:var(--steel); margin:0;">Could not load this week\'s Top 10. Make sure data/TopPlays.csv is uploaded and reachable.</p>';
-    console.error(err);
-  }
-}
-document.addEventListener('DOMContentLoaded', renderTop10);
-</script>
 
 <section class="section" id="media">
   <div class="wrap">
@@ -642,7 +600,8 @@ document.addEventListener('DOMContentLoaded', renderTop10);
       <div class="footer-col">
         <h4>Watch</h4>
         <a href="schedule.html">Full Schedule</a>
-        <a href="index.html#video-archive">Video Archive</a>
+        <!-- Video Archive should point to the same destination as "Purchase Previous Games" once that exists (likely a VOD/game-purchase page) — currently neither is built, so both use the same placeholder mailto. -->
+        <a href="mailto:csimpson@nsnsports.net?subject=Purchase%20Previous%20Games">Video Archive</a>
         <a href="top10.html">VFN Top 10</a>
       </div>
       <div class="footer-col">
@@ -660,9 +619,9 @@ document.addEventListener('DOMContentLoaded', renderTop10);
       </div>
       <div class="footer-col">
         <h4>Partner With Us</h4>
-        <a href="#">Sponsorship Packages</a>
-        <a href="#">Title Sponsor Inquiry</a>
-        <a href="#">Media Kit</a>
+        <a href="mailto:csimpson@nsnsports.net?subject=Sponsorship%20Packages">Sponsorship Packages</a>
+        <a href="mailto:csimpson@nsnsports.net?subject=Title%20Sponsor%20Inquiry">Title Sponsor Inquiry</a>
+        <a href="mailto:csimpson@nsnsports.net?subject=Media%20Kit%20Request">Media Kit</a>
       </div>
     </div>
     <div class="footer-bottom">
