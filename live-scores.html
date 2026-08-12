@@ -284,18 +284,6 @@ function findTitleSponsor(week, teamA, teamB){
   return row ? SPONSOR_MAP[row["SponsorTag"]] : null;
 }
 
-// LiveScores.csv is append-only: every quarter-end submission from the Google Form
-// adds a NEW row rather than overwriting one. So for each game we take the row with
-// the latest Timestamp as its current state.
-function latestRowPerGame(rows){
-  const latest = {};
-  rows.forEach(r => {
-    const key = [r["Week"], r["Team1"], r["Team2"]].join("|");
-    const prev = latest[key];
-    if(!prev || new Date(r["Timestamp"]) > new Date(prev["Timestamp"])) latest[key] = r;
-  });
-  return Object.values(latest);
-}
 
 function liveCardHTML(g){
   const s1 = g["Team1Score"] || "0", s2 = g["Team2Score"] || "0";
@@ -333,12 +321,17 @@ function finalCardHTML(g){
   </div>`;
 }
 
+// Live Scores now reads directly from the same Schedule tab every other page uses —
+// two extra columns, Quarter and BroadcastURL, make a row "live." No separate tab,
+// no separate publish step, no timestamp bookkeeping: one row per game, you just
+// fill in Quarter and the score as the game goes, then set Quarter to "Final" when it ends.
+// A blank Quarter means the game hasn't started yet, so it's left off this page entirely.
 async function loadLiveScores(){
   try {
-    const rows = await loadCSV("data/LiveScores.csv");
-    const entries = latestRowPerGame(rows);
-    const live = entries.filter(r => r["Quarter"] !== "Final");
-    const final = entries.filter(r => r["Quarter"] === "Final");
+    const rows = await loadCSV("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=128915362&single=true&output=csv");
+    const started = rows.filter(r => (r["Quarter"] || "").trim() !== "");
+    const live = started.filter(r => !r["Quarter"].trim().toLowerCase().startsWith("final"));
+    const final = started.filter(r => r["Quarter"].trim().toLowerCase().startsWith("final"));
 
     document.getElementById('liveGrid').innerHTML = live.length
       ? live.map(liveCardHTML).join('')
@@ -353,7 +346,7 @@ async function loadLiveScores(){
       ? `${live.length} game${live.length === 1 ? '' : 's'} live \u2014 last checked ${now.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'})}`
       : `No live games \u2014 last checked ${now.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'})}`;
   } catch(err){
-    document.getElementById('liveStatus').innerHTML = 'Could not load live scores. Make sure data/LiveScores.csv is uploaded and reachable.';
+    document.getElementById('liveStatus').innerHTML = 'Could not load live scores. Make sure the VFN Data Hub Schedule tab is published to web and reachable.';
     console.error(err);
   }
 }
