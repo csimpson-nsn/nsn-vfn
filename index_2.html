@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home | Vermont Football Network</title>
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap');
+:root{
+  --granite:#14181a; --slate:#1f2628; --field-green:#1f5c3a; --field-green-light:#2f7a4f;
+  --broadcast-red:#d6332e; --snow:#f3f5f3; --steel:#8b969a; --gold:#d9a13a;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--granite); color:var(--snow); font-family:'Barlow',sans-serif; -webkit-font-smoothing:antialiased;}
+h1,h2,h3,.display{font-family:'Anton',sans-serif; text-transform:uppercase; letter-spacing:0.02em;}
+.eyebrow{font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.18em; font-size:0.72rem;}
+a{color:inherit; text-decoration:none;}
+img{max-width:100%; display:block;}
+.wrap{max-width:1280px; margin:0 auto; padding:0 28px;}
+:focus-visible{outline:3px solid var(--gold); outline-offset:2px;}
+
+header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); position:sticky; top:0; z-index:50;}
+.nav{display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 28px;}
+.logo{display:flex; align-items:center; gap:10px; font-family:'Anton',sans-serif; font-size:1.625rem; white-space:nowrap; min-width:0; overflow:hidden; text-overflow:ellipsis;}
+.logo img{height:40px; width:40px; object-fit:contain; flex-shrink:0;}
+.logo span.net{color:var(--steel); font-size:1.075rem; margin-left:2px;}
+.wordmark-short{display:none;}
+.nav-left{display:flex; align-items:center; gap:16px; min-width:0;}
+.menu-toggle{display:flex; align-items:center; flex-shrink:0; background:none; border:none; color:var(--snow); font-size:1.725rem; cursor:pointer; padding:0;}
+.nav-actions{display:flex; align-items:center; gap:10px; flex-shrink:0;}
+.watch-btn{display:inline-block; background:var(--broadcast-red); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.975rem; padding:11px 22px; border:none; cursor:pointer; transform:skew(-6deg);}
+.watch-btn span{display:block; transform:skew(6deg);}
+.watch-btn:hover{background:#b9261f;}
+.purchase-btn{display:inline-block; background:transparent; color:var(--snow); border:2px solid var(--gold); font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.975rem; padding:9px 20px; cursor:pointer; transform:skew(-6deg); white-space:nowrap;}
+.purchase-btn span{display:block; transform:skew(6deg);}
+.purchase-btn:hover{background:var(--gold); color:var(--granite);}
+@media (max-width:900px){.purchase-btn{display:none;}}
+@media (max-width:700px){
+  .nav{padding:12px 16px; gap:8px;}
+  .nav-left{gap:10px;}
+  .logo{font-size:1.35rem;}
+  .logo span.net{display:none;}
+  .wordmark-full{display:none;}
+  .wordmark-short{display:inline;}
+  .watch-btn{padding:9px 14px; font-size:0.845rem;}
+  .menu-toggle{font-size:1.5rem;}
+}
+.mobile-menu{display:none; flex-direction:column; background:var(--slate); border-top:1px solid #262c2e;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:1.075rem; color:var(--snow); padding:16px 28px; border-bottom:1px solid #262c2e;}
+.mobile-menu a:hover, .mobile-menu a.active{color:var(--gold); background:#252c2e;}
+
+.page-hero{
+  padding:54px 28px 38px; border-bottom:1px solid #24292b;
+  background:linear-gradient(135deg, rgba(31,92,58,0.35), transparent 60%), var(--slate);
+}
+.page-hero .eyebrow{color:var(--gold); display:flex; align-items:center; gap:10px; margin-bottom:12px;}
+.page-hero .eyebrow::before{content:""; width:28px; height:2px; background:var(--gold);}
+.page-hero h1{font-size:clamp(2rem,5vw,3.4rem);}
+.page-hero p{color:var(--steel); max-width:600px; margin-top:12px; font-size:1rem; line-height:1.55;}
+
+.section{padding:54px 28px;}
+.section-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:28px; flex-wrap:wrap; gap:12px; border-bottom:1px solid #262c2e; padding-bottom:16px;}
+.section-head .eyebrow{color:var(--field-green-light); margin-bottom:6px; display:block;}
+.section-head h2{font-size:clamp(1.5rem,3vw,2.2rem);}
+.section-link{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.85rem; color:var(--gold); border-bottom:1px solid var(--gold); padding-bottom:3px; white-space:nowrap;}
+.section-link:hover{color:var(--snow); border-color:var(--snow);}
+
+/* sponsor banner — page specific */
+.page-sponsor-banner{background:var(--slate); border-top:1px solid #262c2e; border-bottom:1px solid #262c2e; padding:20px 28px;}
+.page-sponsor-banner .inner{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+.ts-tag{background:var(--gold); color:var(--granite); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; padding:6px 10px; display:inline-block;}
+.ts-name{font-family:'Anton',sans-serif; font-size:1.05rem; margin-left:12px;}
+
+/* sponsor scrolling ticker */
+.sponsor-ticker{overflow:hidden; white-space:nowrap; position:relative; mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); -webkit-mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);}
+.sponsor-ticker-track{display:inline-flex; align-items:center; gap:48px; animation:sponsorScroll 32s linear infinite;}
+.sponsor-ticker:hover .sponsor-ticker-track{animation-play-state:paused;}
+.sponsor-ticker-track a{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:1.05rem; color:var(--steel); text-transform:uppercase; transition:color .15s;}
+.sponsor-ticker-track a:hover{color:var(--gold);}
+@keyframes sponsorScroll{ from{transform:translateX(0);} to{transform:translateX(-50%);} }
+
+/* tabs */
+.tab-row{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:24px;}
+.tab-btn{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.8rem; color:var(--steel); background:var(--slate); border:1px solid #262c2e; padding:9px 18px; cursor:pointer; transition:all .15s;}
+.tab-btn:hover{color:var(--snow); border-color:#3a4244;}
+.tab-btn.active{background:var(--field-green); color:var(--snow); border-color:var(--field-green);}
+
+/* team cards (Teams directory) */
+.teams-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px;}
+@media (max-width:980px){.teams-grid{grid-template-columns:repeat(3,1fr);}}
+@media (max-width:720px){.teams-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:480px){.teams-grid{grid-template-columns:1fr;}}
+.team-card{background:var(--slate); border:1px solid #262c2e; padding:18px; transition:border-color .15s, transform .15s; display:flex; flex-direction:column; gap:10px;}
+.team-card:hover{border-color:var(--field-green-light); transform:translateY(-2px);}
+.team-card-top{display:flex; align-items:center; gap:12px;}
+.team-crest{width:42px; height:42px; border-radius:6px; flex-shrink:0;}
+.team-card h3{font-size:0.98rem; letter-spacing:0;}
+.team-card .div-tag{font-family:'Barlow Condensed',sans-serif; font-size:0.7rem; color:var(--steel); letter-spacing:0.06em; text-transform:uppercase; margin-top:2px;}
+.team-card .record-row{display:flex; justify-content:space-between; font-family:'Barlow Condensed',sans-serif; font-size:0.8rem; color:var(--steel); border-top:1px solid #262c2e; padding-top:10px;}
+.team-card a.profile-link{font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.75rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--gold);}
+.team-card a.profile-link:hover{color:var(--snow);}
+
+/* standings tables */
+.standings-table{width:100%; border-collapse:collapse; font-family:'Barlow Condensed',sans-serif; margin-bottom:8px;}
+.standings-table th{text-align:left; font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--steel); padding:10px 14px; border-bottom:1px solid #262c2e;}
+.standings-table td{padding:13px 14px; border-bottom:1px solid #1d2224; font-weight:500; font-size:0.92rem;}
+.standings-table tr:hover td{background:#1c2123;}
+.rank{color:var(--steel); width:30px;}
+.team-cell{display:flex; align-items:center; gap:10px; font-weight:600;}
+.team-dot{width:18px; height:18px; border-radius:4px; flex-shrink:0;}
+
+/* schedule */
+.week-block{margin-bottom:36px;}
+.week-block h3{font-size:1.05rem; color:var(--gold); letter-spacing:0.04em; margin-bottom:14px; font-family:'Barlow Condensed',sans-serif; text-transform:uppercase;}
+.games-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+@media (max-width:980px){.games-grid{grid-template-columns:repeat(2,1fr);}}
+@media (max-width:640px){.games-grid{grid-template-columns:1fr;}}
+.game-card{background:var(--slate); border:1px solid #262c2e; padding:18px; display:flex; flex-direction:column; gap:12px; transition:border-color .15s;}
+.live-dot{width:9px; height:9px; border-radius:50%; background:var(--broadcast-red); display:inline-block; margin-right:7px; animation:liveDotPulse 1.4s infinite;}
+@keyframes liveDotPulse{
+  0%{box-shadow:0 0 0 0 rgba(214,51,46,0.65);}
+  70%{box-shadow:0 0 0 8px rgba(214,51,46,0);}
+  100%{box-shadow:0 0 0 0 rgba(214,51,46,0);}
+}
+.live-card{display:block; background:var(--slate); border:1px solid var(--broadcast-red); padding:18px; transition:border-color .15s, transform .15s;}
+.live-card.clickable:hover{transform:translateY(-2px); border-color:var(--gold);}
+.live-status{display:flex; align-items:center; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--broadcast-red); margin-bottom:12px;}
+.watch-hint{font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.845rem; color:var(--gold); border-top:1px solid #262c2e; padding-top:10px; margin-top:12px;}
+.watch-hint.muted{color:var(--steel); font-weight:500;}
+.game-card:hover{border-color:var(--field-green-light);}
+.game-status{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold);}
+.matchup{display:flex; flex-direction:column; gap:8px;}
+.team-row{display:flex; align-items:center; justify-content:space-between;}
+.team{display:flex; align-items:center; gap:10px; font-weight:600; font-size:0.92rem;}
+.score{font-family:'Anton',sans-serif; font-size:1.1rem; color:var(--steel);}
+.team-score-wrap{display:flex; align-items:center; gap:8px;}
+.wl-badge{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.775rem; letter-spacing:0.04em; width:20px; height:20px; border-radius:4px; display:inline-flex; align-items:center; justify-content:center;}
+.wl-badge.wl-w{background:rgba(47,122,79,0.18); color:var(--field-green-light);}
+.wl-badge.wl-l{background:rgba(214,51,46,0.15); color:var(--broadcast-red);}
+.wl-badge.wl-t{background:rgba(139,150,154,0.15); color:var(--steel);}
+.game-meta{font-family:'Barlow Condensed',sans-serif; font-size:0.76rem; color:var(--steel); border-top:1px solid #262c2e; padding-top:10px;}
+.sponsor-badge{font-family:'Barlow Condensed',sans-serif; font-size:0.72rem; color:var(--gold); margin-top:6px;}
+.sponsor-badge a{color:var(--gold); text-decoration:underline; text-decoration-color:rgba(217,161,58,0.4);}
+.sponsor-badge a:hover{color:var(--snow);}
+
+/* POTW */
+.potw-feature{background:var(--slate); border:1px solid #262c2e; padding:30px; display:flex; gap:24px; align-items:center; flex-wrap:wrap;}
+.potw-photo-lg{width:120px; height:120px; border-radius:8px; background:linear-gradient(135deg,#3c5a76,#14181a); flex-shrink:0;}
+.potw-feature h3{font-size:1.5rem;}
+.potw-feature .pos{font-family:'Barlow Condensed',sans-serif; color:var(--steel); font-size:0.92rem; margin-top:4px;}
+.potw-feature .stat-line{font-family:'Barlow Condensed',sans-serif; font-size:0.95rem; color:var(--field-green-light); margin-top:10px; font-weight:600;}
+.potw-archive-table{width:100%; border-collapse:collapse; font-family:'Barlow Condensed',sans-serif;}
+.potw-archive-table th{text-align:left; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--steel); padding:10px 14px; border-bottom:1px solid #262c2e;}
+.potw-archive-table td{padding:13px 14px; border-bottom:1px solid #1d2224; font-size:0.9rem;}
+.potw-archive-table tr:hover td{background:#1c2123;}
+.potw-thumb-sm{width:38px; height:38px; border-radius:5px; background:linear-gradient(135deg,#3c5a76,#14181a); display:inline-block; vertical-align:middle; margin-right:10px;}
+
+footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--broadcast-red);}
+.footer-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr 1fr; gap:28px; padding-bottom:28px;}
+@media (max-width:980px){.footer-grid{grid-template-columns:1fr 1fr 1fr;}}
+@media (max-width:640px){.footer-grid{grid-template-columns:1fr 1fr;}}
+.footer-col h4{font-family:'Barlow Condensed',sans-serif; font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--steel); margin-bottom:14px;}
+.footer-col a{display:block; font-size:0.92rem; color:var(--snow); margin-bottom:10px; opacity:0.85;}
+.footer-col a:hover{opacity:1; color:var(--field-green-light);}
+.footer-bottom{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; border-top:1px solid #1d2224; padding-top:20px; font-family:'Barlow Condensed',sans-serif; font-size:0.78rem; color:var(--steel);}
+.nsn-subfooter{display:flex; align-items:center; gap:18px; margin-top:22px; padding-top:20px; border-top:1px solid #1d2224; flex-wrap:wrap;}
+.nsn-logo-video{width:70px; height:70px; object-fit:cover; border-radius:6px; background:#000; flex-shrink:0;}
+.nsn-subfooter-text .nsn-name{font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; font-size:0.85rem; color:var(--snow);}
+.nsn-subfooter-text a{font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.85rem; color:var(--gold);}
+.nsn-subfooter-text a:hover{color:var(--snow);}
+.nsn-subfooter-text .nsn-tagline{font-size:0.78rem; color:var(--steel); margin-top:4px; max-width:520px; line-height:1.4;}
+
+.c1{background:#2f7a4f;} .c2{background:#d6332e;} .c3{background:#d9a13a;}
+.c4{background:#3c5a76;} .c5{background:#7a5c3c;} .c6{background:#5c4a7a;}
+
+/* highlights — horizontal scroll row, any number of items */
+/* highlights CSS removed — see VFN Top 10 section styling above (inline) */
+</style>
+<script>
+function showTab(group, val, btn){
+  document.querySelectorAll('[data-group="'+group+'"]').forEach(function(el){
+    el.style.display = (el.dataset.val === val) ? '' : 'none';
+  });
+  btn.parentElement.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+}
+function toggleMobileMenu(){
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+</script>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="nav-left">
+      <button class="menu-toggle" aria-label="Open menu" onclick="toggleMobileMenu()">&#9776;</button>
+      <a href="index.html" class="logo"><img src="assets/vfn-logo.jpg" alt="Vermont Football Network"><span class="wordmark-full">VERMONT FOOTBALL</span><span class="wordmark-short">VFN</span> <span class="net">NETWORK</span></a>
+    </div>
+    <div class="nav-actions">
+      <a href="https://www.nsnsports.net" target="_blank" rel="noopener" class="watch-btn"><span>Watch Live</span></a>
+      <a href="mailto:csimpson@nsnsports.net?subject=Purchase%20Previous%20Games" class="purchase-btn"><span>Purchase Previous Games</span></a>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="index.html" class="active">Home</a>
+    <a href="live-scores.html">Live Scores</a>
+    <a href="schedule.html">Schedule</a>
+    <a href="standings.html">Standings</a>
+    <a href="teams.html">Teams</a>
+    <a href="statistics.html">Statistics</a>
+    <a href="player-of-the-week.html">Players of the Week</a>
+    <a href="top10.html">VFN Top 10</a>
+    <a href="articles-and-stories.html">Articles &amp; Stories</a>
+    <a href="hall-of-champions.html">Hall of Champions</a>
+    <a href="national-football-foundation.html">National Football Foundation VT Chapter</a>
+  </div>
+</header>
+
+<!-- NETWORK SPONSOR BANNER: swap the placeholder box below for the real logo once you have one. -->
+<div style="background:var(--slate); border-bottom:1px solid #262c2e; padding:14px 28px;">
+  <div class="wrap" style="display:flex; align-items:center; justify-content:center; gap:18px; flex-wrap:wrap;">
+    <span class="eyebrow" style="color:var(--gold); margin:0;">VFN Powered By</span>
+    <div style="background:var(--granite); border:1px dashed var(--steel); padding:10px 24px; font-family:'Anton',sans-serif; font-size:1rem; color:var(--steel);">Your Logo Here</div>
+  </div>
+</div>
+
+<section class="page-hero" style="min-height:38vh; display:flex; align-items:center;">
+  <div class="wrap">
+    <!-- NETWORK PARTNER LOGO: swap the src below for the real NSN logo file once you have one (assets/nsn-logo.png). Placeholder sized at 40px tall. -->
+    <div style="margin-bottom:18px;">
+      <img src="assets/nsn-logo.png" alt="A Northeast Sports Network Production" style="height:40px; width:auto; object-fit:contain;" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'eyebrow',style:'color:var(--steel);',textContent:'A Northeast Sports Network Production'}))">
+    </div>
+    <span class="eyebrow" id="heroWeekLabel">Loading&hellip;</span>
+    <h1 style="font-size:clamp(2.4rem,6.5vw,5rem); line-height:0.97; max-width:880px;">Every Game Day.<br><span style="color:var(--field-green-light);">Every Field.</span></h1>
+    <div style="display:flex; gap:14px; margin-top:30px; flex-wrap:wrap;">
+      <a href="schedule.html" class="watch-btn" style="display:inline-block; padding:15px 28px;"><span>This Week's Schedule</span></a>
+      <a href="standings.html" class="section-link" style="align-self:center;">View Standings &rarr;</a>
+    </div>
+  </div>
+</section>
+
+
+<section class="page-sponsor-banner" id="sponsors">
+  <div class="wrap">
+    <span class="eyebrow" style="display:block; text-align:center; margin-bottom:20px; color:var(--steel);">Brought to you by</span>
+    <div class="sponsor-ticker" style="margin-bottom:22px;">
+      <div class="sponsor-ticker-track">
+        <a href="https://www.littletonchevrolet.com/" target="_blank" rel="noopener">Littleton Chevrolet</a>
+        <a href="https://www.crosstownmotors.net/" target="_blank" rel="noopener">Crosstown Motors</a>
+        <a href="https://www.northwesternmedicalcenter.org/" target="_blank" rel="noopener">Northwest Medical Center</a>
+        <a href="https://www.mioseklaw.com/" target="_blank" rel="noopener">Miosek Law</a>
+        <a href="https://newtonerac.com/" target="_blank" rel="noopener">Dennis Newton</a>
+        <a href="https://www.larkinrealty.net/" target="_blank" rel="noopener">Larkin Realty</a>
+        <a href="https://lovellfarmsvt.com/" target="_blank" rel="noopener">Lovell Farm</a>
+        <a href="https://www.therockwoodagency.com/" target="_blank" rel="noopener">The Rockwood Agency</a>
+        <a href="https://hartfordautovt.com/repair-services/" target="_blank" rel="noopener">Hartford Auto</a>
+        <!-- duplicated for seamless scroll loop -->
+        <a href="https://www.littletonchevrolet.com/" target="_blank" rel="noopener">Littleton Chevrolet</a>
+        <a href="https://www.crosstownmotors.net/" target="_blank" rel="noopener">Crosstown Motors</a>
+        <a href="https://www.northwesternmedicalcenter.org/" target="_blank" rel="noopener">Northwest Medical Center</a>
+        <a href="https://www.mioseklaw.com/" target="_blank" rel="noopener">Miosek Law</a>
+        <a href="https://newtonerac.com/" target="_blank" rel="noopener">Dennis Newton</a>
+        <a href="https://www.larkinrealty.net/" target="_blank" rel="noopener">Larkin Realty</a>
+        <a href="https://lovellfarmsvt.com/" target="_blank" rel="noopener">Lovell Farm</a>
+        <a href="https://www.therockwoodagency.com/" target="_blank" rel="noopener">The Rockwood Agency</a>
+        <a href="https://hartfordautovt.com/repair-services/" target="_blank" rel="noopener">Hartford Auto</a>
+      </div>
+    </div>
+    <!-- MATCHUP OF THE WEEK: placeholder game below (BFA St. Albans @ Rutland, Week 1) — update to the actual featured game each week. -->
+    <div class="inner" style="background:var(--granite); border:1px solid #2a3133; padding:16px 24px; flex-wrap:wrap; gap:14px;">
+      <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+        <span class="ts-tag">Matchup of the Week</span>
+        <a href="team.html?team=BFA%20St.%20Albans" style="display:flex; align-items:center; gap:8px; font-weight:600;"><img src="assets/logos/BFA_SA.png" alt="BFA St. Albans" style="width:24px;height:24px;object-fit:contain;background:#fff;border-radius:4px;padding:2px;">BFA St. Albans</a>
+        <span style="color:var(--steel); font-family:'Barlow Condensed',sans-serif;">at</span>
+        <a href="team.html?team=Rutland" style="display:flex; align-items:center; gap:8px; font-weight:600;"><img src="assets/logos/rutland_copy.png" alt="Rutland" style="width:24px;height:24px;object-fit:contain;background:#fff;border-radius:4px;padding:2px;">Rutland</a>
+        <span class="ts-name" style="margin-left:6px;">Presented by Crosstown Motors</span>
+      </div>
+      <a href="mailto:csimpson@nsnsports.net?subject=Sponsorship%20Inquiry" class="section-link">Become a Title Sponsor &rarr;</a>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="schedule-preview"><script>
+const SEASON_YEAR = 2026; // update at the start of each new season
+
+// Team data (logo, division, colors, mascot) now lives in one place: data/Teams.csv
+// Every page fetches it instead of hardcoding its own copy — fix a team once, it's correct everywhere.
+let VFN_LOGOS = {};
+let VFN_DIVS = {};
+let TEAMS = {};
+const DIV_ABBR = {"Division I":"D-I","Division II":"D-II","Division III":"D-III"};
+
+async function loadTeamsCSV(){
+  const r = await fetch("data/Teams.csv");
+  if(!r.ok) throw new Error("Could not load data/Teams.csv");
+  const lines = (await r.text()).trim().split(/\r?\n/);
+  const headers = lines[0].split(",");
+  lines.slice(1).filter(l => l.trim().length).forEach(line => {
+    const cells = line.split(",");
+    const row = {};
+    headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
+    TEAMS[row.Team] = {
+      logo: row.LogoPath, div: row.Division, c1: row.PrimaryColor, c2: row.SecondaryColor,
+      t1: row.TextColor, mascot: row.Mascot, cancelled: row.Cancelled === "true"
+    };
+    VFN_LOGOS[row.Team] = row.LogoPath;
+    VFN_DIVS[row.Team] = DIV_ABBR[row.Division] || row.Division;
+  });
+}
+
+function vfnCrest(team){
+  const path = VFN_LOGOS[team];
+  if(path){
+    return `<img src="${path}" alt="${team}" style="width:20px;height:20px;object-fit:contain;background:#fff;border-radius:4px;padding:2px;">`;
+  }
+  return `<span class="team-dot c1"></span>`;
+}
+function gameMeta(t1, t2){
+  const d1 = VFN_DIVS[t1], d2 = VFN_DIVS[t2];
+  if(d1 && d2 && d1 !== d2) return `${d1}/${d2} Crossover`;
+  return d1 ? (d1==='D-I'?'Division I':d1==='D-II'?'Division II':'Division III') : '';
+}
+// Sponsor tag -> full name(s) + link now lives in one place: data/SponsorDirectory.csv
+let SPONSOR_MAP = {};
+async function loadSponsorDirectory(){
+  const r = await fetch("data/SponsorDirectory.csv");
+  if(!r.ok) throw new Error("Could not load data/SponsorDirectory.csv");
+  const lines = (await r.text()).trim().split(/\r?\n/);
+  const headers = lines[0].split(",");
+  lines.slice(1).filter(l => l.trim().length).forEach(line => {
+    const cells = line.split(",");
+    const row = {};
+    headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
+    if(!SPONSOR_MAP[row.SponsorTag]) SPONSOR_MAP[row.SponsorTag] = [];
+    SPONSOR_MAP[row.SponsorTag].push({name: row.Name, url: row.URL});
+  });
+}
+let TITLE_SPONSORS = [];
+function findTitleSponsor(week, teamA, teamB){
+  const row = TITLE_SPONSORS.find(r =>
+    r["Week"] === String(week) &&
+    ((r["TeamA"] === teamA && r["TeamB"] === teamB) || (r["TeamA"] === teamB && r["TeamB"] === teamA))
+  );
+  return row ? SPONSOR_MAP[row["SponsorTag"]] : null;
+}
+function sponsorBadgeHTML(sponsors){
+  if(!sponsors) return '';
+  return `<div class="sponsor-badge">Presented by ${sponsors.map(s => `<a href="${s.url}" target="_blank" rel="noopener">${s.name}</a>`).join(' &amp; ')}</div>`;
+}
+function parseGameDate(dateStr){
+  const [m,d] = dateStr.split('/').map(Number);
+  return new Date(SEASON_YEAR, m-1, d);
+}
+function parseScheduleCSV(text){
+  const lines = text.trim().split(/\r?\n/);
+  const headers = lines[0].split(",");
+  return lines.slice(1).filter(l => l.trim().length).map(line => {
+    const cells = line.split(",");
+    const row = {};
+    headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
+    return row;
+  });
+}
+
+// The current week is whichever week hasn't yet passed its "Sunday cutoff" —
+// each week's games (Thu/Fri/Sat) are considered final as of the Sunday that follows.
+// Once that Sunday arrives, the homepage automatically advances to the next week.
+function getCurrentWeek(scheduleRows){
+  const weekLatest = {};
+  scheduleRows.forEach(g => {
+    const wk = Number(g["Week"]);
+    const d = parseGameDate(g["Date"]);
+    if(!weekLatest[wk] || d > weekLatest[wk]) weekLatest[wk] = d;
+  });
+  const weeks = Object.keys(weekLatest).map(Number).sort((a,b) => a-b);
+  const today = new Date(); today.setHours(0,0,0,0);
+  for(const wk of weeks){
+    const lastGameDate = weekLatest[wk];
+    const sundayAfter = new Date(lastGameDate);
+    sundayAfter.setDate(sundayAfter.getDate() + ((7 - lastGameDate.getDay()) % 7));
+    sundayAfter.setHours(0,0,0,0);
+    if(today < sundayAfter) return wk;
+  }
+  return weeks.length ? weeks[weeks.length-1] : 1;
+}
+
+function homeLiveCardHTML(g){
+  const s1 = g["Team1Score"] || "0", s2 = g["Team2Score"] || "0";
+  const n1 = Number(s1), n2 = Number(s2);
+  const lead1 = n1 > n2 ? "score final" : "score";
+  const lead2 = n2 > n1 ? "score final" : "score";
+  const url = (g["BroadcastURL"] || "").trim();
+  const tag = url ? "a" : "div";
+  const openTag = url
+    ? `<a href="${url}" target="_blank" rel="noopener" class="live-card clickable">`
+    : `<div class="live-card">`;
+  return `${openTag}
+    <span class="live-status"><span class="live-dot"></span>Live &middot; ${g["Quarter"]}</span>
+    <div class="matchup">
+      <div class="team-row"><div class="team">${vfnCrest(g["Team1"])}${g["Team1"]}</div><span class="${lead1}">${s1}</span></div>
+      <div class="team-row"><div class="team">${vfnCrest(g["Team2"])}${g["Team2"]}</div><span class="${lead2}">${s2}</span></div>
+    </div>
+    ${url ? '<div class="watch-hint">Watch This Broadcast &rarr;</div>' : '<div class="watch-hint muted">Score only &mdash; no live video for this game</div>'}
+  </${tag}>`;
+}
+
+async function renderHomeSchedule(){
+  const labelEl = document.getElementById('homeScheduleLabel');
+  const grid = document.getElementById('homeScheduleGrid');
+  const heroWeekEl = document.getElementById('heroWeekLabel');
+  try {
+    await Promise.all([loadTeamsCSV(), loadSponsorDirectory()]);
+    // Schedule now lives in the "VFN Data Hub" Google Sheet (Schedule tab), published to web as CSV.
+    // To swap sources later, change this one URL — no other code needs to change.
+    const res = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=128915362&single=true&output=csv");
+    if(!res.ok) throw new Error("Could not load the schedule from the VFN Data Hub sheet");
+    const rows = parseScheduleCSV(await res.text());
+    try {
+      const sponsorRes = await fetch("data/TitleSponsors.csv");
+      if(sponsorRes.ok) TITLE_SPONSORS = parseScheduleCSV(await sponsorRes.text());
+    } catch(e) { console.warn("No title sponsor data yet:", e); }
+
+    if(!grid) return;
+
+    // If any game is currently live (Quarter filled in, not yet "Final"), the live
+    // games take over this whole section instead of the normal upcoming/this-week
+    // preview. Reverts back automatically once nothing's live — see the poll below.
+    const liveGames = rows.filter(g => {
+      const q = (g["Quarter"] || "").trim();
+      return q !== "" && !q.toLowerCase().startsWith("final");
+    });
+    const currentWeek = getCurrentWeek(rows);
+
+    if(liveGames.length > 0){
+      if(heroWeekEl) heroWeekEl.innerHTML = '<span class="live-dot" style="margin-right:8px;"></span>Live Now \u00b7 Vermont High School Football';
+      if(labelEl) labelEl.innerHTML = '<span class="live-dot" style="margin-right:6px;"></span>Live Now';
+      grid.innerHTML = liveGames.map(homeLiveCardHTML).join('');
+      return;
+    }
+
+    if(heroWeekEl) heroWeekEl.textContent = `Week ${currentWeek} \u00b7 Vermont High School Football`;
+    const weekGames = rows.filter(g => Number(g["Week"]) === currentWeek);
+    if(labelEl) labelEl.textContent = `Week ${currentWeek}`;
+
+    grid.innerHTML = weekGames.slice(0,6).map(g => {
+      const s1 = g["Team1Score"], s2 = g["Team2Score"];
+      const played = s1 !== "" && s2 !== "";
+      const status = played ? "Final" : `${g["Date"]}${g["Time"] ? " &middot; " + g["Time"] : ""}`;
+      const score1 = played ? s1 : "&mdash;";
+      const score2 = played ? s2 : "&mdash;";
+      let wl1 = "", wl2 = "";
+      if(played){
+        const n1 = Number(s1), n2 = Number(s2);
+        if(n1 > n2){ wl1 = '<span class="wl-badge wl-w">W</span>'; wl2 = '<span class="wl-badge wl-l">L</span>'; }
+        else if(n2 > n1){ wl1 = '<span class="wl-badge wl-l">L</span>'; wl2 = '<span class="wl-badge wl-w">W</span>'; }
+        else { wl1 = '<span class="wl-badge wl-t">T</span>'; wl2 = '<span class="wl-badge wl-t">T</span>'; }
+      }
+      const sponsors = findTitleSponsor(g["Week"], g["Team1"], g["Team2"]);
+      return `
+      <div class="game-card">
+        <span class="game-status">${status}</span>
+        <div class="matchup">
+          <div class="team-row"><div class="team">${vfnCrest(g["Team1"])}${g["Team1"]}</div><span class="team-score-wrap">${wl1}<span class="score">${score1}</span></span></div>
+          <div class="team-row"><div class="team">${vfnCrest(g["Team2"])}${g["Team2"]}</div><span class="team-score-wrap">${wl2}<span class="score">${score2}</span></span></div>
+        </div>
+        <div class="game-meta">${gameMeta(g["Team1"], g["Team2"])}</div>
+        ${sponsorBadgeHTML(sponsors)}
+      </div>`;
+    }).join('');
+  } catch(err){
+    if(labelEl) labelEl.textContent = "Schedule unavailable";
+    if(grid) grid.innerHTML = '<p style="color:var(--steel);">Could not load the schedule. Make sure the VFN Data Hub Schedule tab is published to web and reachable.</p>';
+    console.error(err);
+  }
+}
+document.addEventListener('DOMContentLoaded', renderHomeSchedule);
+// Re-check periodically so the homepage flips to "Live Now" (or back) without a manual refresh.
+setInterval(renderHomeSchedule, 45000);
+</script>
+  <div class="wrap">
+    <div class="section-head">
+      <div><span class="eyebrow" id="homeScheduleLabel">Loading&hellip;</span><h2>This Week's Games</h2></div>
+      <div style="display:flex; gap:16px; align-items:baseline;">
+        <a href="live-scores.html" class="section-link">All Live Scores &rarr;</a>
+        <a href="schedule.html" class="section-link">Full Schedule &rarr;</a>
+      </div>
+    </div>
+    <div class="games-grid" id="homeScheduleGrid">
+      <div class="game-card"><span class="game-status">Loading&hellip;</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="top10" style="background:var(--slate); border-top:1px solid #262c2e; border-bottom:1px solid #262c2e;">
+  <div class="wrap">
+    <div class="section-head">
+      <div><span class="eyebrow">Fan Vote</span><h2>VFN Top 10</h2></div>
+      <a href="top10.html" class="section-link">Vote for #1 &rarr;</a>
+    </div>
+    <p style="color:var(--steel); font-size:0.92rem; max-width:640px; margin:-14px 0 24px;">The ten best plays from around the VIFL this week, all in one countdown video. You decide who's #1.</p>
+    <a href="top10.html" style="display:block; background:var(--granite); border:1px solid #2a3133; max-width:240px; margin:0 auto; transition:border-color .15s;" onmouseover="this.style.borderColor='var(--broadcast-red)'" onmouseout="this.style.borderColor='#2a3133'">
+      <img src="assets/vfn-top10-logo.jpg" alt="VFN Top 10 — Plays of the Week" style="width:100%; display:block;">
+    </a>
+  </div>
+</section>
+
+<section class="section" id="media">
+  <div class="wrap">
+    <div class="section-head">
+      <div><span class="eyebrow">Outside the Lines</span><h2>Media Coverage Around the State</h2></div>
+      <a href="articles-and-stories.html" class="section-link">All Stories &rarr;</a>
+    </div>
+
+    <!-- Recent coverage: hand-picked real links from VT papers/stations. Swap these out as new coverage runs. -->
+    <div style="display:flex; flex-direction:column; gap:1px; background:#262c2e; border:1px solid #262c2e; margin-bottom:28px;">
+      <a href="https://www.caledonianrecord.com/sports/local/first-look-h-s-football-fires-up-in-vermont/article_6429c60f-e8a8-5ccb-a4f2-68112b59e41f.html" target="_blank" rel="noopener" style="display:flex; align-items:center; justify-content:space-between; gap:16px; background:var(--slate); padding:18px 20px; flex-wrap:wrap;">
+        <div>
+          <span class="eyebrow" style="color:var(--gold);">Caledonian Record</span>
+          <h3 style="font-size:1rem; margin-top:6px; letter-spacing:0;">First Look: H.S. Football Fires Up In Vermont</h3>
+        </div>
+        <span class="section-link" style="font-size:0.72rem; flex-shrink:0;">Read &#8599;</span>
+      </a>
+      <a href="https://www.rutlandherald.com/sports/local/it-all-begins-for-vermont-grid-teams/article_d78aaf5b-f3f6-59a0-a5ed-fdbe5ec1924b.html" target="_blank" rel="noopener" style="display:flex; align-items:center; justify-content:space-between; gap:16px; background:var(--slate); padding:18px 20px; flex-wrap:wrap;">
+        <div>
+          <span class="eyebrow" style="color:var(--gold);">Rutland Herald</span>
+          <h3 style="font-size:1rem; margin-top:6px; letter-spacing:0;">It All Begins For Vermont Grid Teams</h3>
+        </div>
+        <span class="section-link" style="font-size:0.72rem; flex-shrink:0;">Read &#8599;</span>
+      </a>
+      <a href="https://www.wcax.com/2025/11/16/middlebury-colchester-bellows-falls-take-home-hs-football-titles/" target="_blank" rel="noopener" style="display:flex; align-items:center; justify-content:space-between; gap:16px; background:var(--slate); padding:18px 20px; flex-wrap:wrap;">
+        <div>
+          <span class="eyebrow" style="color:var(--gold);">WCAX</span>
+          <h3 style="font-size:1rem; margin-top:6px; letter-spacing:0;">Middlebury, Colchester, Bellows Falls Take Home H.S. Football Titles</h3>
+        </div>
+        <span class="section-link" style="font-size:0.72rem; flex-shrink:0;">Read &#8599;</span>
+      </a>
+    </div>
+
+    <!-- Vermont newspapers & stations, linked to their sports sections where available. -->
+    <div style="display:flex; flex-wrap:wrap; gap:14px;">
+      <a href="https://www.caledonianrecord.com/sports/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>Caledonian Record &#8599;</a>
+      <a href="https://www.burlingtonfreepress.com/sports/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>Burlington Free Press &#8599;</a>
+      <a href="https://www.vnews.com/Sports" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>Valley News &#8599;</a>
+      <a href="https://www.rutlandherald.com/sports/local/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>Rutland Herald &#8599;</a>
+      <a href="https://www.samessenger.com/sports/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>St. Albans Messenger &#8599;</a>
+      <a href="https://www.timesargus.com/sports/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>Times Argus &#8599;</a>
+      <a href="https://www.reformer.com/sports/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>Brattleboro Reformer &#8599;</a>
+      <a href="https://www.benningtonbanner.com/sports/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>Bennington Banner &#8599;</a>
+      <a href="https://www.addisonindependent.com/category/sports/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>Addison Independent &#8599;</a>
+      <a href="https://www.wcax.com/sports/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--slate); border:1px solid #262c2e; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--steel);"></span>WCAX &#8599;</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="potw-preview" style="border-bottom:1px solid #262c2e;">
+  <div class="wrap">
+    <div class="section-head">
+      <div><span class="eyebrow">Recognition</span><h2>Players of the Week</h2></div>
+      <a href="player-of-the-week.html" class="section-link">See Past Recipients &rarr;</a>
+    </div>
+    <!-- Teaser only: name + team, no stat lines. Full detail lives on player-of-the-week.html.
+         Pulls from the same POTW sheet as that page — no separate data to keep in sync. -->
+    <div id="potwPreviewList" style="display:flex; flex-direction:column; gap:1px; background:#262c2e; border:1px solid #262c2e;">
+      <p style="color:var(--steel); padding:18px 20px; background:var(--slate); margin:0;">Loading this week's honorees&hellip;</p>
+    </div>
+  </div>
+</section>
+<script>
+async function renderPOTWPreview(){
+  const listEl = document.getElementById('potwPreviewList');
+  if(!listEl) return;
+  try {
+    const res = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=1930672992&single=true&output=csv");
+    if(!res.ok) throw new Error("Could not load POTW data");
+    const lines = (await res.text()).trim().split(/\r?\n/);
+    const headers = lines[0].split(",");
+    const rows = lines.slice(1).filter(l => l.trim().length).map(line => {
+      const cells = line.split(",");
+      const row = {};
+      headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
+      return row;
+    });
+    const currentWeek = Math.max(...rows.map(r => parseInt(r.Week, 10)));
+    const thisWeek = rows.filter(r => parseInt(r.Week,10) === currentWeek);
+    const order = ["Network Nod", "Division I", "Division II", "Division III"];
+    const honorees = order.map(cat => thisWeek.find(r => r.Category === cat)).filter(Boolean);
+
+    listEl.innerHTML = honorees.map(h => {
+      const isNod = h.Category === "Network Nod";
+      return `
+      <a href="player-of-the-week.html" style="display:flex; align-items:center; justify-content:space-between; gap:16px; background:var(--slate); padding:16px 20px; flex-wrap:wrap; ${isNod ? 'border-left:3px solid var(--gold);' : ''}">
+        <div style="display:flex; align-items:center; gap:14px;">
+          <div class="potw-photo-lg" style="width:40px; height:40px;"></div>
+          <div>
+            <h3 style="font-size:0.95rem;">${h.Name}</h3>
+            <div class="pos" style="font-size:0.78rem; color:var(--steel); font-family:'Barlow Condensed',sans-serif;">${h.Team}</div>
+          </div>
+        </div>
+        <span style="font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.72rem; letter-spacing:0.06em; text-transform:uppercase; color:${isNod ? 'var(--gold)' : 'var(--field-green-light)'};">${isNod ? 'Network Nod' : h.Category}</span>
+      </a>`;
+    }).join('');
+  } catch(err){
+    listEl.innerHTML = '<p style="color:var(--steel); padding:18px 20px; background:var(--slate); margin:0;">Could not load this week\'s honorees.</p>';
+    console.error(err);
+  }
+}
+document.addEventListener('DOMContentLoaded', renderPOTWPreview);
+</script>
+
+<section class="section" id="podcast" style="background:var(--slate); border-top:1px solid #262c2e; border-bottom:1px solid #262c2e;">
+  <div class="wrap">
+    <div class="section-head">
+      <div><span class="eyebrow">Weekly Breakdowns with Eric Berry</span><h2>Inside the Game</h2></div>
+    </div>
+    <!-- PODCAST PLAYER: this is currently a PLACEHOLDER — an NSN broadcast archive clip (via Hudl production truck),
+         not an actual podcast episode. Swap the iframe src below for the real podcast embed once one exists
+         (e.g. a Spotify episode/show embed URL, an Apple Podcasts embed URL, or a Buzzsprout/podcast-host embed).
+         SPONSOR OVERLAY: the Sticks & Stuff badge below is a clickable link layered on top of the video corner —
+         swap assets/sticks-stuff-sponsor.png or the href if the sponsorship changes. -->
+    <div id="podcastPlayerWrap" style="background:var(--granite); border:1px solid #2a3133; padding:24px;">
+      <div style="display:flex; gap:24px; align-items:flex-start; flex-wrap:wrap;">
+        <div style="flex:0 1 420px; min-width:260px; position:relative;">
+          <iframe src="https://vcloud.hudl.com/broadcast/embed/2957474?windowed=true" width="100%" height="260" frameborder="0" allowfullscreen style="display:block; background:#000; width:100%;"></iframe>
+          <a href="https://www.sticksandstuff.com/" target="_blank" rel="noopener" title="Inside the Game is presented by Sticks &amp; Stuff" style="position:absolute; bottom:10px; right:10px; width:80px; height:80px; display:block; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.6)); transition:transform .15s;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
+            <img src="assets/sticks-stuff-sponsor.png" alt="Sticks &amp; Stuff" style="width:100%; height:100%; object-fit:contain;">
+          </a>
+        </div>
+        <div style="flex:1; min-width:220px; display:flex; gap:18px; align-items:center;">
+          <img src="assets/inside-the-game-logo.png" alt="Inside the Game with Eric Berry" style="max-height:260px; height:auto; width:auto; max-width:100%; object-fit:contain; flex-shrink:0;">
+          <div>
+            <h3 style="font-size:1.05rem; line-height:1.15;">Inside the Game</h3>
+            <p style="font-size:0.78rem; color:var(--steel);">with Eric Berry</p>
+            <p style="font-size:0.82rem; color:var(--steel); line-height:1.5; margin-top:10px;">Weekly breakdowns, coach interviews, and predictions from around the VIFL.</p>
+            <p style="font-size:0.72rem; color:var(--gold); margin-top:8px; font-family:'Barlow Condensed',sans-serif; letter-spacing:0.04em; text-transform:uppercase;">Presented by <a href="https://www.sticksandstuff.com/" target="_blank" rel="noopener" style="color:var(--gold); text-decoration:underline; text-decoration-color:rgba(217,161,58,0.4);">Sticks &amp; Stuff</a></p>
+            <p style="font-size:0.72rem; color:var(--gold); margin-top:6px; font-family:'Barlow Condensed',sans-serif; letter-spacing:0.04em; text-transform:uppercase;">Placeholder clip &mdash; NSN broadcast archive, real podcast episode coming soon</p>
+            <div style="display:flex; gap:12px; margin-top:10px; flex-wrap:wrap;">
+              <a href="#" class="section-link" style="font-size:0.72rem;">Apple</a>
+              <a href="#" class="section-link" style="font-size:0.72rem;">Spotify</a>
+              <a href="https://www.nsnsports.net" target="_blank" rel="noopener" class="section-link" style="font-size:0.72rem;">Listen on NSN &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="league-resources" style="background:var(--slate); border-top:1px solid #262c2e; border-bottom:1px solid #262c2e;">
+  <div class="wrap">
+    <div class="section-head">
+      <div><span class="eyebrow">For Coaches, Players &amp; Families</span><h2>League Resources</h2></div>
+    </div>
+    <div style="display:flex; flex-wrap:wrap; gap:14px;">
+      <a href="https://www.vfca-vt.org/" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--granite); border:1px solid #2a3133; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--gold);"></span>Vermont Football Coaches Association &#8599;</a>
+      <a href="https://docs.google.com/document/d/1xGVxHfAktN-xCC3d6qNRXsPPTrmvjqp6/edit" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--granite); border:1px solid #2a3133; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--gold);"></span>VPA Football Guide &#8599;</a>
+      <a href="https://nfhs.org/sports/football/rules" target="_blank" rel="noopener" style="display:flex; align-items:center; gap:10px; background:var(--granite); border:1px solid #2a3133; padding:13px 20px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.88rem;"><span style="width:8px;height:8px;border-radius:50%;background:var(--gold);"></span>NFHS Football Rules &#8599;</a>
+    </div>
+  </div>
+</section>
+
+
+
+<footer id="about">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <a href="index.html" class="logo" style="font-size:1.2rem; margin-bottom:14px;"><img src="assets/vfn-logo.jpg" alt="VFN" style="height:28px;width:28px;"> VERMONT FOOTBALL <span class="net">NETWORK</span></a>
+        <p style="color:var(--steel); font-size:0.88rem; max-width:280px; line-height:1.6; margin-top:14px;">A Northeast Sports Network production. Bringing Vermont high school football to every living room, every game day.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Watch</h4>
+        <a href="schedule.html">Full Schedule</a>
+        <!-- Video Archive should point to the same destination as "Purchase Previous Games" once that exists (likely a VOD/game-purchase page) — currently neither is built, so both use the same placeholder mailto. -->
+        <a href="mailto:csimpson@nsnsports.net?subject=Purchase%20Previous%20Games">Video Archive</a>
+        <a href="top10.html">VFN Top 10</a>
+      </div>
+      <div class="footer-col">
+        <h4>Network</h4>
+        <a href="standings.html">Standings &amp; QPR</a>
+        <a href="teams.html">All Teams</a>
+        <a href="statistics.html">Statistics</a>
+        <a href="player-of-the-week.html">Players of the Week</a>
+      </div>
+      <div class="footer-col">
+        <h4>League Resources</h4>
+        <a href="https://www.vfca-vt.org/" target="_blank" rel="noopener">VT Football Coaches Assoc.</a>
+        <a href="https://docs.google.com/document/d/1xGVxHfAktN-xCC3d6qNRXsPPTrmvjqp6/edit" target="_blank" rel="noopener">VPA Football Guide</a>
+        <a href="https://nfhs.org/sports/football/rules" target="_blank" rel="noopener">NFHS Rules</a>
+      </div>
+      <div class="footer-col">
+        <h4>Partner With Us</h4>
+        <a href="mailto:csimpson@nsnsports.net?subject=Sponsorship%20Packages">Sponsorship Packages</a>
+        <a href="mailto:csimpson@nsnsports.net?subject=Title%20Sponsor%20Inquiry">Title Sponsor Inquiry</a>
+        <a href="mailto:csimpson@nsnsports.net?subject=Media%20Kit%20Request">Media Kit</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 Northeast Sports Network. All rights reserved.</span>
+      <span>VFN — Vermont Football Network</span>
+    </div>
+    <div class="nsn-subfooter">
+      <video autoplay muted loop playsinline class="nsn-logo-video">
+        <source src="assets/nsn-logo.mp4" type="video/mp4">
+      </video>
+      <div class="nsn-subfooter-text">
+        <div class="nsn-name">Northeast Sports Network</div>
+        <a href="https://www.nsnsports.net" target="_blank" rel="noopener">www.nsnsports.net</a>
+        <div class="nsn-tagline">Live &amp; on-demand high school and college sports coverage across Vermont, New Hampshire &amp; New England</div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
