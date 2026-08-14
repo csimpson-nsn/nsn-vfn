@@ -148,7 +148,8 @@ async function loadCSV(url){
   return parseCSV(await r.text());
 }
 
-// Everything below renders from data/TopPlays.csv — columns: Week, Rank, Team, Player, Description, VideoURL
+// Everything below renders from the "VFN Data Hub" Google Sheet, TopPlays tab, published to web as CSV.
+// Columns: Week, Play #, Team, Player, Description, VideoURL, WinningRank
 // Each week is ONE countdown video (link goes on any one row for that week — doesn't matter which).
 // Current week: full numbered list below the video, no winner declared yet.
 // Past weeks: just the video and a one-line statement of which number won (WinningRank column,
@@ -167,7 +168,7 @@ function renderVideo(videoEl, plays){
 function renderCurrentWeek(videoEl, listEl, plays){
   renderVideo(videoEl, plays);
   listEl.innerHTML = plays.map(p =>
-    `<div class="top10-line"><strong>#${p.Rank}</strong> &mdash; ${p.Team} &mdash; ${p.Player} &mdash; ${p.Description}</div>`
+    `<div class="top10-line"><strong>#${p["Play #"]}</strong> &mdash; ${p.Team} &mdash; ${p.Player} &mdash; ${p.Description}</div>`
   ).join('');
 }
 
@@ -175,7 +176,7 @@ function renderArchiveWeek(videoEl, statementEl, plays){
   renderVideo(videoEl, plays);
   const winningRankRow = plays.find(p => p.WinningRank && p.WinningRank.trim());
   const winningRank = winningRankRow ? winningRankRow.WinningRank.trim() : null;
-  const winningPlay = winningRank ? plays.find(p => parseInt(p.Rank,10) === parseInt(winningRank,10)) : null;
+  const winningPlay = winningRank ? plays.find(p => parseInt(p["Play #"],10) === parseInt(winningRank,10)) : null;
   statementEl.innerHTML = winningPlay
     ? `<p class="winner-statement">Winner was #${winningRank}</p><p class="winner-detail">${winningPlay.Team} &mdash; ${winningPlay.Player} &mdash; ${winningPlay.Description}</p>`
     : '<p class="winner-statement" style="color:var(--steel);">Winner not yet recorded for this week.</p>';
@@ -183,8 +184,10 @@ function renderArchiveWeek(videoEl, statementEl, plays){
 
 async function init(){
   try {
-    const r = await fetch("data/TopPlays.csv");
-    if(!r.ok) throw new Error("Could not load data/TopPlays.csv");
+    // TopPlays now lives in the "VFN Data Hub" Google Sheet (TopPlays tab), published to web as CSV.
+    // To swap sources later, change this one URL — no other code needs to change.
+    const r = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=1724877265&single=true&output=csv");
+    if(!r.ok) throw new Error("Could not load TopPlays data from the VFN Data Hub sheet");
     const rows = parseCSV(await r.text());
 
     const weeks = [...new Set(rows.map(row => parseInt(row.Week,10)))].sort((a,b) => b-a);
@@ -195,7 +198,7 @@ async function init(){
 
     // This week's Top 10 — no winner declared yet, voting is open
     const thisWeekPlays = rows.filter(row => parseInt(row.Week,10) === currentWeek)
-                               .sort((a,b) => parseInt(a.Rank,10) - parseInt(b.Rank,10));
+                               .sort((a,b) => parseInt(a["Play #"],10) - parseInt(b["Play #"],10));
     renderCurrentWeek(document.getElementById('currentWeekVideo'), document.getElementById('currentWeekList'), thisWeekPlays);
 
     // Past weeks — tab selector, just video + winner statement
@@ -220,14 +223,14 @@ async function init(){
 
   } catch(err){
     console.error(err);
-    document.getElementById('currentWeekList').innerHTML = '<p style="color:var(--steel);">Could not load this week\'s Top 10. Make sure data/TopPlays.csv is uploaded and reachable.</p>';
-    document.getElementById('archiveEmpty').textContent = "Could not load the archive. Make sure data/TopPlays.csv is uploaded and reachable.";
+    document.getElementById('currentWeekList').innerHTML = '<p style="color:var(--steel);">Could not load this week\'s Top 10. Make sure the VFN Data Hub TopPlays tab is published to web and reachable.</p>';
+    document.getElementById('archiveEmpty').textContent = "Could not load the archive. Make sure the VFN Data Hub TopPlays tab is published to web and reachable.";
   }
 }
 
 function showArchiveWeekInternal(week){
   const plays = window.TOP10_ROWS.filter(row => parseInt(row.Week,10) === week)
-                                  .sort((a,b) => parseInt(a.Rank,10) - parseInt(b.Rank,10));
+                                  .sort((a,b) => parseInt(a["Play #"],10) - parseInt(b["Play #"],10));
   renderArchiveWeek(document.getElementById('archiveVideo'), document.getElementById('archiveStatement'), plays);
 }
 function showArchiveWeek(week, btn){
