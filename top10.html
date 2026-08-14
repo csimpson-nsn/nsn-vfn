@@ -149,11 +149,14 @@ async function loadCSV(url){
 }
 
 // Everything below renders from the "VFN Data Hub" Google Sheet, TopPlays tab, published to web as CSV.
-// Columns: Week, Play #, Team, Player, Description, VideoURL, WinningRank
-// Each week is ONE countdown video (link goes on any one row for that week — doesn't matter which).
-// Current week: full numbered list below the video, no winner declared yet.
-// Past weeks: just the video and a one-line statement of which number won (WinningRank column,
-// filled in on any one row for that week once voting closes). To update, edit that CSV. No code change needed.
+// Columns: Week, Play #, Team, Player, Description, VideoURL, WinningRank, WinnerVideoPath
+// Each week is ONE countdown video during voting (VideoURL, link goes on any one row for that week —
+// doesn't matter which). Once a week closes and moves to the archive, it switches to showing just the
+// WINNING play — a short clip you upload straight to the GitHub repo (not a Facebook link). Put that
+// file in assets/top10-videos/ and paste its relative path into WinnerVideoPath on any one row for that
+// week. Current week: full numbered list below the video, no winner declared yet. Past weeks: just the
+// winner's clip and a one-line statement of which number won (WinningRank column, filled in on any one
+// row for that week once voting closes). To update, edit that sheet. No code change needed.
 
 function fbEmbed(url){
   return `<iframe src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=false&width=560" width="100%" height="315" style="width:100%; height:315px; display:block;" allowfullscreen scrolling="no"></iframe>`;
@@ -164,6 +167,13 @@ function renderVideo(videoEl, plays){
     ? fbEmbed(videoUrl)
     : '<p style="color:var(--steel); padding:16px 20px; margin:0;">This week\'s countdown video is coming soon.</p>';
 }
+function renderWinnerVideo(videoEl, plays){
+  const pathRow = plays.find(p => p.WinnerVideoPath && p.WinnerVideoPath.trim());
+  const path = pathRow ? pathRow.WinnerVideoPath.trim() : null;
+  videoEl.innerHTML = path
+    ? `<video src="${path}" controls playsinline style="width:100%; display:block; background:#000;"></video>`
+    : '<p style="color:var(--steel); padding:16px 20px; margin:0;">Winner showcase video coming soon.</p>';
+}
 
 function renderCurrentWeek(videoEl, listEl, plays){
   renderVideo(videoEl, plays);
@@ -173,7 +183,7 @@ function renderCurrentWeek(videoEl, listEl, plays){
 }
 
 function renderArchiveWeek(videoEl, statementEl, plays){
-  renderVideo(videoEl, plays);
+  renderWinnerVideo(videoEl, plays);
   const winningRankRow = plays.find(p => p.WinningRank && p.WinningRank.trim());
   const winningRank = winningRankRow ? winningRankRow.WinningRank.trim() : null;
   const winningPlay = winningRank ? plays.find(p => parseInt(p["Play #"],10) === parseInt(winningRank,10)) : null;
@@ -275,7 +285,6 @@ init();
   <div class="wrap">
     <img src="assets/vfn-top10-logo-wide.jpg" alt="VFN Top 10 — Plays of the Week" style="width:100%; max-width:520px; aspect-ratio:1687/475; object-fit:cover; object-position:center; height:auto; display:block; margin-bottom:22px; border-radius:6px; border:1px solid #2a3133;">
     <span class="eyebrow">Updated Every Week</span>
-    <h1>VFN Top 10</h1>
     <p>The ten best plays from around the VIFL this week — watch them all below, then cast your vote for #1. Past weeks' winners are archived further down the page.</p>
   </div>
 </section>
