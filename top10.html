@@ -149,29 +149,48 @@ async function loadCSV(url){
 }
 
 // Everything below renders from the "VFN Data Hub" Google Sheet, TopPlays tab, published to web as CSV.
-// Columns: Week, Play #, Team, Player, Description, VideoURL, WinningRank, WinnerVideoPath
-// Each week is ONE countdown video during voting (VideoURL, link goes on any one row for that week —
-// doesn't matter which). Once a week closes and moves to the archive, it switches to showing just the
-// WINNING play — a short clip you upload straight to the GitHub repo (not a Facebook link). Put that
-// file in assets/top10-videos/ and paste its relative path into WinnerVideoPath on any one row for that
-// week. Current week: full numbered list below the video, no winner declared yet. Past weeks: just the
+// Columns: Week, Play #, Team, Player, Description, VideoURL, WinningRank, WinnerVideoURL
+// Both video columns take a YouTube link — full watch/share/embed URL, or just the bare video ID, any
+// of those work. Upload as "Unlisted" (not Public, not Private) so it's linkable/embeddable without
+// showing up on your channel page. Each week is ONE countdown video during voting (VideoURL, link goes
+// on any one row for that week — doesn't matter which). Once a week closes and moves to the archive, it
+// switches to showing just the WINNING play (WinnerVideoURL, same rules, any one row for that week).
+// Current week: full numbered list below the video, no winner declared yet. Past weeks: just the
 // winner's clip and a one-line statement of which number won (WinningRank column, filled in on any one
 // row for that week once voting closes). To update, edit that sheet. No code change needed.
 
-function fbEmbed(url){
-  return `<iframe src="https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(url)}&show_text=false&width=560" width="100%" height="315" style="width:100%; height:315px; display:block;" allowfullscreen scrolling="no"></iframe>`;
+function extractYouTubeId(input){
+  if(!input) return null;
+  const trimmed = input.trim();
+  if(/^[A-Za-z0-9_-]{11}$/.test(trimmed)) return trimmed; // already a bare video ID
+  const patterns = [
+    /youtube\.com\/watch\?v=([A-Za-z0-9_-]{11})/,
+    /youtu\.be\/([A-Za-z0-9_-]{11})/,
+    /youtube\.com\/embed\/([A-Za-z0-9_-]{11})/,
+    /youtube\.com\/shorts\/([A-Za-z0-9_-]{11})/
+  ];
+  for(const p of patterns){
+    const m = trimmed.match(p);
+    if(m) return m[1];
+  }
+  return null;
+}
+function ytEmbed(url){
+  const id = extractYouTubeId(url);
+  if(!id) return '<p style="color:var(--steel); padding:16px 20px; margin:0;">Video link not recognized as a YouTube URL.</p>';
+  return `<iframe width="100%" height="315" src="https://www.youtube.com/embed/${id}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="width:100%; height:315px; display:block;"></iframe>`;
 }
 function renderVideo(videoEl, plays){
   const videoUrl = (plays.find(p => p.VideoURL && p.VideoURL.trim()) || {}).VideoURL;
   videoEl.innerHTML = videoUrl
-    ? fbEmbed(videoUrl)
+    ? ytEmbed(videoUrl)
     : '<p style="color:var(--steel); padding:16px 20px; margin:0;">This week\'s countdown video is coming soon.</p>';
 }
 function renderWinnerVideo(videoEl, plays){
-  const pathRow = plays.find(p => p.WinnerVideoPath && p.WinnerVideoPath.trim());
-  const path = pathRow ? pathRow.WinnerVideoPath.trim() : null;
-  videoEl.innerHTML = path
-    ? `<video src="${path}" controls playsinline style="width:100%; display:block; background:#000;"></video>`
+  const urlRow = plays.find(p => p.WinnerVideoURL && p.WinnerVideoURL.trim());
+  const url = urlRow ? urlRow.WinnerVideoURL.trim() : null;
+  videoEl.innerHTML = url
+    ? ytEmbed(url)
     : '<p style="color:var(--steel); padding:16px 20px; margin:0;">Winner showcase video coming soon.</p>';
 }
 
