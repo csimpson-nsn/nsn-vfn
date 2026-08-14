@@ -272,13 +272,11 @@ init();
 
 
 <section class="page-hero">
-  <div class="wrap" style="display:flex; align-items:center; gap:28px; flex-wrap:wrap;">
-    <img src="assets/vfn-top10-logo.jpg" alt="VFN Top 10 — Plays of the Week" style="width:120px; height:120px; object-fit:cover; border-radius:6px; flex-shrink:0; border:1px solid #2a3133;">
-    <div>
-      <span class="eyebrow">Updated Every Week</span>
-      <h1>VFN Top 10</h1>
-      <p>The ten best plays from around the VIFL this week — watch them all below, then cast your vote for #1. Past weeks' winners are archived further down the page.</p>
-    </div>
+  <div class="wrap">
+    <img src="assets/vfn-top10-logo-wide.jpg" alt="VFN Top 10 — Plays of the Week" style="width:100%; max-width:520px; height:auto; display:block; margin-bottom:22px; border-radius:6px; border:1px solid #2a3133;">
+    <span class="eyebrow">Updated Every Week</span>
+    <h1>VFN Top 10</h1>
+    <p>The ten best plays from around the VIFL this week — watch them all below, then cast your vote for #1. Past weeks' winners are archived further down the page.</p>
   </div>
 </section>
 
@@ -297,10 +295,11 @@ init();
     <div class="section-head">
       <div><span class="eyebrow" style="color:var(--field-green-light);" id="currentWeekLabel">This Week</span><h2>This Week's Top 10</h2></div>
     </div>
-    <!-- VOTE LINK: swap this href for the real voting form once you have one (same pattern as the old POTW Google Form). -->
+    <!-- Voting form: "The VFN Top 10 Plays of the Week" — single question, options are literally "Play #1"–"Play #10".
+         Reusable every week as-is; nothing here needs to change from week to week. -->
     <div class="vote-cta-banner">
       <p>Watched the countdown? Cast your vote for this week's #1 play. Voting closes Wednesday at midnight.</p>
-      <a href="#" target="_blank" rel="noopener" class="vote-btn"><span>Vote for #1 &rarr;</span></a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSeRfK0gANBBlpsnWwpFB28gufMtS4QN8a6xupuTyT23daSdvw/viewform" target="_blank" rel="noopener" class="vote-btn"><span>Vote for #1 &rarr;</span></a>
     </div>
     <div class="top10-video-wrap" id="currentWeekVideo">
       <p style="color:var(--steel); padding:16px 20px; margin:0;">Loading this week's video&hellip;</p>
