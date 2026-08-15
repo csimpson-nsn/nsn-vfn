@@ -271,16 +271,10 @@ function toggleMobileMenu(){
         <a href="https://hartfordautovt.com/repair-services/" target="_blank" rel="noopener">Hartford Auto</a>
       </div>
     </div>
-    <!-- MATCHUP OF THE WEEK: placeholder game below (BFA St. Albans @ Rutland, Week 1) — update to the actual featured game each week. -->
-    <div class="inner" style="background:var(--granite); border:1px solid #2a3133; padding:16px 24px; flex-wrap:wrap; gap:14px;">
-      <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
-        <span class="ts-tag">Matchup of the Week</span>
-        <a href="team.html?team=BFA%20St.%20Albans" style="display:flex; align-items:center; gap:8px; font-weight:600;"><img src="assets/logos/BFA_SA.png" alt="BFA St. Albans" style="width:24px;height:24px;object-fit:contain;background:#fff;border-radius:4px;padding:2px;">BFA St. Albans</a>
-        <span style="color:var(--steel); font-family:'Barlow Condensed',sans-serif;">at</span>
-        <a href="team.html?team=Rutland" style="display:flex; align-items:center; gap:8px; font-weight:600;"><img src="assets/logos/rutland_copy.png" alt="Rutland" style="width:24px;height:24px;object-fit:contain;background:#fff;border-radius:4px;padding:2px;">Rutland</a>
-        <span class="ts-name" style="margin-left:6px;">Presented by Crosstown Motors</span>
-      </div>
-      <a href="mailto:csimpson@nsnsports.net?subject=Sponsorship%20Inquiry" class="section-link">Become a Title Sponsor &rarr;</a>
+    <!-- MATCHUP OF THE WEEK: pulled live from the Schedule tab's GameOfWeek column (mark exactly
+         one game "Yes" per week) and the same TitleSponsors.csv lookup used for per-game badges. -->
+    <div class="inner" id="matchupOfWeek" style="background:var(--granite); border:1px solid #2a3133; padding:16px 24px; flex-wrap:wrap; gap:14px;">
+      <div style="color:var(--steel); font-family:'Barlow Condensed',sans-serif;">Loading this week's featured matchup&hellip;</div>
     </div>
   </div>
 </section>
@@ -300,9 +294,32 @@ async function loadTeamsCSV(){
   const r = await fetch("data/Teams.csv");
   if(!r.ok) throw new Error("Could not load data/Teams.csv");
   const lines = (await r.text()).trim().split(/\r?\n/);
-  const headers = lines[0].split(",");
+  function parseCSVLine(line){
+  const cells = [];
+  let cur = '';
+  let inQuotes = false;
+  for(let i = 0; i < line.length; i++){
+    const ch = line[i];
+    if(inQuotes){
+      if(ch === '"'){
+        if(line[i+1] === '"'){ cur += '"'; i++; }
+        else { inQuotes = false; }
+      } else {
+        cur += ch;
+      }
+    } else {
+      if(ch === '"'){ inQuotes = true; }
+      else if(ch === ','){ cells.push(cur); cur = ''; }
+      else { cur += ch; }
+    }
+  }
+  cells.push(cur);
+  return cells;
+}
+// Handles quoted fields containing commas — e.g. "Newport, NH" — which a plain .split(",") breaks.
+const headers = parseCSVLine(lines[0]);
   lines.slice(1).filter(l => l.trim().length).forEach(line => {
-    const cells = line.split(",");
+    const cells = parseCSVLine(line);
     const row = {};
     headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
     TEAMS[row.Team] = {
@@ -334,9 +351,9 @@ async function loadSponsorDirectory(){
   const r = await fetch("data/SponsorDirectory.csv");
   if(!r.ok) throw new Error("Could not load data/SponsorDirectory.csv");
   const lines = (await r.text()).trim().split(/\r?\n/);
-  const headers = lines[0].split(",");
+  const headers = parseCSVLine(lines[0]);
   lines.slice(1).filter(l => l.trim().length).forEach(line => {
-    const cells = line.split(",");
+    const cells = parseCSVLine(line);
     const row = {};
     headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
     if(!SPONSOR_MAP[row.SponsorTag]) SPONSOR_MAP[row.SponsorTag] = [];
@@ -361,9 +378,9 @@ function parseGameDate(dateStr){
 }
 function parseScheduleCSV(text){
   const lines = text.trim().split(/\r?\n/);
-  const headers = lines[0].split(",");
+  const headers = parseCSVLine(lines[0]);
   return lines.slice(1).filter(l => l.trim().length).map(line => {
-    const cells = line.split(",");
+    const cells = parseCSVLine(line);
     const row = {};
     headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
     return row;
@@ -438,6 +455,36 @@ function homeNormalCardHTML(g){
   </div>`;
 }
 
+function renderMatchupOfWeek(weekGames, currentWeek){
+  const el = document.getElementById('matchupOfWeek');
+  if(!el) return;
+  const featured = weekGames.find(g => (g["GameOfWeek"] || "").trim().toLowerCase() === "yes");
+
+  if(!featured){
+    el.innerHTML = `
+      <div style="color:var(--steel); font-family:'Barlow Condensed',sans-serif;">No featured matchup marked for Week ${currentWeek} yet.</div>
+      <a href="mailto:csimpson@nsnsports.net?subject=Sponsorship%20Inquiry" class="section-link">Become a Title Sponsor &rarr;</a>
+    `;
+    return;
+  }
+
+  const sponsors = findTitleSponsor(featured["Week"], featured["Team1"], featured["Team2"]);
+  const sponsorHTML = sponsors
+    ? `<span class="ts-name" style="margin-left:6px;">Presented by ${sponsors.map(s => `<a href="${s.url}" target="_blank" rel="noopener">${s.name}</a>`).join(' &amp; ')}</span>`
+    : '';
+
+  el.innerHTML = `
+    <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap;">
+      <span class="ts-tag">Matchup of the Week</span>
+      <a href="team.html?team=${encodeURIComponent(featured["Team1"])}" style="display:flex; align-items:center; gap:8px; font-weight:600;">${vfnCrest(featured["Team1"])}${featured["Team1"]}</a>
+      <span style="color:var(--steel); font-family:'Barlow Condensed',sans-serif;">at</span>
+      <a href="team.html?team=${encodeURIComponent(featured["Team2"])}" style="display:flex; align-items:center; gap:8px; font-weight:600;">${vfnCrest(featured["Team2"])}${featured["Team2"]}</a>
+      ${sponsorHTML}
+    </div>
+    <a href="mailto:csimpson@nsnsports.net?subject=Sponsorship%20Inquiry" class="section-link">Become a Title Sponsor &rarr;</a>
+  `;
+}
+
 async function renderHomeSchedule(){
   const labelEl = document.getElementById('homeScheduleLabel');
   const grid = document.getElementById('homeScheduleGrid');
@@ -467,7 +514,11 @@ async function renderHomeSchedule(){
     };
 
     const currentWeek = getCurrentWeek(rows);
-    const weekGames = rows.filter(g => Number(g["Week"]) === currentWeek);
+    const weekGames = rows.filter(g => Number(g["Week"]) === currentWeek)
+                           .sort((a,b) => parseGameDate(a["Date"]) - parseGameDate(b["Date"]));
+
+    renderMatchupOfWeek(weekGames, currentWeek);
+
     const liveGames = weekGames.filter(isLive);
 
     if(liveGames.length > 0){
@@ -592,9 +643,9 @@ async function renderPOTWPreview(){
     const res = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=1930672992&single=true&output=csv");
     if(!res.ok) throw new Error("Could not load POTW data");
     const lines = (await res.text()).trim().split(/\r?\n/);
-    const headers = lines[0].split(",");
+    const headers = parseCSVLine(lines[0]);
     const rows = lines.slice(1).filter(l => l.trim().length).map(line => {
-      const cells = line.split(",");
+      const cells = parseCSVLine(line);
       const row = {};
       headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
       return row;
