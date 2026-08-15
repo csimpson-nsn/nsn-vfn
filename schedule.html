@@ -187,10 +187,11 @@ function toggleMobileMenu(){
 <section class="section">
   <div class="wrap">
     <div class="section-head">
-      <div><span class="eyebrow">2026 VIFL</span><h2>Schedule by Division</h2></div>
+      <div><span class="eyebrow">2026 VIFL</span><h2>Full Schedule</h2></div>
     </div>
     <div class="tab-row">
-      <button class="tab-btn active" onclick="showTab('schedDiv','D-I',this)">Division I</button>
+      <button class="tab-btn active" onclick="showTab('schedDiv','All',this)">Statewide</button>
+      <button class="tab-btn" onclick="showTab('schedDiv','D-I',this)">Division I</button>
       <button class="tab-btn" onclick="showTab('schedDiv','D-II',this)">Division II</button>
       <button class="tab-btn" onclick="showTab('schedDiv','D-III',this)">Division III</button>
     </div>
@@ -338,6 +339,17 @@ async function init(){
     const games = await loadCSV("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=128915362&single=true&output=csv");
     try { TITLE_SPONSORS = await loadCSV("data/TitleSponsors.csv"); } catch(e) { console.warn("No title sponsor data yet:", e); }
     const currentWeek = getCurrentWeek(games);
+
+    // Statewide: every game exactly once, regardless of how many divisions it touches.
+    // (Division-specific views below intentionally list crossover games twice — once per
+    // division — so fans of either division see it; Statewide is the de-duplicated version.)
+    const byWeekAll = {};
+    games.forEach(g => {
+      const wk = g["Week"];
+      if(!byWeekAll[wk]) byWeekAll[wk] = [];
+      byWeekAll[wk].push(g);
+    });
+
     const byDivWeek = { "D-I": {}, "D-II": {}, "D-III": {} };
 
     games.forEach(g => {
@@ -349,21 +361,25 @@ async function init(){
       });
     });
 
-    const container = document.getElementById('schedTables');
-    container.innerHTML = Object.entries(byDivWeek).map(([div, weeks]) => {
+    function weekBlocksHTML(weeks){
       const allWeekNums = Object.keys(weeks).map(Number).sort((a,b)=>a-b);
-      // Reorder so the current week leads, followed by remaining upcoming weeks, then past weeks at the end.
       const upcoming = allWeekNums.filter(w => w >= currentWeek);
       const past = allWeekNums.filter(w => w < currentWeek);
       const weekNums = [...upcoming, ...past];
-      const blocksHTML = weekNums.map(wk => `
+      return weekNums.map(wk => `
         <div class="week-block">
           <h3>Week ${wk}${wk === currentWeek ? ' <span class="current-week-badge">Current Week</span>' : ''}</h3>
           <div class="games-grid">${weeks[wk].map(gameCardHTML).join('')}</div>
         </div>
       `).join('');
-      return `<div data-group="schedDiv" data-val="${div}" style="${div==='D-I' ? '' : 'display:none;'}">${blocksHTML || '<p class="empty-note">No games found for this division.</p>'}</div>`;
-    }).join('');
+    }
+
+    const container = document.getElementById('schedTables');
+    const statewideHTML = `<div data-group="schedDiv" data-val="All">${weekBlocksHTML(byWeekAll) || '<p class="empty-note">No games found.</p>'}</div>`;
+    const divisionHTML = Object.entries(byDivWeek).map(([div, weeks]) =>
+      `<div data-group="schedDiv" data-val="${div}" style="display:none;">${weekBlocksHTML(weeks) || '<p class="empty-note">No games found for this division.</p>'}</div>`
+    ).join('');
+    container.innerHTML = statewideHTML + divisionHTML;
 
     document.getElementById('schedStatus').textContent = `Showing ${games.length} games across the 2026 season \u2014 Week ${currentWeek} is current.`;
   } catch(err){
