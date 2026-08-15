@@ -329,6 +329,8 @@ function gameMeta(t1, t2){
 // Sponsor tag -> full name(s) + link now lives in one place: data/SponsorDirectory.csv
 let SPONSOR_MAP = {};
 async function loadSponsorDirectory(){
+  SPONSOR_MAP = {}; // reset each call — this runs every 45s via the live-score poll, so without
+                    // resetting, sponsor names would pile up duplicates the longer the page stays open
   const r = await fetch("data/SponsorDirectory.csv");
   if(!r.ok) throw new Error("Could not load data/SponsorDirectory.csv");
   const lines = (await r.text()).trim().split(/\r?\n/);

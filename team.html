@@ -161,6 +161,7 @@ function toggleMobileMenu(){
     <a href="teams.html" class="active">Teams</a>
     <a href="statistics.html">Statistics</a>
     <a href="player-of-the-week.html">Players of the Week</a>
+    <a href="top10.html">VFN Top 10</a>
     <a href="articles-and-stories.html">Articles &amp; Stories</a>
     <a href="hall-of-champions.html">Hall of Champions</a>
     <a href="national-football-foundation.html">National Football Foundation VT Chapter</a>
@@ -448,6 +449,7 @@ function opponentChip(name){
 // Sponsor tag -> full name(s) + link now lives in one place: data/SponsorDirectory.csv
 let SPONSOR_MAP = {};
 async function loadSponsorDirectory(){
+  SPONSOR_MAP = {}; // reset each call so repeated calls replace rather than accumulate duplicates
   const r = await fetch("data/SponsorDirectory.csv");
   if(!r.ok) throw new Error("Could not load data/SponsorDirectory.csv");
   const lines = (await r.text()).trim().split(/\r?\n/);
@@ -723,7 +725,7 @@ init();
         <a href="schedule.html">Full Schedule</a>
         <!-- Video Archive should point to the same destination as "Purchase Previous Games" once that exists (likely a VOD/game-purchase page) — currently neither is built, so both use the same placeholder mailto. -->
         <a href="mailto:csimpson@nsnsports.net?subject=Purchase%20Previous%20Games">Video Archive</a>
-        <a href="index.html#highlights">Highlights</a>
+        <a href="top10.html">VFN Top 10</a>
       </div>
       <div class="footer-col">
         <h4>Network</h4>
