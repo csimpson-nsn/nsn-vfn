@@ -131,7 +131,6 @@ function toggleMobileMenu(){ document.getElementById('mobileMenu').classList.tog
     <div class="section-head">
       <div><span class="eyebrow">Archive</span><h2>All Articles</h2></div>
     </div>
-    <div id="articlesStatus" style="color:var(--steel); font-family:'Barlow Condensed',sans-serif; font-size:0.975rem; margin-bottom:18px;">Loading articles&hellip;</div>
     <div class="article-list" id="articleList"></div>
   </div>
 </section>
@@ -166,9 +165,8 @@ async function init(){
         <div class="meta">${new Date(a.Date+"T00:00:00").toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}<br>${a.Publication}<br>${a.Author}</div>
       </div>
     `).join('') : '<p class="empty-note">No articles posted yet.</p>';
-    document.getElementById('articlesStatus').textContent = `${rows.length} articles on file.`;
   } catch(err){
-    document.getElementById('articlesStatus').textContent = "Could not load articles. Make sure data/ArticlesArchive.csv is uploaded and reachable.";
+    document.getElementById('articleList').innerHTML = '<p class="empty-note">Could not load articles. Make sure data/ArticlesArchive.csv is uploaded and reachable.</p>';
     console.error(err);
   }
 }

@@ -195,7 +195,6 @@ function toggleMobileMenu(){
       <button class="tab-btn" onclick="showTab('schedDiv','D-II',this)">Division II</button>
       <button class="tab-btn" onclick="showTab('schedDiv','D-III',this)">Division III</button>
     </div>
-    <div id="schedStatus" style="color:var(--steel); font-family:'Barlow Condensed',sans-serif; font-size:0.975rem; margin-bottom:18px;">Loading schedule&hellip;</div>
     <div id="schedTables"></div>
   </div>
 </section>
@@ -420,10 +419,8 @@ async function init(){
       `<div data-group="schedDiv" data-val="${div}" style="display:none;">${weekBlocksHTML(weeks) || '<p class="empty-note">No games found for this division.</p>'}</div>`
     ).join('');
     container.innerHTML = statewideHTML + divisionHTML;
-
-    document.getElementById('schedStatus').textContent = `Showing ${games.length} games across the 2026 season \u2014 Week ${currentWeek} is current.`;
   } catch(err){
-    document.getElementById('schedStatus').innerHTML = 'Could not load the schedule. Make sure the VFN Data Hub Schedule tab is published to web and reachable.';
+    document.getElementById('schedTables').innerHTML = '<p class="empty-note">Could not load the schedule. Make sure the VFN Data Hub Schedule tab is published to web and reachable.</p>';
     console.error(err);
   }
 }

@@ -162,7 +162,6 @@ function showTab(group, val, btn){
     </div>
 
     <div class="tab-row" id="categoryTabs"></div>
-    <div id="inducteeStatus" style="color:var(--steel); font-family:'Barlow Condensed',sans-serif; font-size:0.975rem; margin-bottom:18px;">Loading honorees&hellip;</div>
     <div id="inducteeTables"></div>
   </div>
 </section>
@@ -216,10 +215,8 @@ async function init(){
       }).join('');
       return `<div data-group="nffcat" data-val="${cat}" style="${i===0?'':'display:none;'}">${yearBlocks}</div>`;
     }).join('');
-
-    document.getElementById('inducteeStatus').textContent = `${rows.length} honorees across ${categories.length} categories, 1994\u20132025.`;
   } catch(err){
-    document.getElementById('inducteeStatus').textContent = "Could not load honoree data. Make sure data/NFFInductees.csv is uploaded and reachable.";
+    document.getElementById('inducteeTables').innerHTML = '<p class="empty-note">Could not load honoree data. Make sure data/NFFInductees.csv is uploaded and reachable.</p>';
     console.error(err);
   }
 }

@@ -142,7 +142,6 @@ function showTab(group, val, btn){
       This is the complete VIFL championship record: <strong>159 championships across all 4 divisions</strong> (Division 1 &amp; 2: 1970&ndash;2025, Division 3: 1991&ndash;2025, Division 4: 1992&ndash;2006, before it was folded into the current 3-division format). Compiled from official playoff recap archives. 2020 has no results since Vermont did not hold 11-man tackle playoffs that year due to COVID-19.
     </div>
     <div class="tab-row" id="divTabs"></div>
-    <div id="champStatus" style="color:var(--steel); font-family:'Barlow Condensed',sans-serif; font-size:0.975rem; margin-bottom:14px;">Loading championship history&hellip;</div>
     <div id="champTables"></div>
   </div>
 </section>
@@ -185,10 +184,8 @@ async function init(){
         <table class="champ-table"><thead><tr><th>Year</th><th>Champion</th><th>Score</th><th>Runner-Up</th></tr></thead><tbody>${rowsHTML}</tbody></table>
       </div>`;
     }).join('');
-
-    document.getElementById('champStatus').textContent = `${rows.length} championships on record across ${divisions.length} divisions.`;
   } catch(err){
-    document.getElementById('champStatus').textContent = "Could not load championship history. Make sure data/StateChampions.csv is uploaded and reachable.";
+    document.getElementById('champTables').innerHTML = '<p class="empty-note">Could not load championship history. Make sure data/StateChampions.csv is uploaded and reachable.</p>';
     console.error(err);
   }
 }
