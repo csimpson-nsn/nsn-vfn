@@ -267,17 +267,17 @@ function teamChip(name){
   return href ? `<a href="${href}" class="team">${inner}</a>` : `<div class="team">${inner}</div>`;
 }
 
-// Sponsor tag -> full name(s) + link now lives in one place: data/SponsorDirectory.csv
+// Sponsor tag -> full name(s) + link now lives in the "VFN Data Hub" Google Sheet, SponsorDirectory tab
 let SPONSOR_MAP = {};
 async function loadSponsorDirectory(){
   SPONSOR_MAP = {}; // reset each call so repeated calls replace rather than accumulate duplicates
-  const rows = await loadCSV("data/SponsorDirectory.csv");
+  const rows = await loadCSV("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=1074127502&single=true&output=csv");
   rows.forEach(row => {
     if(!SPONSOR_MAP[row.SponsorTag]) SPONSOR_MAP[row.SponsorTag] = [];
     SPONSOR_MAP[row.SponsorTag].push({name: row.Name, url: row.URL});
   });
 }
-let TITLE_SPONSORS = []; // loaded from data/TitleSponsors.csv in init()
+let TITLE_SPONSORS = []; // loaded from the "VFN Data Hub" Google Sheet, TitleSponsors tab, in init()
 
 function findTitleSponsor(week, teamA, teamB){
   const row = TITLE_SPONSORS.find(r =>
@@ -360,7 +360,7 @@ async function init(){
     // Schedule now lives in the "VFN Data Hub" Google Sheet (Schedule tab), published to web as CSV.
     // To swap sources later, change this one URL — no other code needs to change.
     const games = await loadCSV("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=128915362&single=true&output=csv");
-    try { TITLE_SPONSORS = await loadCSV("data/TitleSponsors.csv"); } catch(e) { console.warn("No title sponsor data yet:", e); }
+    try { TITLE_SPONSORS = await loadCSV("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=1525519189&single=true&output=csv"); } catch(e) { console.warn("No title sponsor data yet:", e); }
     const currentWeek = getCurrentWeek(games);
 
     // Statewide: every game exactly once, regardless of how many divisions it touches.
