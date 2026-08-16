@@ -333,6 +333,18 @@ function parseGameDate(dateStr){
   const [m,d] = dateStr.split('/').map(Number);
   return new Date(SEASON_YEAR, m-1, d);
 }
+function parseGameDateTime(dateStr, timeStr){
+  const d = parseGameDate(dateStr);
+  if(!timeStr) return d;
+  const [hStr, mStr] = timeStr.split(':');
+  let h = Number(hStr);
+  const min = Number(mStr) || 0;
+  if(isNaN(h)) return d;
+  // VIFL games are always afternoon/evening — hours before 9 are PM (e.g. "1:00" = 1pm, not 1am).
+  if(h < 9) h += 12;
+  d.setHours(h, min, 0, 0);
+  return d;
+}
 // Current week = the earliest week that hasn't yet passed its Sunday cutoff
 // (each week's Thu/Fri/Sat games are final as of the Sunday that follows).
 function getCurrentWeek(scheduleRows){
@@ -356,7 +368,9 @@ function getCurrentWeek(scheduleRows){
 
 async function init(){
   try {
-    await Promise.all([loadTeams(), loadSponsorDirectory()]);
+    // Each of these is now isolated so a Teams or SponsorDirectory hiccup doesn't crash the whole schedule.
+    try { await loadTeams(); } catch(e) { console.warn("Could not load Teams data:", e); }
+    try { await loadSponsorDirectory(); } catch(e) { console.warn("Could not load Sponsor directory:", e); }
     // Schedule now lives in the "VFN Data Hub" Google Sheet (Schedule tab), published to web as CSV.
     // To swap sources later, change this one URL — no other code needs to change.
     const games = await loadCSV("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=128915362&single=true&output=csv");
@@ -390,7 +404,7 @@ async function init(){
       const past = allWeekNums.filter(w => w < currentWeek);
       const weekNums = [...upcoming, ...past];
       return weekNums.map(wk => {
-        const sortedGames = [...weeks[wk]].sort((a,b) => parseGameDate(a["Date"]) - parseGameDate(b["Date"]));
+        const sortedGames = [...weeks[wk]].sort((a,b) => parseGameDateTime(a["Date"], a["Time"]) - parseGameDateTime(b["Date"], b["Time"]));
         return `
         <div class="week-block">
           <h3>Week ${wk}${wk === currentWeek ? ' <span class="current-week-badge">Current Week</span>' : ''}</h3>

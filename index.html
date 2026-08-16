@@ -376,6 +376,18 @@ function parseGameDate(dateStr){
   const [m,d] = dateStr.split('/').map(Number);
   return new Date(SEASON_YEAR, m-1, d);
 }
+function parseGameDateTime(dateStr, timeStr){
+  const d = parseGameDate(dateStr);
+  if(!timeStr) return d;
+  const [hStr, mStr] = timeStr.split(':');
+  let h = Number(hStr);
+  const min = Number(mStr) || 0;
+  if(isNaN(h)) return d;
+  // VIFL games are always afternoon/evening — hours before 9 are PM (e.g. "1:00" = 1pm, not 1am).
+  if(h < 9) h += 12;
+  d.setHours(h, min, 0, 0);
+  return d;
+}
 function parseScheduleCSV(text){
   const lines = text.trim().split(/\r?\n/);
   const headers = parseCSVLine(lines[0]);
@@ -490,7 +502,11 @@ async function renderHomeSchedule(){
   const grid = document.getElementById('homeScheduleGrid');
   const heroWeekEl = document.getElementById('heroWeekLabel');
   try {
-    await Promise.all([loadTeamsCSV(), loadSponsorDirectory()]);
+    // Each of these is now isolated: if Teams or SponsorDirectory fails to load (a sheet
+    // publish hiccup, a temporary Google issue, anything), the schedule and games still
+    // render — just without logos and/or sponsor badges — instead of the whole section breaking.
+    try { await loadTeamsCSV(); } catch(e) { console.warn("Could not load Teams data:", e); }
+    try { await loadSponsorDirectory(); } catch(e) { console.warn("Could not load Sponsor directory:", e); }
     // Schedule now lives in the "VFN Data Hub" Google Sheet (Schedule tab), published to web as CSV.
     // To swap sources later, change this one URL — no other code needs to change.
     const res = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=128915362&single=true&output=csv");
@@ -515,7 +531,7 @@ async function renderHomeSchedule(){
 
     const currentWeek = getCurrentWeek(rows);
     const weekGames = rows.filter(g => Number(g["Week"]) === currentWeek)
-                           .sort((a,b) => parseGameDate(a["Date"]) - parseGameDate(b["Date"]));
+                           .sort((a,b) => parseGameDateTime(a["Date"], a["Time"]) - parseGameDateTime(b["Date"], b["Time"]));
 
     renderMatchupOfWeek(weekGames, currentWeek);
 
