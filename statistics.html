@@ -531,7 +531,9 @@ async function init(){
 
     const container = document.getElementById('statTables');
     container.innerHTML = Object.keys(categoryDefs).map(key =>
-      `<div data-group="stattab" data-val="${key}" style="${key==='passing'?'':'display:none;'}" id="statTable_${key}">${renderStatTable(key)}</div>`
+      `<div data-group="stattab" data-val="${key}" style="${key==='passing'?'':'display:none;'}" id="statTable_${key}">${
+        statTableState[key].rows.length ? renderStatTable(key) : '<p class="empty-note">No data yet.</p>'
+      }</div>`
     ).join('');
   } catch(err){
     document.getElementById('statTables').innerHTML =
