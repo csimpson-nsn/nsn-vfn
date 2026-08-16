@@ -225,11 +225,7 @@ function toggleMobileMenu(){
 // Team data (logo, division, colors, mascot) now lives in one place: data/Teams.csv
 // Every page fetches it instead of hardcoding its own copy — fix a team once, it's correct everywhere.
 let TEAMS = {};
-async function loadTeams(){
-  const r = await fetch("data/Teams.csv");
-  if(!r.ok) throw new Error("Could not load data/Teams.csv");
-  const lines = (await r.text()).trim().split(/\r?\n/);
-  function parseCSVLine(line){
+function parseCSVLine(line){
   const cells = [];
   let cur = '';
   let inQuotes = false;
@@ -252,7 +248,12 @@ async function loadTeams(){
   return cells;
 }
 // Handles quoted fields containing commas — e.g. "Newport, NH" — which a plain .split(",") breaks.
-const headers = parseCSVLine(lines[0]);
+
+async function loadTeams(){
+  const r = await fetch("data/Teams.csv");
+  if(!r.ok) throw new Error("Could not load data/Teams.csv");
+  const lines = (await r.text()).trim().split(/\r?\n/);
+  const headers = parseCSVLine(lines[0]);
   lines.slice(1).filter(l => l.trim().length).forEach(line => {
     const cells = parseCSVLine(line);
     const row = {};
@@ -499,7 +500,9 @@ function sponsorBadgeHTML(sponsors){
 }
 
 async function init(){
-  await Promise.all([loadTeams(), loadSponsorDirectory()]);
+  // Each of these is now isolated so a Teams or SponsorDirectory hiccup doesn't crash the whole page.
+  try { await loadTeams(); } catch(e) { console.warn("Could not load Teams data:", e); }
+  try { await loadSponsorDirectory(); } catch(e) { console.warn("Could not load Sponsor directory:", e); }
   const params = new URLSearchParams(window.location.search);
   const team = params.get("team");
 

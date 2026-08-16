@@ -290,11 +290,7 @@ let VFN_DIVS = {};
 let TEAMS = {};
 const DIV_ABBR = {"Division I":"D-I","Division II":"D-II","Division III":"D-III"};
 
-async function loadTeamsCSV(){
-  const r = await fetch("data/Teams.csv");
-  if(!r.ok) throw new Error("Could not load data/Teams.csv");
-  const lines = (await r.text()).trim().split(/\r?\n/);
-  function parseCSVLine(line){
+function parseCSVLine(line){
   const cells = [];
   let cur = '';
   let inQuotes = false;
@@ -317,7 +313,12 @@ async function loadTeamsCSV(){
   return cells;
 }
 // Handles quoted fields containing commas — e.g. "Newport, NH" — which a plain .split(",") breaks.
-const headers = parseCSVLine(lines[0]);
+
+async function loadTeamsCSV(){
+  const r = await fetch("data/Teams.csv");
+  if(!r.ok) throw new Error("Could not load data/Teams.csv");
+  const lines = (await r.text()).trim().split(/\r?\n/);
+  const headers = parseCSVLine(lines[0]);
   lines.slice(1).filter(l => l.trim().length).forEach(line => {
     const cells = parseCSVLine(line);
     const row = {};
