@@ -61,7 +61,8 @@ header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); 
 .section-head .eyebrow{color:var(--field-green-light); margin-bottom:6px; display:block;}
 .section-head h2{font-size:clamp(1.525rem,3vw,2.125rem);}
 .article-list{display:flex; flex-direction:column; gap:1px; background:#262c2e; border:1px solid #262c2e;}
-.article-row{background:var(--slate); padding:20px 22px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;}
+.article-row{background:var(--slate); padding:20px 22px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; transition:background .15s;}
+.article-row:hover{background:#252c2e;}
 .article-row .meta{font-family:'Barlow Condensed',sans-serif; font-size:0.905rem; color:var(--steel); margin-top:6px;}
 .article-row h3{font-size:1.125rem;}
 .article-row p{color:var(--steel); font-size:0.985rem; margin-top:8px; max-width:640px; line-height:1.5;}
@@ -136,11 +137,34 @@ function toggleMobileMenu(){ document.getElementById('mobileMenu').classList.tog
 </section>
 
 <script>
+function parseCSVLine(line){
+  const cells = [];
+  let cur = '';
+  let inQuotes = false;
+  for(let i = 0; i < line.length; i++){
+    const ch = line[i];
+    if(inQuotes){
+      if(ch === '"'){
+        if(line[i+1] === '"'){ cur += '"'; i++; }
+        else { inQuotes = false; }
+      } else {
+        cur += ch;
+      }
+    } else {
+      if(ch === '"'){ inQuotes = true; }
+      else if(ch === ','){ cells.push(cur); cur = ''; }
+      else { cur += ch; }
+    }
+  }
+  cells.push(cur);
+  return cells;
+}
+// Handles quoted fields containing commas — a plain .split(",") breaks on those.
 function parseCSV(text){
   const lines = text.trim().split(/\r?\n/);
-  const headers = lines[0].split(",");
+  const headers = parseCSVLine(lines[0]);
   return lines.slice(1).filter(l => l.trim().length).map(line => {
-    const cells = line.split(",");
+    const cells = parseCSVLine(line);
     const row = {};
     headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
     return row;
@@ -157,13 +181,13 @@ async function init(){
     const rows = await loadCSV("data/ArticlesArchive.csv");
     rows.sort((a,b) => new Date(b.Date) - new Date(a.Date));
     document.getElementById('articleList').innerHTML = rows.length ? rows.map(a => `
-      <div class="article-row">
+      <a class="article-row" href="${a.URL}" target="_blank" rel="noopener">
         <div>
           <h3>${a.Title}</h3>
           <p>${a.Excerpt}</p>
         </div>
-        <div class="meta">${new Date(a.Date+"T00:00:00").toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}<br>${a.Publication}<br>${a.Author}</div>
-      </div>
+        <div class="meta">${new Date(a.Date+"T00:00:00").toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}<br>${a.Publication}${a.Author ? '<br>'+a.Author : ''}</div>
+      </a>
     `).join('') : '<p class="empty-note">No articles posted yet.</p>';
   } catch(err){
     document.getElementById('articleList').innerHTML = '<p class="empty-note">Could not load articles. Make sure data/ArticlesArchive.csv is uploaded and reachable.</p>';
