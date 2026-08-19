@@ -703,15 +703,75 @@ document.addEventListener('DOMContentLoaded', renderPOTWPreview);
     <div class="section-head">
       <div><span class="eyebrow">Weekly Breakdowns with Eric Berry</span><h2>Inside the Game</h2></div>
     </div>
-    <!-- PODCAST PLAYER: this is currently a PLACEHOLDER — an NSN broadcast archive clip (via Hudl production truck),
-         not an actual podcast episode. Swap the iframe src below for the real podcast embed once one exists
-         (e.g. a Spotify episode/show embed URL, an Apple Podcasts embed URL, or a Buzzsprout/podcast-host embed).
-         SPONSOR OVERLAY: the Sticks & Stuff badge below is a clickable link layered on top of the video corner —
-         swap assets/sticks-stuff-sponsor.png or the href if the sponsorship changes. -->
+    <!-- Reads from the "VFN Data Hub" Google Sheet, Podcast tab: Episode, AirDate, YouTubeURL, Title, Description.
+         The most recent row WITH a YouTubeURL filled in plays as the current episode. Any row with a future
+         AirDate and no YouTubeURL yet shows as the "Next Episode" teaser instead — add a new row with just
+         the Episode # and AirDate to announce a date before the episode is even recorded, then fill in
+         YouTubeURL once it's live. SPONSOR OVERLAY: the Sticks & Stuff badge is a clickable link layered on
+         top of the video corner — swap assets/sticks-stuff-sponsor.png or the href if the sponsorship changes. -->
     <div id="podcastPlayerWrap" style="background:var(--granite); border:1px solid #2a3133; padding:24px;">
+      <div style="color:var(--steel); font-family:'Barlow Condensed',sans-serif;">Loading&hellip;</div>
+    </div>
+  </div>
+</section>
+<script>
+function extractYouTubeIdPodcast(input){
+  if(!input) return null;
+  const trimmed = input.trim();
+  if(/^[A-Za-z0-9_-]{11}$/.test(trimmed)) return trimmed;
+  const patterns = [
+    /youtube\.com\/watch\?v=([A-Za-z0-9_-]{11})/,
+    /youtu\.be\/([A-Za-z0-9_-]{11})/,
+    /youtube\.com\/embed\/([A-Za-z0-9_-]{11})/
+  ];
+  for(const p of patterns){
+    const m = trimmed.match(p);
+    if(m) return m[1];
+  }
+  return null;
+}
+
+async function renderPodcast(){
+  const wrap = document.getElementById('podcastPlayerWrap');
+  if(!wrap) return;
+  try {
+    // Podcast now lives in the "VFN Data Hub" Google Sheet (Podcast tab), published to web as CSV.
+    // To swap sources later, change this one URL — no other code needs to change.
+    const res = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=672718297&single=true&output=csv");
+    if(!res.ok) throw new Error("Could not load Podcast data");
+    const lines = (await res.text()).trim().split(/\r?\n/);
+    const headers = parseCSVLine(lines[0]);
+    const rows = lines.slice(1).filter(l => l.trim().length).map(line => {
+      const cells = parseCSVLine(line);
+      const row = {};
+      headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
+      return row;
+    });
+
+    const today = new Date(); today.setHours(0,0,0,0);
+    const aired = rows.filter(r => r.YouTubeURL && r.YouTubeURL.trim())
+                       .sort((a,b) => new Date(b.AirDate) - new Date(a.AirDate));
+    const upcoming = rows.filter(r => !(r.YouTubeURL && r.YouTubeURL.trim()) && new Date(r.AirDate) >= today)
+                          .sort((a,b) => new Date(a.AirDate) - new Date(b.AirDate));
+
+    const current = aired[0];
+    const next = upcoming[0];
+    const nextDateHTML = next
+      ? `<p style="font-size:0.72rem; color:var(--gold); margin-top:8px; font-family:'Barlow Condensed',sans-serif; letter-spacing:0.04em; text-transform:uppercase;">Next Episode &mdash; ${new Date(next.AirDate+"T00:00:00").toLocaleDateString('en-US',{weekday:'long', month:'short', day:'numeric'})}</p>`
+      : '';
+
+    const ytId = current ? extractYouTubeIdPodcast(current.YouTubeURL) : null;
+    const videoHTML = ytId
+      ? `<iframe src="https://www.youtube.com/embed/${ytId}" width="100%" height="260" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="display:block; background:#000; width:100%;"></iframe>`
+      : `<div style="height:260px; display:flex; align-items:center; justify-content:center; text-align:center; padding:20px; color:var(--steel); font-family:'Barlow Condensed',sans-serif;">First episode coming soon</div>`;
+
+    const title = current ? current.Title : "Inside the Game";
+    const description = current ? current.Description : "Weekly breakdowns, coach interviews, and predictions from around the VIFL.";
+
+    wrap.innerHTML = `
       <div style="display:flex; gap:24px; align-items:flex-start; flex-wrap:wrap;">
         <div style="flex:0 1 420px; min-width:260px; position:relative;">
-          <iframe src="https://vcloud.hudl.com/broadcast/embed/2957474?windowed=true" width="100%" height="260" frameborder="0" allowfullscreen style="display:block; background:#000; width:100%;"></iframe>
+          ${videoHTML}
           <a href="https://www.sticksandstuff.com/" target="_blank" rel="noopener" title="Inside the Game is presented by Sticks &amp; Stuff" style="position:absolute; bottom:10px; right:10px; width:80px; height:80px; display:block; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.6)); transition:transform .15s;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'">
             <img src="assets/sticks-stuff-sponsor.png" alt="Sticks &amp; Stuff" style="width:100%; height:100%; object-fit:contain;">
           </a>
@@ -719,11 +779,11 @@ document.addEventListener('DOMContentLoaded', renderPOTWPreview);
         <div style="flex:1; min-width:220px; display:flex; gap:18px; align-items:center;">
           <img src="assets/inside-the-game-logo.png" alt="Inside the Game with Eric Berry" style="max-height:260px; height:auto; width:auto; max-width:100%; object-fit:contain; flex-shrink:0;">
           <div>
-            <h3 style="font-size:1.05rem; line-height:1.15;">Inside the Game</h3>
+            <h3 style="font-size:1.05rem; line-height:1.15;">${title}</h3>
             <p style="font-size:0.78rem; color:var(--steel);">with Eric Berry</p>
-            <p style="font-size:0.82rem; color:var(--steel); line-height:1.5; margin-top:10px;">Weekly breakdowns, coach interviews, and predictions from around the VIFL.</p>
+            <p style="font-size:0.82rem; color:var(--steel); line-height:1.5; margin-top:10px;">${description}</p>
             <p style="font-size:0.72rem; color:var(--gold); margin-top:8px; font-family:'Barlow Condensed',sans-serif; letter-spacing:0.04em; text-transform:uppercase;">Presented by <a href="https://www.sticksandstuff.com/" target="_blank" rel="noopener" style="color:var(--gold); text-decoration:underline; text-decoration-color:rgba(217,161,58,0.4);">Sticks &amp; Stuff</a></p>
-            <p style="font-size:0.72rem; color:var(--gold); margin-top:6px; font-family:'Barlow Condensed',sans-serif; letter-spacing:0.04em; text-transform:uppercase;">Placeholder clip &mdash; NSN broadcast archive, real podcast episode coming soon</p>
+            ${nextDateHTML}
             <div style="display:flex; gap:12px; margin-top:10px; flex-wrap:wrap;">
               <a href="https://www.youtube.com/@nsnsportsvt" target="_blank" rel="noopener" class="section-link" style="font-size:0.72rem;">YouTube &rarr;</a>
               <a href="https://www.nsnsports.net" target="_blank" rel="noopener" class="section-link" style="font-size:0.72rem;">Listen on NSN &rarr;</a>
@@ -731,9 +791,31 @@ document.addEventListener('DOMContentLoaded', renderPOTWPreview);
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    `;
+  } catch(err){
+    wrap.innerHTML = `
+      <div style="display:flex; gap:24px; align-items:flex-start; flex-wrap:wrap;">
+        <div style="flex:0 1 420px; min-width:260px; height:260px; display:flex; align-items:center; justify-content:center; text-align:center; padding:20px; color:var(--steel); font-family:'Barlow Condensed',sans-serif; background:#000;">First episode coming soon</div>
+        <div style="flex:1; min-width:220px; display:flex; gap:18px; align-items:center;">
+          <img src="assets/inside-the-game-logo.png" alt="Inside the Game with Eric Berry" style="max-height:260px; height:auto; width:auto; max-width:100%; object-fit:contain; flex-shrink:0;">
+          <div>
+            <h3 style="font-size:1.05rem; line-height:1.15;">Inside the Game</h3>
+            <p style="font-size:0.78rem; color:var(--steel);">with Eric Berry</p>
+            <p style="font-size:0.82rem; color:var(--steel); line-height:1.5; margin-top:10px;">Weekly breakdowns, coach interviews, and predictions from around the VIFL.</p>
+            <p style="font-size:0.72rem; color:var(--gold); margin-top:8px; font-family:'Barlow Condensed',sans-serif; letter-spacing:0.04em; text-transform:uppercase;">Presented by <a href="https://www.sticksandstuff.com/" target="_blank" rel="noopener" style="color:var(--gold); text-decoration:underline; text-decoration-color:rgba(217,161,58,0.4);">Sticks &amp; Stuff</a></p>
+            <div style="display:flex; gap:12px; margin-top:10px; flex-wrap:wrap;">
+              <a href="https://www.youtube.com/@nsnsportsvt" target="_blank" rel="noopener" class="section-link" style="font-size:0.72rem;">YouTube &rarr;</a>
+              <a href="https://www.nsnsports.net" target="_blank" rel="noopener" class="section-link" style="font-size:0.72rem;">Listen on NSN &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    console.error(err);
+  }
+}
+document.addEventListener('DOMContentLoaded', renderPodcast);
+</script>
 
 <section class="section" id="league-resources" style="background:var(--slate); border-top:1px solid #262c2e; border-bottom:1px solid #262c2e;">
   <div class="wrap">
