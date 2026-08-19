@@ -178,7 +178,9 @@ async function loadCSV(url){
 
 async function init(){
   try {
-    const rows = await loadCSV("data/ArticlesArchive.csv");
+    // ArticlesArchive now lives in the "VFN Data Hub" Google Sheet (ArticlesArchive tab), published to web as CSV.
+    // To swap sources later, change this one URL — no other code needs to change.
+    const rows = await loadCSV("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=908329214&single=true&output=csv");
     rows.sort((a,b) => new Date(b.Date) - new Date(a.Date));
     document.getElementById('articleList').innerHTML = rows.length ? rows.map(a => `
       <a class="article-row" href="${a.URL}" target="_blank" rel="noopener">
@@ -190,7 +192,7 @@ async function init(){
       </a>
     `).join('') : '<p class="empty-note">No articles posted yet.</p>';
   } catch(err){
-    document.getElementById('articleList').innerHTML = '<p class="empty-note">Could not load articles. Make sure data/ArticlesArchive.csv is uploaded and reachable.</p>';
+    document.getElementById('articleList').innerHTML = '<p class="empty-note">Could not load articles. Make sure the VFN Data Hub ArticlesArchive tab is published to web and reachable.</p>';
     console.error(err);
   }
 }
