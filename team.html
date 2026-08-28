@@ -17,35 +17,41 @@
 html{scroll-behavior:smooth;}
 body{background:var(--granite); color:var(--snow); font-family:'Barlow',sans-serif; -webkit-font-smoothing:antialiased;}
 h1,h2,h3,.display{font-family:'Anton',sans-serif; text-transform:uppercase; letter-spacing:0.02em;}
-.eyebrow{font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.18em; font-size:0.72rem;}
+.eyebrow{font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.18em; font-size:0.845rem;}
 a{color:inherit; text-decoration:none;}
 img{max-width:100%; display:block;}
 .wrap{max-width:1280px; margin:0 auto; padding:0 28px;}
 :focus-visible{outline:3px solid var(--gold); outline-offset:2px;}
 
 header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); position:sticky; top:0; z-index:50;}
-.nav{display:flex; align-items:center; justify-content:space-between; padding:16px 28px;}
-.logo{display:flex; align-items:center; gap:10px; font-family:'Anton',sans-serif; font-size:1.5rem;}
-.logo img{height:40px; width:40px; object-fit:contain;}
-.logo span.net{color:var(--steel); font-size:0.95rem; margin-left:2px;}
-nav.links{display:flex; gap:26px;}
-nav.links a{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.85rem; color:var(--snow); padding:6px 2px; border-bottom:2px solid transparent; transition:border-color .15s;}
-nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
-.watch-btn{display:inline-block; background:var(--broadcast-red); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.85rem; padding:11px 22px; border:none; cursor:pointer; transform:skew(-6deg);}
+.nav{display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 28px;}
+.logo{display:flex; align-items:center; gap:10px; font-family:'Anton',sans-serif; font-size:1.625rem; white-space:nowrap; min-width:0; overflow:hidden; text-overflow:ellipsis;}
+.logo img{height:40px; width:40px; object-fit:contain; flex-shrink:0;}
+.logo span.net{color:var(--steel); font-size:1.075rem; margin-left:2px;}
+.wordmark-short{display:none;}
+.nav-left{display:flex; align-items:center; gap:16px; min-width:0;}
+.menu-toggle{display:flex; align-items:center; flex-shrink:0; background:none; border:none; color:var(--snow); font-size:1.725rem; cursor:pointer; padding:0;}
+.nav-actions{display:flex; align-items:center; gap:10px; flex-shrink:0;}
+.watch-btn{display:inline-block; background:var(--broadcast-red); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.975rem; padding:11px 22px; border:none; cursor:pointer; transform:skew(-6deg);}
 .watch-btn span{display:block; transform:skew(6deg);}
 .watch-btn:hover{background:#b9261f;}
-.menu-toggle{display:none; background:none; border:none; color:var(--snow); font-size:1.6rem; cursor:pointer;}
-@media (max-width:900px){nav.links{display:none;} .menu-toggle{display:block;}}
-.more-menu{position:relative;}
-.more-menu > span{cursor:pointer;}
-.more-dropdown{display:none; position:absolute; top:100%; right:0; background:var(--slate); border:1px solid #262c2e; min-width:220px; padding:6px 0; z-index:60;}
-.more-menu:hover .more-dropdown{display:block;}
-.more-dropdown a{display:block; padding:12px 18px; border-bottom:1px solid #262c2e; font-size:0.82rem;}
-.more-dropdown a:last-child{border-bottom:none;}
-.more-dropdown a:hover{background:#252c2e; color:var(--gold);}
+.purchase-btn{display:inline-block; background:transparent; color:var(--snow); border:2px solid var(--gold); font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.975rem; padding:9px 20px; cursor:pointer; transform:skew(-6deg); white-space:nowrap;}
+.purchase-btn span{display:block; transform:skew(6deg);}
+.purchase-btn:hover{background:var(--gold); color:var(--granite);}
+@media (max-width:900px){.purchase-btn{display:none;}}
+@media (max-width:700px){
+  .nav{padding:12px 16px; gap:8px;}
+  .nav-left{gap:10px;}
+  .logo{font-size:1.35rem;}
+  .logo span.net{display:none;}
+  .wordmark-full{display:none;}
+  .wordmark-short{display:inline;}
+  .watch-btn{padding:9px 14px; font-size:0.845rem;}
+  .menu-toggle{font-size:1.5rem;}
+}
 .mobile-menu{display:none; flex-direction:column; background:var(--slate); border-top:1px solid #262c2e;}
 .mobile-menu.open{display:flex;}
-.mobile-menu a{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.95rem; color:var(--snow); padding:16px 28px; border-bottom:1px solid #262c2e;}
+.mobile-menu a{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:1.075rem; color:var(--snow); padding:16px 28px; border-bottom:1px solid #262c2e;}
 .mobile-menu a:hover, .mobile-menu a.active{color:var(--gold); background:#252c2e;}
 
 .page-hero{
@@ -59,67 +65,73 @@ nav.links a:hover, nav.links a.active{border-color:var(--broadcast-red);}
   margin-bottom:14px; padding:6px 12px; border-radius:3px;
 }
 .page-hero .eyebrow::before{content:""; width:16px; height:2px; background:var(--team-text); opacity:0.6;}
-.page-hero h1{font-size:clamp(1.9rem,5vw,3.1rem);}
+.page-hero h1{font-size:clamp(2.025rem,5vw,3.225rem);}
 .rank-band{display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:20px; padding-top:18px; border-top:1px solid #2a3133;}
-.rank-half .rank-half-title{font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; font-size:0.75rem; margin-bottom:10px;}
+.rank-half .rank-half-title{font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; font-size:0.875rem; margin-bottom:10px;}
 .rank-half.offense .rank-half-title{color:var(--field-green-light);}
 .rank-half.defense .rank-half-title{color:var(--broadcast-red);}
 .rank-half-chips{display:grid; grid-template-columns:repeat(auto-fill, minmax(120px, 1fr)); gap:8px;}
 @media (max-width:720px){.rank-band{grid-template-columns:1fr;} .rank-half{border-bottom:1px solid #2a3133; padding-bottom:16px;} .rank-half:last-child{border-bottom:none; padding-bottom:0;}}
 .rank-chip{background:var(--slate); border:1px solid #2a3133; padding:10px 12px; font-family:'Barlow Condensed',sans-serif;}
-.rank-chip .rc-label{font-size:0.68rem; letter-spacing:0.04em; text-transform:uppercase; color:var(--steel); margin-bottom:4px;}
-.rank-chip .rc-value{font-size:0.98rem; color:var(--snow);}
+.rank-chip .rc-label{font-size:0.805rem; letter-spacing:0.04em; text-transform:uppercase; color:var(--steel); margin-bottom:4px;}
+.rank-chip .rc-value{font-size:1.105rem; color:var(--snow);}
 .rank-chip .rc-value strong{font-weight:700;}
 .champ-badge{margin-left:auto; text-align:right; background:var(--slate); border:1px solid #2a3133; border-top:3px solid var(--gold); padding:14px 18px;}
-.champ-badge .title{font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; font-size:0.7rem; color:var(--gold); margin-bottom:8px; display:flex; align-items:center; gap:6px; justify-content:flex-end;}
+.champ-badge .title{font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; font-size:0.825rem; color:var(--gold); margin-bottom:8px; display:flex; align-items:center; gap:6px; justify-content:flex-end;}
 .champ-badge .years{display:flex; flex-wrap:wrap; gap:6px; justify-content:flex-end; max-width:260px;}
-.champ-badge .years span{background:var(--granite); border:1px solid #2a3133; padding:3px 8px; font-family:'Barlow Condensed',sans-serif; font-size:0.78rem; font-weight:600;}
+.champ-badge .years span{background:var(--granite); border:1px solid #2a3133; padding:3px 8px; font-family:'Barlow Condensed',sans-serif; font-size:0.905rem; font-weight:600;}
 .champ-badge .years span .div{color:var(--gold); margin-left:4px;}
 @media (max-width:640px){.champ-badge{margin-left:0; text-align:left;} .champ-badge .title, .champ-badge .years{justify-content:flex-start;}}
-.team-record{font-family:'Barlow Condensed',sans-serif; color:var(--steel); font-size:1rem; margin-top:6px;}
+.team-record{font-family:'Barlow Condensed',sans-serif; color:var(--steel); font-size:1.125rem; margin-top:6px;}
+.team-seed{font-family:'Barlow Condensed',sans-serif; color:var(--gold); font-weight:600; font-size:0.975rem; letter-spacing:0.02em; margin-top:4px;}
 .team-record strong{color:var(--snow);}
-.cancelled-banner{background:var(--broadcast-red); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:0.85rem; padding:12px 20px; margin:0 0 18px;}
+.cancelled-banner{background:var(--broadcast-red); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; font-size:0.975rem; padding:12px 20px; margin:0 0 18px;}
 
 .section{padding:46px 28px;}
 .section-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; border-bottom:1px solid #262c2e; padding-bottom:16px;}
 .section-head .eyebrow{color:var(--field-green-light); margin-bottom:6px; display:block;}
-.section-head h2{font-size:clamp(1.4rem,3vw,2rem);}
+.section-head h2{font-size:clamp(1.525rem,3vw,2.125rem);}
 
 /* leaders */
 .stat-tab-row{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px;}
-.stat-tab-btn{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.8rem; color:var(--steel); background:var(--slate); border:1px solid #262c2e; padding:9px 18px; cursor:pointer; transition:all .15s;}
+.stat-tab-btn{font-family:'Barlow Condensed',sans-serif; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; font-size:0.925rem; color:var(--steel); background:var(--slate); border:1px solid #262c2e; padding:9px 18px; cursor:pointer; transition:all .15s;}
 .stat-tab-btn:hover{color:var(--snow); border-color:#3a4244;}
 .stat-tab-btn.active{background:var(--team-primary); color:var(--team-text); border-color:var(--team-primary);}
 
 /* tables (roster + schedule) */
 .data-table{width:100%; border-collapse:collapse; font-family:'Barlow Condensed',sans-serif; margin-bottom:8px;}
-.data-table th{text-align:left; font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--steel); padding:10px 14px; border-bottom:1px solid #262c2e;}
-.data-table td{padding:13px 14px; border-bottom:1px solid #1d2224; font-weight:500; font-size:0.92rem;}
+.data-table th{text-align:left; font-size:0.845rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--steel); padding:10px 14px; border-bottom:1px solid #262c2e;}
+.data-table td{padding:13px 14px; border-bottom:1px solid #1d2224; font-weight:500; font-size:1.045rem;}
 .data-table tr:hover td{background:#1c2123;}
 .data-table td a:hover{color:var(--gold);}
 .result-w{color:var(--field-green-light); font-weight:700;}
 .result-l{color:var(--broadcast-red); font-weight:700;}
 .result-u{color:var(--steel);}
 
-.empty-note{color:var(--steel); font-size:0.88rem; padding:16px 0;}
-.sponsor-badge{font-family:'Barlow Condensed',sans-serif; font-size:0.7rem; color:var(--gold); margin-top:3px;}
+.empty-note{color:var(--steel); font-size:1.005rem; padding:16px 0;}
+.sponsor-badge{font-family:'Barlow Condensed',sans-serif; font-size:0.825rem; color:var(--gold); margin-top:3px;}
 .sponsor-badge a{color:var(--gold); text-decoration:underline; text-decoration-color:rgba(217,161,58,0.4);}
 .sponsor-badge a:hover{color:var(--snow);}
 
 footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--broadcast-red);}
-.footer-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr 1fr; gap:28px; padding-bottom:28px;}
+.footer-grid{display:grid; grid-template-columns:1.3fr 1fr 1fr 1fr 1fr 1fr; gap:28px; padding-bottom:28px;}
 @media (max-width:980px){.footer-grid{grid-template-columns:1fr 1fr 1fr;}}
 @media (max-width:640px){.footer-grid{grid-template-columns:1fr 1fr;}}
-.footer-col h4{font-family:'Barlow Condensed',sans-serif; font-size:0.78rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--steel); margin-bottom:14px;}
-.footer-col a{display:block; font-size:0.92rem; color:var(--snow); margin-bottom:10px; opacity:0.85;}
+.footer-col h4{font-family:'Barlow Condensed',sans-serif; font-size:0.905rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--steel); margin-bottom:14px;}
+.footer-col a{display:block; font-size:1.045rem; color:var(--snow); margin-bottom:10px; opacity:0.85;}
 .footer-col a:hover{opacity:1; color:var(--field-green-light);}
-.footer-bottom{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; border-top:1px solid #1d2224; padding-top:20px; font-family:'Barlow Condensed',sans-serif; font-size:0.78rem; color:var(--steel);}
+.footer-bottom{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; border-top:1px solid #1d2224; padding-top:20px; font-family:'Barlow Condensed',sans-serif; font-size:0.905rem; color:var(--steel);}
+.contact-cta{text-align:center; padding:28px 20px; margin-bottom:20px; border-top:1px solid #1d2224; border-bottom:1px solid #1d2224;}
+.contact-cta p{font-family:'Barlow Condensed',sans-serif; font-size:1.045rem; color:var(--steel); margin-bottom:14px;}
+.contact-btn{display:inline-block; background:var(--field-green); color:var(--snow); font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.975rem; padding:12px 26px; border:none; cursor:pointer; transform:skew(-6deg);}
+.contact-btn span{display:block; transform:skew(6deg);}
+.contact-btn:hover{background:var(--field-green-light);}
 .nsn-subfooter{display:flex; align-items:center; gap:18px; margin-top:22px; padding-top:20px; border-top:1px solid #1d2224; flex-wrap:wrap;}
 .nsn-logo-video{width:70px; height:70px; object-fit:cover; border-radius:6px; background:#000; flex-shrink:0;}
-.nsn-subfooter-text .nsn-name{font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; font-size:0.85rem; color:var(--snow);}
-.nsn-subfooter-text a{font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.85rem; color:var(--gold);}
+.nsn-subfooter-text .nsn-name{font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; font-size:0.975rem; color:var(--snow);}
+.nsn-subfooter-text a{font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.975rem; color:var(--gold);}
 .nsn-subfooter-text a:hover{color:var(--snow);}
-.nsn-subfooter-text .nsn-tagline{font-size:0.78rem; color:var(--steel); margin-top:4px; max-width:520px; line-height:1.4;}
+.nsn-subfooter-text .nsn-tagline{font-size:0.905rem; color:var(--steel); margin-top:4px; max-width:520px; line-height:1.4;}
 </style>
 <script>
 function toggleMobileMenu(){
@@ -132,33 +144,24 @@ function toggleMobileMenu(){
 
 <header>
   <div class="nav">
-    <a href="index.html" class="logo"><img src="assets/vfn-logo.jpg" alt="Vermont Football Network"> VERMONT FOOTBALL <span class="net">NETWORK</span></a>
-    <nav class="links">
-      <a href="index.html" class="">Home</a>
-      <a href="schedule.html" class="">Schedule</a>
-      <a href="standings.html" class="">Standings</a>
-      <a href="teams.html" class="active">Teams</a>
-      <a href="statistics.html" class="">Statistics</a>
-      <a href="player-of-the-week.html" class="">Players of the Week</a>
-      <div class="more-menu">
-        <span>More &#9662;</span>
-        <div class="more-dropdown">
-          <a href="articles-and-stories.html">Articles &amp; Stories</a>
-          <a href="hall-of-champions.html">Hall of Champions</a>
-          <a href="national-football-foundation.html">National Football Foundation VT Chapter</a>
-        </div>
-      </div>
-    </nav>
-    <a href="https://www.nsnsports.net" target="_blank" rel="noopener" class="watch-btn"><span>Watch Live</span></a>
-    <button class="menu-toggle" aria-label="Open menu" onclick="toggleMobileMenu()">&#9776;</button>
+    <div class="nav-left">
+      <button class="menu-toggle" aria-label="Open menu" onclick="toggleMobileMenu()">&#9776;</button>
+      <a href="index.html" class="logo"><img src="assets/vfn-logo.jpg" alt="Vermont Football Network"><span class="wordmark-full">VERMONT FOOTBALL</span><span class="wordmark-short">VFN</span> <span class="net">NETWORK</span></a>
+    </div>
+    <div class="nav-actions">
+      <a href="https://www.nsnsports.net" target="_blank" rel="noopener" class="watch-btn"><span>Watch Live</span></a>
+      <a href="mailto:csimpson@nsnsports.net?subject=Purchase%20Previous%20Games" class="purchase-btn"><span>Purchase Previous Games</span></a>
+    </div>
   </div>
   <div class="mobile-menu" id="mobileMenu">
     <a href="index.html">Home</a>
+    <a href="live-scores.html">Live Scores</a>
     <a href="schedule.html">Schedule</a>
     <a href="standings.html">Standings</a>
     <a href="teams.html" class="active">Teams</a>
     <a href="statistics.html">Statistics</a>
     <a href="player-of-the-week.html">Players of the Week</a>
+    <a href="top10.html">VFN Top 10</a>
     <a href="articles-and-stories.html">Articles &amp; Stories</a>
     <a href="hall-of-champions.html">Hall of Champions</a>
     <a href="national-football-foundation.html">National Football Foundation VT Chapter</a>
@@ -174,6 +177,7 @@ function toggleMobileMenu(){
       <div>
         <h1 id="teamName">Loading&hellip;</h1>
         <div class="team-record" id="teamRecord"></div>
+        <div class="team-seed" id="teamSeed"></div>
       </div>
       <div class="champ-badge" id="champBadge" style="display:none;"></div>
     </div>
@@ -221,13 +225,37 @@ function toggleMobileMenu(){
 // Team data (logo, division, colors, mascot) now lives in one place: data/Teams.csv
 // Every page fetches it instead of hardcoding its own copy — fix a team once, it's correct everywhere.
 let TEAMS = {};
+function parseCSVLine(line){
+  const cells = [];
+  let cur = '';
+  let inQuotes = false;
+  for(let i = 0; i < line.length; i++){
+    const ch = line[i];
+    if(inQuotes){
+      if(ch === '"'){
+        if(line[i+1] === '"'){ cur += '"'; i++; }
+        else { inQuotes = false; }
+      } else {
+        cur += ch;
+      }
+    } else {
+      if(ch === '"'){ inQuotes = true; }
+      else if(ch === ','){ cells.push(cur); cur = ''; }
+      else { cur += ch; }
+    }
+  }
+  cells.push(cur);
+  return cells;
+}
+// Handles quoted fields containing commas — e.g. "Newport, NH" — which a plain .split(",") breaks.
+
 async function loadTeams(){
   const r = await fetch("data/Teams.csv");
   if(!r.ok) throw new Error("Could not load data/Teams.csv");
   const lines = (await r.text()).trim().split(/\r?\n/);
-  const headers = lines[0].split(",");
+  const headers = parseCSVLine(lines[0]);
   lines.slice(1).filter(l => l.trim().length).forEach(line => {
-    const cells = line.split(",");
+    const cells = parseCSVLine(line);
     const row = {};
     headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
     TEAMS[row.Team] = {
@@ -238,27 +266,72 @@ async function loadTeams(){
 }
 
 const DATA_CSV_URLS = {
-  roster:    "data/Roster.csv",
-  schedule:  "data/Schedule.csv",
+  roster:    "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=1826490631&single=true&output=csv",
+  // Schedule + all 5 stat tabs now live in the "VFN Data Hub" Google Sheet, published to web as CSV.
+  // To swap sources later, change these URLs — no other code needs to change.
+  schedule:  "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=128915362&single=true&output=csv",
   champions: "data/StateChampions.csv",
-  passing:   "data/Passing.csv",
-  rushing:   "data/Rushing.csv",
-  receiving: "data/Receiving.csv",
-  defense:   "data/Defense.csv",
-  kicking:   "data/Kicking.csv",
+  passing:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=258628113&single=true&output=csv",
+  rushing:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=1788407260&single=true&output=csv",
+  receiving: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=1921613145&single=true&output=csv",
+  defense:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=266376049&single=true&output=csv",
+  kicking:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=102754010&single=true&output=csv",
 };
 
 function parseCSV(text){
   const lines = text.trim().split(/\r?\n/);
-  const headers = lines[0].split(",");
+  const headers = parseCSVLine(lines[0]);
   return lines.slice(1).filter(l => l.trim().length).map(line => {
-    const cells = line.split(",");
+    const cells = parseCSVLine(line);
     const row = {};
     headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
     return row;
   });
 }
 function num(v){ return parseFloat(v) || 0; }
+
+// Copied from standings.html to keep the division seed on this page consistent with the Standings page.
+const DIV_VALUE = {"Division I":10, "Division II":7, "Division III":5};
+function computeQPR(scheduleRows){
+  const completed = scheduleRows.filter(g => g["Team1Score"] !== "" && g["Team2Score"] !== "");
+  const wins = {}, losses = {};
+  Object.keys(TEAMS).forEach(t => { wins[t]=0; losses[t]=0; });
+
+  completed.forEach(g => {
+    const s1 = num(g["Team1Score"]), s2 = num(g["Team2Score"]);
+    if(s1 === s2) return;
+    const winner = s1 > s2 ? g["Team1"] : g["Team2"];
+    const loser  = s1 > s2 ? g["Team2"] : g["Team1"];
+    if(wins[winner] !== undefined) wins[winner]++;
+    if(losses[loser] !== undefined) losses[loser]++;
+  });
+
+  const results = {};
+  Object.keys(TEAMS).forEach(team => {
+    const myDiv = TEAMS[team].div;
+    const myGames = completed.filter(g => g["Team1"] === team || g["Team2"] === team);
+    let ownValue = 0, oppValue = 0;
+    myGames.forEach(g => {
+      const isT1 = g["Team1"] === team;
+      const opponent = isT1 ? g["Team2"] : g["Team1"];
+      const myScore = num(isT1 ? g["Team1Score"] : g["Team2Score"]);
+      const oppScore = num(isT1 ? g["Team2Score"] : g["Team1Score"]);
+      const oppDiv = TEAMS[opponent] ? TEAMS[opponent].div : myDiv;
+      const oppDivValue = DIV_VALUE[oppDiv] || DIV_VALUE[myDiv];
+      const myDivValue = DIV_VALUE[myDiv];
+      if(myScore > oppScore){
+        ownValue += oppDivValue;
+      } else if(myScore < oppScore && oppDivValue > myDivValue){
+        ownValue += (oppDivValue - myDivValue);
+      }
+      oppValue += 2 * (wins[opponent] || 0);
+    });
+    const gamesPlayed = myGames.length;
+    const qpr = gamesPlayed ? (ownValue + oppValue) / gamesPlayed : 0;
+    results[team] = { wins: wins[team], losses: losses[team], qpr, gamesPlayed };
+  });
+  return results;
+}
 function fmt1(n){ return (Math.round(n*10)/10).toFixed(1); }
 
 async function loadCSV(url){
@@ -397,15 +470,16 @@ function opponentChip(name){
 }
 
 // Title sponsor short-tag -> full name(s) + link. LC/CM is a joint two-sponsor tag.
-// Sponsor tag -> full name(s) + link now lives in one place: data/SponsorDirectory.csv
+// Sponsor tag -> full name(s) + link now lives in the "VFN Data Hub" Google Sheet, SponsorDirectory tab
 let SPONSOR_MAP = {};
 async function loadSponsorDirectory(){
-  const r = await fetch("data/SponsorDirectory.csv");
-  if(!r.ok) throw new Error("Could not load data/SponsorDirectory.csv");
+  SPONSOR_MAP = {}; // reset each call so repeated calls replace rather than accumulate duplicates
+  const r = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=1074127502&single=true&output=csv");
+  if(!r.ok) throw new Error("Could not load the SponsorDirectory tab from the VFN Data Hub sheet");
   const lines = (await r.text()).trim().split(/\r?\n/);
-  const headers = lines[0].split(",");
+  const headers = parseCSVLine(lines[0]);
   lines.slice(1).filter(l => l.trim().length).forEach(line => {
-    const cells = line.split(",");
+    const cells = parseCSVLine(line);
     const row = {};
     headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
     if(!SPONSOR_MAP[row.SponsorTag]) SPONSOR_MAP[row.SponsorTag] = [];
@@ -426,7 +500,9 @@ function sponsorBadgeHTML(sponsors){
 }
 
 async function init(){
-  await Promise.all([loadTeams(), loadSponsorDirectory()]);
+  // Each of these is now isolated so a Teams or SponsorDirectory hiccup doesn't crash the whole page.
+  try { await loadTeams(); } catch(e) { console.warn("Could not load Teams data:", e); }
+  try { await loadSponsorDirectory(); } catch(e) { console.warn("Could not load Sponsor directory:", e); }
   const params = new URLSearchParams(window.location.search);
   const team = params.get("team");
 
@@ -489,7 +565,7 @@ async function init(){
 
     // --- Schedule + record ---
     const games = scheduleRows.filter(r => r["Team1"] === team || r["Team2"] === team);
-    try { TITLE_SPONSORS = await loadCSV("data/TitleSponsors.csv"); } catch(e) { console.warn("No title sponsor data yet:", e); }
+    try { TITLE_SPONSORS = await loadCSV("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=1525519189&single=true&output=csv"); } catch(e) { console.warn("No title sponsor data yet:", e); }
     let wins = 0, losses = 0;
     let schedHTML = '<table class="data-table"><thead><tr><th>Week</th><th>Date</th><th>Opponent</th><th>Result</th><th>Score</th></tr></thead><tbody>';
     games.sort((a,b) => num(a["Week"]) - num(b["Week"])).forEach(g => {
@@ -511,6 +587,18 @@ async function init(){
     schedHTML += '</tbody></table>';
     document.getElementById('scheduleWrap').innerHTML = games.length ? schedHTML : '<p class="empty-note">No games found for this team in the schedule data yet.</p>';
     document.getElementById('teamRecord').innerHTML = `Record: <strong>${wins}-${losses}</strong>`;
+
+    // --- Division seed (QPR rank within division, same math as Standings) ---
+    if(!info.cancelled){
+      const qprResults = computeQPR(scheduleRows);
+      const divTeams = Object.keys(TEAMS).filter(t => TEAMS[t].div === info.div && !TEAMS[t].cancelled);
+      divTeams.sort((a,b) => qprResults[b].qpr - qprResults[a].qpr);
+      const seed = divTeams.indexOf(team) + 1;
+      const anyGamesPlayed = Object.values(qprResults).some(r => r.gamesPlayed > 0);
+      document.getElementById('teamSeed').textContent = anyGamesPlayed && seed > 0
+        ? `Seeded ${ordinal(seed)} in ${info.div}`
+        : '';
+    }
 
     // --- Roster ---
     const roster = rosterRows.filter(r => r["Team"] === team && r["Player Name"]);
@@ -653,7 +741,7 @@ async function init(){
     `;
 
   } catch(err){
-    document.getElementById('rosterWrap').innerHTML = '<p class="empty-note">Could not load team data. Make sure data/Roster.csv, data/Schedule.csv, and the 5 stat CSVs are uploaded and reachable.</p>';
+    document.getElementById('rosterWrap').innerHTML = '<p class="empty-note">Could not load team data. Make sure data/Roster.csv is uploaded, and that every tab in the VFN Data Hub sheet (Schedule + the 5 stat tabs) is published to the web.</p>';
     console.error(err);
   }
 }
@@ -664,18 +752,19 @@ init();
   <div class="wrap">
     <div class="footer-grid">
       <div class="footer-col">
-        <a href="index.html" class="logo" style="font-size:1.2rem; margin-bottom:14px;"><img src="assets/vfn-logo.jpg" alt="VFN" style="height:28px;width:28px;"> VERMONT FOOTBALL <span class="net">NETWORK</span></a>
-        <p style="color:var(--steel); font-size:0.88rem; max-width:280px; line-height:1.6; margin-top:14px;">A Northeast Sports Network production. Bringing Vermont high school football to every living room, every Friday night.</p>
+        <a href="index.html" class="logo" style="font-size:1.325rem; margin-bottom:14px;"><img src="assets/vfn-logo.jpg" alt="VFN" style="height:28px;width:28px;"> VERMONT FOOTBALL <span class="net">NETWORK</span></a>
+        <p style="color:var(--steel); font-size:1.005rem; max-width:280px; line-height:1.6; margin-top:14px;">A Northeast Sports Network production. Bringing Vermont high school football to every living room, every Friday night.</p>
       </div>
       <div class="footer-col">
         <h4>Watch</h4>
         <a href="schedule.html">Full Schedule</a>
-        <a href="index.html#video-archive">Video Archive</a>
-        <a href="index.html#highlights">Highlights</a>
+        <!-- Video Archive should point to the same destination as "Purchase Previous Games" once that exists (likely a VOD/game-purchase page) — currently neither is built, so both use the same placeholder mailto. -->
+        <a href="mailto:csimpson@nsnsports.net?subject=Purchase%20Previous%20Games">Video Archive</a>
+        <a href="top10.html">VFN Top 10</a>
       </div>
       <div class="footer-col">
         <h4>Network</h4>
-        <a href="standings.html">Standings &amp; RPI</a>
+        <a href="standings.html">Standings &amp; QPR</a>
         <a href="teams.html">All Teams</a>
         <a href="statistics.html">Statistics</a>
         <a href="player-of-the-week.html">Players of the Week</a>
@@ -688,10 +777,22 @@ init();
       </div>
       <div class="footer-col">
         <h4>Partner With Us</h4>
-        <a href="#">Sponsorship Packages</a>
-        <a href="#">Title Sponsor Inquiry</a>
-        <a href="#">Media Kit</a>
+        <a href="mailto:csimpson@nsnsports.net?subject=Sponsorship%20Packages">Sponsorship Packages</a>
+        <a href="mailto:csimpson@nsnsports.net?subject=Title%20Sponsor%20Inquiry">Title Sponsor Inquiry</a>
+        <a href="mailto:csimpson@nsnsports.net?subject=Media%20Kit%20Request">Media Kit</a>
       </div>
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <a href="https://www.facebook.com/nsnsports" target="_blank" rel="noopener">Facebook</a>
+        <a href="https://x.com/nsnsports" target="_blank" rel="noopener">X (Twitter)</a>
+        <a href="https://www.instagram.com/nsnsports" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://www.tiktok.com/@nsnsports" target="_blank" rel="noopener">TikTok</a>
+        <a href="https://www.youtube.com/@nsnsportsvt" target="_blank" rel="noopener">YouTube</a>
+      </div>
+    </div>
+    <div class="contact-cta">
+      <p>Questions, corrections, or interested in sponsoring VFN?</p>
+      <a href="mailto:csimpson@nsnsports.net?subject=General%20Inquiry" class="contact-btn"><span>Contact Us</span></a>
     </div>
     <div class="footer-bottom">
       <span>&copy; 2026 Northeast Sports Network. All rights reserved.</span>
