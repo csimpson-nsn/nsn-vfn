@@ -133,9 +133,6 @@ footer{background:#0b0d0e; padding:46px 28px 26px; border-top:3px solid var(--br
 .nsn-subfooter-text a:hover{color:var(--snow);}
 .nsn-subfooter-text .nsn-tagline{font-size:0.905rem; color:var(--steel); margin-top:4px; max-width:520px; line-height:1.4;}
 </style>
-<!-- PDF generation for the Schedule & Roster download button below -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 <script>
 function toggleMobileMenu(){
   var m = document.getElementById('mobileMenu');
@@ -541,7 +538,11 @@ function hexToRgb(hex){
 // The top-right corner is a reserved sponsor slot: it only renders if a SponsorDirectory
 // row exists with SponsorTag "TeamPDF-<Team Name>" — sell that inventory, add the row, done.
 async function generateTeamPDF(){
-  if(!PDF_DATA || !window.jspdf) return;
+  if(!PDF_DATA) return;
+  if(!window.jspdf){
+    alert("The PDF tool is still loading — please wait a couple seconds and try again.");
+    return;
+  }
   const btn = document.getElementById('downloadPdfBtn');
   const originalHTML = btn.innerHTML;
   btn.disabled = true;
@@ -1098,6 +1099,11 @@ init();
     </div>
   </div>
 </footer>
+
+<!-- PDF generation libraries for the Schedule & Roster download button — loaded here (not in
+     <head>) so a slow or blocked CDN can never hold up the rest of the page from rendering. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
 
 </body>
 </html>
