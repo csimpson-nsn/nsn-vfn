@@ -626,9 +626,9 @@ async function init(){
       if (aValid !== bValid) return aValid ? -1 : 1; // numbered players before un-numbered
       return (a["Player Name"] || "").localeCompare(b["Player Name"] || "");
     });
-    let rosterHTML = '<table class="data-table"><thead><tr><th>#</th><th>Name</th><th>Class</th><th>Off. Position</th><th>Def. Position</th></tr></thead><tbody>';
+    let rosterHTML = '<table class="data-table"><thead><tr><th>#</th><th>Name</th><th>YOG</th><th>Grade</th><th>Off. Position</th><th>Def. Position</th></tr></thead><tbody>';
     roster.forEach(p => {
-      rosterHTML += `<tr><td>${p["Number"]}</td><td>${p["Player Name"]}</td><td>${classLabel(p["Grad Year"])}</td><td>${p["Off Position"]}</td><td>${p["Def Position"]}</td></tr>`;
+      rosterHTML += `<tr><td>${p["Number"]}</td><td>${p["Player Name"]}</td><td>${p["Grad Year"]}</td><td>${classLabel(p["Grad Year"])}</td><td>${p["Off Position"]}</td><td>${p["Def Position"]}</td></tr>`;
     });
     rosterHTML += '</tbody></table>';
     document.getElementById('rosterWrap').innerHTML = roster.length ? rosterHTML : '<p class="empty-note">Roster hasn\'t been entered for this team yet.</p>';
