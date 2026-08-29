@@ -607,18 +607,6 @@ async function generateTeamPDF(){
     let y = 92;
     doc.setTextColor(20, 24, 26);
 
-    const colGap = 16;
-    const colWidth = (pageWidth - margin * 2 - colGap) / 2;
-    const leftX = margin;
-    const rightX = margin + colWidth + colGap;
-    const pageHeight = doc.internal.pageSize.getHeight();
-    const footerReserve = 46;
-
-    // --- Schedule table — confined to the top-left column ---
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(12);
-    doc.text('2026 Schedule', leftX, y);
-
     const schedBody = games.map(g => {
       const isTeam1 = g["Team1"] === team;
       const opponent = isTeam1 ? g["Team2"] : g["Team1"];
@@ -633,68 +621,119 @@ async function generateTeamPDF(){
       return [g["Week"], g["Date"], opponent, result, scoreLine];
     });
 
-    doc.autoTable({
-      startY: y + 8,
-      margin: { left: leftX, right: pageWidth - leftX - colWidth },
-      head: [['Wk', 'Date', 'Opponent', 'Res', 'Score']],
-      body: schedBody.length ? schedBody : [['\u2014', '\u2014', 'No games scheduled yet', '', '']],
-      theme: 'striped',
-      headStyles: { fillColor: [pr, pg, pb], textColor: 255, fontStyle: 'bold', fontSize: 7 },
-      styles: { fontSize: 7, cellPadding: 2.5 },
-    });
+    // Two layout modes, picked by roster size. This threshold is a rule-of-thumb estimate, not a
+    // pixel-exact calculation — tweak ROSTER_COMPACT_THRESHOLD if real rosters land right on the edge.
+    // Under it: spacious single column, full-width schedule, roster below it, YOG included.
+    // Over it: schedule shrinks to the top-left, roster splits evenly into two full-height columns.
+    const ROSTER_COMPACT_THRESHOLD = 25;
+    const compact = roster.length > ROSTER_COMPACT_THRESHOLD;
 
-    const leftRosterStartY = doc.lastAutoTable.finalY + 18;
+    if(!compact){
+      // --- Spacious mode: full-width schedule, single roster column below it ---
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(13);
+      doc.text('2026 Schedule', margin, y);
 
-    // --- Roster — starts below the schedule in the left column; overflow continues in a
-    // second column that runs the full page height on the right (aligned with the schedule's top),
-    // since that space isn't used by anything else. Only splits if the roster actually needs it.
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(12);
-    doc.text('Roster', leftX, leftRosterStartY);
+      doc.autoTable({
+        startY: y + 10,
+        margin: { left: margin, right: margin },
+        head: [['Week', 'Date', 'Opponent', 'Result', 'Score']],
+        body: schedBody.length ? schedBody : [['\u2014', '\u2014', 'No games scheduled yet', '', '']],
+        theme: 'striped',
+        headStyles: { fillColor: [pr, pg, pb], textColor: 255, fontStyle: 'bold', fontSize: 8 },
+        styles: { fontSize: 8, cellPadding: 4 },
+      });
 
-    const approxRowH = 11.5; // measured for fontSize 7 / cellPadding 2.2 at this theme
-    const leftCapacity = Math.max(0, Math.floor((pageHeight - footerReserve - (leftRosterStartY + 8)) / approxRowH));
+      y = doc.lastAutoTable.finalY + 22;
 
-    const needsSplit = roster.length > leftCapacity;
-    const leftRoster = needsSplit ? roster.slice(0, leftCapacity) : roster;
-    const rightRoster = needsSplit ? roster.slice(leftCapacity) : [];
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(13);
+      doc.text('Roster', margin, y);
 
-    // YOG is dropped here (not just in the old "long roster" case) — this column is permanently
-    // narrower now that it sits beside the schedule, so the space is worth reclaiming either way.
-    const rowsFor = (list) => list.map(p => [
-      p["Number"] || '', p["Player Name"] || '', classLabel(p["Grad Year"]),
-      p["Off Position"] || '', p["Def Position"] || ''
-    ]);
-    const rosterHead = [['#', 'Name', 'Grade', 'Off', 'Def']];
-    const rosterStyle = {
-      theme: 'striped',
-      headStyles: { fillColor: [pr, pg, pb], textColor: 255, fontStyle: 'bold', fontSize: 7 },
-      styles: { fontSize: 7, cellPadding: 2.2 },
-    };
+      const rosterBody = roster.map(p => [
+        p["Number"] || '', p["Player Name"] || '', p["Grad Year"] || '',
+        classLabel(p["Grad Year"]), p["Off Position"] || '', p["Def Position"] || ''
+      ]);
 
-    doc.autoTable(Object.assign({}, rosterStyle, {
-      startY: leftRosterStartY + 8,
-      margin: { left: leftX, right: pageWidth - leftX - colWidth },
-      head: rosterHead,
-      body: rowsFor(leftRoster).length ? rowsFor(leftRoster) : [['', 'Roster not entered yet', '', '', '']],
-    }));
-    let finalY = doc.lastAutoTable.finalY;
+      doc.autoTable({
+        startY: y + 10,
+        margin: { left: margin, right: margin },
+        head: [['#', 'Name', 'YOG', 'Grade', 'Off. Pos', 'Def. Pos']],
+        body: rosterBody.length ? rosterBody : [['', 'Roster not entered yet', '', '', '', '']],
+        theme: 'striped',
+        headStyles: { fillColor: [pr, pg, pb], textColor: 255, fontStyle: 'bold', fontSize: 8 },
+        styles: { fontSize: 8, cellPadding: 4 },
+      });
+      y = doc.lastAutoTable.finalY;
 
-    if(needsSplit && rightRoster.length){
+    } else {
+      // --- Compact mode: schedule shrinks to top-left, roster splits evenly across two columns ---
+      const colGap = 16;
+      const colWidth = (pageWidth - margin * 2 - colGap) / 2;
+      const leftX = margin;
+      const rightX = margin + colWidth + colGap;
+
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(12);
-      doc.text('Roster (cont.)', rightX, y);
-      doc.autoTable(Object.assign({}, rosterStyle, {
+      doc.text('2026 Schedule', leftX, y);
+
+      doc.autoTable({
         startY: y + 8,
-        margin: { left: rightX, right: margin },
+        margin: { left: leftX, right: pageWidth - leftX - colWidth },
+        head: [['Wk', 'Date', 'Opponent', 'Res', 'Score']],
+        body: schedBody.length ? schedBody : [['\u2014', '\u2014', 'No games scheduled yet', '', '']],
+        theme: 'striped',
+        headStyles: { fillColor: [pr, pg, pb], textColor: 255, fontStyle: 'bold', fontSize: 7 },
+        styles: { fontSize: 7, cellPadding: 2.5 },
+      });
+
+      const leftRosterStartY = doc.lastAutoTable.finalY + 18;
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(12);
+      doc.text('Roster', leftX, leftRosterStartY);
+
+      // Even split — both columns end up actually filled, rather than topping off the left
+      // column first and leaving the right one sparse.
+      const splitAt = Math.ceil(roster.length / 2);
+      const leftRoster = roster.slice(0, splitAt);
+      const rightRoster = roster.slice(splitAt);
+
+      const rowsFor = (list) => list.map(p => [
+        p["Number"] || '', p["Player Name"] || '', classLabel(p["Grad Year"]),
+        p["Off Position"] || '', p["Def Position"] || ''
+      ]);
+      const rosterHead = [['#', 'Name', 'Grade', 'Off', 'Def']];
+      const rosterStyle = {
+        theme: 'striped',
+        headStyles: { fillColor: [pr, pg, pb], textColor: 255, fontStyle: 'bold', fontSize: 7 },
+        styles: { fontSize: 7, cellPadding: 2.2 },
+      };
+
+      doc.autoTable(Object.assign({}, rosterStyle, {
+        startY: leftRosterStartY + 8,
+        margin: { left: leftX, right: pageWidth - leftX - colWidth },
         head: rosterHead,
-        body: rowsFor(rightRoster),
+        body: rowsFor(leftRoster).length ? rowsFor(leftRoster) : [['', 'Roster not entered yet', '', '', '']],
       }));
-      finalY = Math.max(finalY, doc.lastAutoTable.finalY);
+      let finalY = doc.lastAutoTable.finalY;
+
+      if(rightRoster.length){
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(12);
+        doc.text('Roster (cont.)', rightX, y);
+        doc.autoTable(Object.assign({}, rosterStyle, {
+          startY: y + 8,
+          margin: { left: rightX, right: margin },
+          head: rosterHead,
+          body: rowsFor(rightRoster),
+        }));
+        finalY = Math.max(finalY, doc.lastAutoTable.finalY);
+      }
+      y = finalY;
+      // If a roster is so large even this doesn't fit, jsPDF-AutoTable automatically continues
+      // the overflowing table onto an additional page rather than clipping data.
     }
-    y = finalY;
-    // If a roster is so large even this doesn't fit, jsPDF-AutoTable automatically continues
-    // the overflowing table onto an additional page rather than clipping data.
 
     // --- Footer on every page ---
     const pageCount = doc.internal.getNumberOfPages();
