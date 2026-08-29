@@ -171,6 +171,26 @@ async function loadCSV(url){
   return parseCSV(await r.text());
 }
 
+// Voting window: open Monday–Wednesday (plays post after the weekend's games, voting closes
+// Wednesday night ahead of that week's Thu/Fri/Sat games), closed Thursday–Sunday.
+// This is a day-of-week rule, not tied to actual game dates — if the real posting/closing
+// cadence ever shifts, update VOTING_OPEN_DAYS below (0=Sun, 1=Mon, ... 6=Sat).
+function renderVoteCTA(){
+  const el = document.getElementById('voteCtaBanner');
+  if(!el) return;
+  const VOTING_OPEN_DAYS = [1, 2, 3]; // Mon, Tue, Wed
+  const today = new Date().getDay();
+  const votingOpen = VOTING_OPEN_DAYS.includes(today);
+
+  if(!votingOpen){
+    el.innerHTML = `
+      <p>Voting has closed for this week's Top 10. This week's winner is coming soon &mdash; check back Monday to vote on next week's Top 10!</p>
+    `;
+  }
+  // If voting is open, the banner's original vote button (already in the HTML) stays as-is.
+}
+renderVoteCTA();
+
 // Everything below renders from the "VFN Data Hub" Google Sheet, TopPlays tab, published to web as CSV.
 // Columns: Week, Play #, Team, Player, Description, CombinedVideoURL, WinningRank, WinnerVideoURL
 // Both video columns take a YouTube link — full watch/share/embed URL, or just the bare video ID, any
@@ -355,8 +375,9 @@ init();
       <div><span class="eyebrow" style="color:var(--field-green-light);" id="currentWeekLabel">This Week</span><h2>This Week's Top 10</h2></div>
     </div>
     <!-- Voting form: "The VFN Top 10 Plays of the Week" — single question, options are literally "Play #1"–"Play #10".
-         Reusable every week as-is; nothing here needs to change from week to week. -->
-    <div class="vote-cta-banner">
+         Reusable every week as-is; nothing here needs to change from week to week.
+         The open/closed state below is driven by day-of-week in the script — see renderVoteCTA(). -->
+    <div class="vote-cta-banner" id="voteCtaBanner">
       <p>Watched the countdown? Cast your vote for this week's #1 play. Voting closes Wednesday at midnight.</p>
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSeRfK0gANBBlpsnWwpFB28gufMtS4QN8a6xupuTyT23daSdvw/viewform" target="_blank" rel="noopener" class="vote-btn"><span>Vote for #1 &rarr;</span></a>
     </div>
