@@ -632,32 +632,69 @@ async function generateTeamPDF(){
       head: [['Week', 'Date', 'Opponent', 'Result', 'Score']],
       body: schedBody.length ? schedBody : [['\u2014', '\u2014', 'No games scheduled yet', '', '']],
       theme: 'striped',
-      headStyles: { fillColor: [pr, pg, pb], textColor: 255, fontStyle: 'bold' },
-      styles: { fontSize: 9, cellPadding: 5 },
+      headStyles: { fillColor: [pr, pg, pb], textColor: 255, fontStyle: 'bold', fontSize: 8 },
+      styles: { fontSize: 8, cellPadding: 4 },
     });
 
-    y = doc.lastAutoTable.finalY + 30;
-    if(y > doc.internal.pageSize.getHeight() - 140){ doc.addPage(); y = 50; }
+    y = doc.lastAutoTable.finalY + 22;
+    if(y > doc.internal.pageSize.getHeight() - 100){ doc.addPage(); y = 50; }
 
     // --- Roster table ---
+    // Long rosters (50+ kids at some schools) won't fit one column on one page, so past a threshold
+    // we split into two side-by-side columns and drop the YOG column to make room — Grade already
+    // says the same thing in plain English, so YOG is the safe one to cut for space.
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(13);
     doc.text('Roster', margin, y);
 
-    const rosterBody = roster.map(p => [
-      p["Number"] || '', p["Player Name"] || '', p["Grad Year"] || '',
-      classLabel(p["Grad Year"]), p["Off Position"] || '', p["Def Position"] || ''
-    ]);
+    const ROSTER_TWO_COL_THRESHOLD = 25;
+    const useTwoCol = roster.length > ROSTER_TWO_COL_THRESHOLD;
 
-    doc.autoTable({
-      startY: y + 10,
-      margin: { left: margin, right: margin },
-      head: [['#', 'Name', 'YOG', 'Grade', 'Off. Pos', 'Def. Pos']],
-      body: rosterBody.length ? rosterBody : [['', 'Roster not entered yet', '', '', '', '']],
-      theme: 'striped',
-      headStyles: { fillColor: [pr, pg, pb], textColor: 255, fontStyle: 'bold' },
-      styles: { fontSize: 9, cellPadding: 5 },
-    });
+    if(useTwoCol){
+      const colGap = 10;
+      const colWidth = (pageWidth - margin * 2 - colGap) / 2;
+      const splitAt = Math.ceil(roster.length / 2);
+      const leftRoster = roster.slice(0, splitAt);
+      const rightRoster = roster.slice(splitAt);
+      const rowsFor = (list) => list.map(p => [
+        p["Number"] || '', p["Player Name"] || '', classLabel(p["Grad Year"]),
+        p["Off Position"] || '', p["Def Position"] || ''
+      ]);
+      const head = [['#', 'Name', 'Grade', 'Off', 'Def']];
+      const sharedStyle = {
+        startY: y + 10,
+        theme: 'striped',
+        headStyles: { fillColor: [pr, pg, pb], textColor: 255, fontStyle: 'bold', fontSize: 7 },
+        styles: { fontSize: 7, cellPadding: 2.2 },
+      };
+      doc.autoTable(Object.assign({}, sharedStyle, {
+        margin: { left: margin, right: pageWidth - margin - colWidth },
+        head,
+        body: rowsFor(leftRoster),
+      }));
+      const leftFinalY = doc.lastAutoTable.finalY;
+      doc.autoTable(Object.assign({}, sharedStyle, {
+        margin: { left: margin + colWidth + colGap, right: margin },
+        head,
+        body: rowsFor(rightRoster).length ? rowsFor(rightRoster) : [['', '', '', '', '']],
+      }));
+      y = Math.max(leftFinalY, doc.lastAutoTable.finalY);
+    } else {
+      const rosterBody = roster.map(p => [
+        p["Number"] || '', p["Player Name"] || '', p["Grad Year"] || '',
+        classLabel(p["Grad Year"]), p["Off Position"] || '', p["Def Position"] || ''
+      ]);
+      doc.autoTable({
+        startY: y + 10,
+        margin: { left: margin, right: margin },
+        head: [['#', 'Name', 'YOG', 'Grade', 'Off. Pos', 'Def. Pos']],
+        body: rosterBody.length ? rosterBody : [['', 'Roster not entered yet', '', '', '', '']],
+        theme: 'striped',
+        headStyles: { fillColor: [pr, pg, pb], textColor: 255, fontStyle: 'bold', fontSize: 8 },
+        styles: { fontSize: 8, cellPadding: 4 },
+      });
+      y = doc.lastAutoTable.finalY;
+    }
 
     // --- Footer on every page ---
     const pageCount = doc.internal.getNumberOfPages();
