@@ -281,6 +281,7 @@ const DATA_CSV_URLS = {
   receiving: "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=1921613145&single=true&output=csv",
   defense:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=266376049&single=true&output=csv",
   kicking:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=102754010&single=true&output=csv",
+  coaches:   "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=1940219480&single=true&output=csv",
 };
 
 function parseCSV(text){
@@ -570,7 +571,7 @@ async function generateTeamPDF(){
     doc.text(team.toUpperCase(), textX, 34);
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(10);
-    doc.text(`${info.div || ''}  \u2022  Record: ${wins}-${losses}`, textX, 50);
+    doc.text(info.div || '', textX, 50);
 
     // Reserved sponsor slot — top-right of the header band
     const sponsorEntries = SPONSOR_MAP[`TeamPDF-${team}`];
@@ -769,7 +770,14 @@ async function init(){
     });
     schedHTML += '</tbody></table>';
     document.getElementById('scheduleWrap').innerHTML = games.length ? schedHTML : '<p class="empty-note">No games found for this team in the schedule data yet.</p>';
-    document.getElementById('teamRecord').innerHTML = `Record: <strong>${wins}-${losses}</strong>`;
+    let recordHTML = `Record: <strong>${wins}-${losses}</strong>`;
+    try {
+      const coachRows = await loadCSV(DATA_CSV_URLS.coaches);
+      const coachRow = coachRows.find(r => r["Team"] === team);
+      const coachName = coachRow && coachRow["HeadCoach"] ? coachRow["HeadCoach"].trim() : "";
+      if(coachName) recordHTML += ` &nbsp;&middot;&nbsp; HC: <strong>${coachName}</strong>`;
+    } catch(e) { console.warn("Could not load Coaches tab:", e); }
+    document.getElementById('teamRecord').innerHTML = recordHTML;
 
     // --- Division seed (QPR rank within division, same math as Standings) ---
     if(!info.cancelled){
