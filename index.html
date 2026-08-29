@@ -132,6 +132,8 @@ header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); 
 .watch-hint{font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.845rem; color:var(--gold); border-top:1px solid #262c2e; padding-top:10px; margin-top:12px;}
 .watch-hint.muted{color:var(--steel); font-weight:500;}
 .game-card:hover{border-color:var(--field-green-light);}
+.game-card.clickable{cursor:pointer;}
+.game-card.clickable:hover{transform:translateY(-2px); border-color:var(--gold);}
 .game-status{font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold);}
 .matchup{display:flex; flex-direction:column; gap:8px;}
 .team-row{display:flex; align-items:center; justify-content:space-between;}
@@ -456,8 +458,13 @@ function homeNormalCardHTML(g){
     else { wl1 = '<span class="wl-badge wl-t">T</span>'; wl2 = '<span class="wl-badge wl-t">T</span>'; }
   }
   const sponsors = findTitleSponsor(g["Week"], g["Team1"], g["Team2"]);
+  const url = (g["BroadcastURL"] || "").trim();
+  const tag = url ? "a" : "div";
+  const openTag = url
+    ? `<a href="${url}" target="_blank" rel="noopener" class="game-card clickable">`
+    : `<div class="game-card">`;
   return `
-  <div class="game-card">
+  ${openTag}
     <span class="game-status">${status}</span>
     <div class="matchup">
       <div class="team-row"><div class="team">${vfnCrest(g["Team1"])}${g["Team1"]}</div><span class="team-score-wrap">${wl1}<span class="score">${score1}</span></span></div>
@@ -465,7 +472,8 @@ function homeNormalCardHTML(g){
     </div>
     <div class="game-meta">${gameMeta(g["Team1"], g["Team2"])}</div>
     ${sponsorBadgeHTML(sponsors)}
-  </div>`;
+    ${url ? `<div class="watch-hint">${played ? "Watch Replay" : "Watch This Broadcast"} &rarr;</div>` : ''}
+  </${tag}>`;
 }
 
 function renderMatchupOfWeek(weekGames, currentWeek){
