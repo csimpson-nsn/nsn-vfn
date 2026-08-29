@@ -607,10 +607,17 @@ async function generateTeamPDF(){
     let y = 92;
     doc.setTextColor(20, 24, 26);
 
-    // --- Schedule table ---
+    const colGap = 16;
+    const colWidth = (pageWidth - margin * 2 - colGap) / 2;
+    const leftX = margin;
+    const rightX = margin + colWidth + colGap;
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const footerReserve = 46;
+
+    // --- Schedule table — confined to the top-left column ---
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(13);
-    doc.text('2026 Schedule', margin, y);
+    doc.setFontSize(12);
+    doc.text('2026 Schedule', leftX, y);
 
     const schedBody = games.map(g => {
       const isTeam1 = g["Team1"] === team;
@@ -627,74 +634,67 @@ async function generateTeamPDF(){
     });
 
     doc.autoTable({
-      startY: y + 10,
-      margin: { left: margin, right: margin },
-      head: [['Week', 'Date', 'Opponent', 'Result', 'Score']],
+      startY: y + 8,
+      margin: { left: leftX, right: pageWidth - leftX - colWidth },
+      head: [['Wk', 'Date', 'Opponent', 'Res', 'Score']],
       body: schedBody.length ? schedBody : [['\u2014', '\u2014', 'No games scheduled yet', '', '']],
       theme: 'striped',
-      headStyles: { fillColor: [pr, pg, pb], textColor: 255, fontStyle: 'bold', fontSize: 8 },
-      styles: { fontSize: 8, cellPadding: 4 },
+      headStyles: { fillColor: [pr, pg, pb], textColor: 255, fontStyle: 'bold', fontSize: 7 },
+      styles: { fontSize: 7, cellPadding: 2.5 },
     });
 
-    y = doc.lastAutoTable.finalY + 22;
-    if(y > doc.internal.pageSize.getHeight() - 100){ doc.addPage(); y = 50; }
+    const leftRosterStartY = doc.lastAutoTable.finalY + 18;
 
-    // --- Roster table ---
-    // Long rosters (50+ kids at some schools) won't fit one column on one page, so past a threshold
-    // we split into two side-by-side columns and drop the YOG column to make room — Grade already
-    // says the same thing in plain English, so YOG is the safe one to cut for space.
+    // --- Roster — starts below the schedule in the left column; overflow continues in a
+    // second column that runs the full page height on the right (aligned with the schedule's top),
+    // since that space isn't used by anything else. Only splits if the roster actually needs it.
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(13);
-    doc.text('Roster', margin, y);
+    doc.setFontSize(12);
+    doc.text('Roster', leftX, leftRosterStartY);
 
-    const ROSTER_TWO_COL_THRESHOLD = 25;
-    const useTwoCol = roster.length > ROSTER_TWO_COL_THRESHOLD;
+    const approxRowH = 11.5; // measured for fontSize 7 / cellPadding 2.2 at this theme
+    const leftCapacity = Math.max(0, Math.floor((pageHeight - footerReserve - (leftRosterStartY + 8)) / approxRowH));
 
-    if(useTwoCol){
-      const colGap = 10;
-      const colWidth = (pageWidth - margin * 2 - colGap) / 2;
-      const splitAt = Math.ceil(roster.length / 2);
-      const leftRoster = roster.slice(0, splitAt);
-      const rightRoster = roster.slice(splitAt);
-      const rowsFor = (list) => list.map(p => [
-        p["Number"] || '', p["Player Name"] || '', classLabel(p["Grad Year"]),
-        p["Off Position"] || '', p["Def Position"] || ''
-      ]);
-      const head = [['#', 'Name', 'Grade', 'Off', 'Def']];
-      const sharedStyle = {
-        startY: y + 10,
-        theme: 'striped',
-        headStyles: { fillColor: [pr, pg, pb], textColor: 255, fontStyle: 'bold', fontSize: 7 },
-        styles: { fontSize: 7, cellPadding: 2.2 },
-      };
-      doc.autoTable(Object.assign({}, sharedStyle, {
-        margin: { left: margin, right: pageWidth - margin - colWidth },
-        head,
-        body: rowsFor(leftRoster),
+    const needsSplit = roster.length > leftCapacity;
+    const leftRoster = needsSplit ? roster.slice(0, leftCapacity) : roster;
+    const rightRoster = needsSplit ? roster.slice(leftCapacity) : [];
+
+    // YOG is dropped here (not just in the old "long roster" case) — this column is permanently
+    // narrower now that it sits beside the schedule, so the space is worth reclaiming either way.
+    const rowsFor = (list) => list.map(p => [
+      p["Number"] || '', p["Player Name"] || '', classLabel(p["Grad Year"]),
+      p["Off Position"] || '', p["Def Position"] || ''
+    ]);
+    const rosterHead = [['#', 'Name', 'Grade', 'Off', 'Def']];
+    const rosterStyle = {
+      theme: 'striped',
+      headStyles: { fillColor: [pr, pg, pb], textColor: 255, fontStyle: 'bold', fontSize: 7 },
+      styles: { fontSize: 7, cellPadding: 2.2 },
+    };
+
+    doc.autoTable(Object.assign({}, rosterStyle, {
+      startY: leftRosterStartY + 8,
+      margin: { left: leftX, right: pageWidth - leftX - colWidth },
+      head: rosterHead,
+      body: rowsFor(leftRoster).length ? rowsFor(leftRoster) : [['', 'Roster not entered yet', '', '', '']],
+    }));
+    let finalY = doc.lastAutoTable.finalY;
+
+    if(needsSplit && rightRoster.length){
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(12);
+      doc.text('Roster (cont.)', rightX, y);
+      doc.autoTable(Object.assign({}, rosterStyle, {
+        startY: y + 8,
+        margin: { left: rightX, right: margin },
+        head: rosterHead,
+        body: rowsFor(rightRoster),
       }));
-      const leftFinalY = doc.lastAutoTable.finalY;
-      doc.autoTable(Object.assign({}, sharedStyle, {
-        margin: { left: margin + colWidth + colGap, right: margin },
-        head,
-        body: rowsFor(rightRoster).length ? rowsFor(rightRoster) : [['', '', '', '', '']],
-      }));
-      y = Math.max(leftFinalY, doc.lastAutoTable.finalY);
-    } else {
-      const rosterBody = roster.map(p => [
-        p["Number"] || '', p["Player Name"] || '', p["Grad Year"] || '',
-        classLabel(p["Grad Year"]), p["Off Position"] || '', p["Def Position"] || ''
-      ]);
-      doc.autoTable({
-        startY: y + 10,
-        margin: { left: margin, right: margin },
-        head: [['#', 'Name', 'YOG', 'Grade', 'Off. Pos', 'Def. Pos']],
-        body: rosterBody.length ? rosterBody : [['', 'Roster not entered yet', '', '', '', '']],
-        theme: 'striped',
-        headStyles: { fillColor: [pr, pg, pb], textColor: 255, fontStyle: 'bold', fontSize: 8 },
-        styles: { fontSize: 8, cellPadding: 4 },
-      });
-      y = doc.lastAutoTable.finalY;
+      finalY = Math.max(finalY, doc.lastAutoTable.finalY);
     }
+    y = finalY;
+    // If a roster is so large even this doesn't fit, jsPDF-AutoTable automatically continues
+    // the overflowing table onto an additional page rather than clipping data.
 
     // --- Footer on every page ---
     const pageCount = doc.internal.getNumberOfPages();
