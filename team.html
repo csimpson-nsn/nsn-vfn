@@ -488,7 +488,7 @@ async function loadSponsorDirectory(){
     const row = {};
     headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
     if(!SPONSOR_MAP[row.SponsorTag]) SPONSOR_MAP[row.SponsorTag] = [];
-    SPONSOR_MAP[row.SponsorTag].push({name: row.Name, url: row.URL});
+    SPONSOR_MAP[row.SponsorTag].push({name: row.Name, url: row.URL, logo: row.LogoPath || ""});
   });
 }
 let TITLE_SPONSORS = [];
@@ -517,6 +517,15 @@ async function imgToDataURL(url){
       reader.readAsDataURL(blob);
     });
   } catch(e) { return null; }
+}
+
+function getImageDims(dataUrl){
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve({ w: img.naturalWidth, h: img.naturalHeight });
+    img.onerror = reject;
+    img.src = dataUrl;
+  });
 }
 
 function hexToRgb(hex){
@@ -566,11 +575,32 @@ async function generateTeamPDF(){
     // Reserved sponsor slot — top-right of the header band
     const sponsorEntries = SPONSOR_MAP[`TeamPDF-${team}`];
     if(sponsorEntries && sponsorEntries.length){
-      doc.setFontSize(8);
-      doc.text('Presented by', pageWidth - margin, 24, { align: 'right' });
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(11);
-      doc.text(sponsorEntries.map(s => s.name).join(' & '), pageWidth - margin, 40, { align: 'right' });
+      const logoPath = (sponsorEntries[0].logo || "").trim();
+      let sponsorLogoDataUrl = null;
+      if(logoPath){ sponsorLogoDataUrl = await imgToDataURL(logoPath); }
+
+      if(sponsorLogoDataUrl){
+        try {
+          const dims = await getImageDims(sponsorLogoDataUrl);
+          const maxW = 100, maxH = 46;
+          const scale = Math.min(maxW / dims.w, maxH / dims.h, 1);
+          const w = dims.w * scale, h = dims.h * scale;
+          doc.setFontSize(7);
+          doc.text('PRESENTED BY', pageWidth - margin, 14, { align: 'right' });
+          doc.addImage(sponsorLogoDataUrl, undefined, pageWidth - margin - w, 18, w, h);
+        } catch(e){
+          console.warn('Sponsor logo could not be embedded, falling back to text:', e);
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(11);
+          doc.text(sponsorEntries.map(s => s.name).join(' & '), pageWidth - margin, 40, { align: 'right' });
+        }
+      } else {
+        doc.setFontSize(8);
+        doc.text('Presented by', pageWidth - margin, 24, { align: 'right' });
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
+        doc.text(sponsorEntries.map(s => s.name).join(' & '), pageWidth - margin, 40, { align: 'right' });
+      }
     }
 
     let y = 92;
