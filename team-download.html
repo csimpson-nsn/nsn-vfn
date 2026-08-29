@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Download Schedule &amp; Roster | Vermont Football Network</title>
+<link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<!-- Intentionally a quiet, no-nav utility page — reached only via a link from a team page.
+     Kept separate from team.html so the jsPDF libraries (and the fetches the PDF needs) never
+     load on the main team page, which every visitor hits far more often than this one. -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap');
+:root{
+  --granite:#14181a; --slate:#1f2628; --field-green:#1f5c3a; --field-green-light:#2f7a4f;
+  --broadcast-red:#d6332e; --snow:#f3f5f3; --steel:#8b969a; --gold:#d9a13a;
+  --team-primary: var(--gold);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--granite); color:var(--snow); font-family:'Barlow',sans-serif; -webkit-font-smoothing:antialiased; min-height:100vh; display:flex; align-items:center; justify-content:center; padding:24px;}
+h1,.display{font-family:'Anton',sans-serif; text-transform:uppercase; letter-spacing:0.02em;}
+.eyebrow{font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.18em; font-size:0.72rem; color:var(--gold);}
+a{color:inherit;}
+.card{background:var(--slate); border:1px solid #262c2e; border-top:4px solid var(--team-primary); padding:36px 32px; max-width:440px; width:100%; text-align:center;}
+.crest{width:64px; height:64px; object-fit:contain; background:#fff; border-radius:8px; padding:6px; margin:0 auto 16px;}
+h1{font-size:1.5rem; margin:6px 0 4px;}
+.div-label{color:var(--steel); font-family:'Barlow Condensed',sans-serif; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:22px;}
+.dl-btn{display:inline-block; background:var(--gold); color:var(--granite); font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; font-size:0.975rem; padding:14px 28px; border:none; cursor:pointer; transform:skew(-6deg); width:100%;}
+.dl-btn span{display:block; transform:skew(6deg);}
+.dl-btn:hover{background:#e8b459;}
+.dl-btn:disabled{opacity:0.6; cursor:default;}
+.back-link{display:block; margin-top:18px; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:0.85rem; color:var(--steel); text-decoration:none;}
+.back-link:hover{color:var(--snow);}
+.status{color:var(--steel); font-size:0.9rem; margin-top:16px; line-height:1.5;}
+</style>
+</head>
+<body>
+
+<div class="card" id="card">
+  <span class="eyebrow">Vermont Football Network</span>
+  <img id="teamCrest" class="crest" src="" alt="" style="display:none;">
+  <h1 id="teamName">Loading&hellip;</h1>
+  <div class="div-label" id="teamDiv"></div>
+  <button class="dl-btn" id="downloadBtn" disabled onclick="generateTeamPDF()"><span>&#8681; Download PDF</span></button>
+  <p class="status" id="statusMsg">Loading schedule and roster&hellip;</p>
+  <a class="back-link" id="backLink" href="teams.html">&larr; Back to Teams</a>
+</div>
+
+<script>
+function parseCSVLine(line){
+  const cells = [];
+  let cur = '';
+  let inQuotes = false;
+  for(let i = 0; i < line.length; i++){
+    const ch = line[i];
+    if(inQuotes){
+      if(ch === '"'){
+        if(line[i+1] === '"'){ cur += '"'; i++; }
+        else { inQuotes = false; }
+      } else {
+        cur += ch;
+      }
+    } else {
+      if(ch === '"'){ inQuotes = true; }
+      else if(ch === ','){ cells.push(cur); cur = ''; }
+      else { cur += ch; }
+    }
+  }
+  cells.push(cur);
+  return cells;
+}
+function parseCSV(text){
+  const lines = text.trim().split(/\r?\n/);
+  const headers = parseCSVLine(lines[0]);
+  return lines.slice(1).filter(l => l.trim().length).map(line => {
+    const cells = parseCSVLine(line);
+    const row = {};
+    headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
+    return row;
+  });
+}
+async function loadCSV(url){
+  const r = await fetch(url);
+  if(!r.ok) throw new Error("Could not load " + url);
+  return parseCSV(await r.text());
+}
+
+// Only the 4 sources the PDF actually needs — not the 5 stat tabs or Coaches, which team.html
+// loads for its own display but this page has no use for.
+const DATA_CSV_URLS = {
+  teams:     "data/Teams.csv",
+  roster:    "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=1826490631&single=true&output=csv",
+  schedule:  "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=128915362&single=true&output=csv",
+  sponsors:  "https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=1074127502&single=true&output=csv",
+};
+
+const SEASON_YEAR = 2026; // update each fall — see classLabel()
+function classLabel(gradYearRaw){
+  const gy = parseInt(gradYearRaw, 10);
+  if(isNaN(gy)) return gradYearRaw || '';
+  const diff = gy - SEASON_YEAR;
+  switch(diff){
+    case 1: return 'Senior';
+    case 2: return 'Junior';
+    case 3: return 'Sophomore';
+    case 4: return 'Freshman';
+    default: return gradYearRaw;
+  }
+}
+
+async function imgToDataURL(url){
+  try {
+    const res = await fetch(url);
+    if(!res.ok) return null;
+    const blob = await res.blob();
+    return await new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.onerror = () => resolve(null);
+      reader.readAsDataURL(blob);
+    });
+  } catch(e) { return null; }
+}
+function getImageDims(dataUrl){
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve({ w: img.naturalWidth, h: img.naturalHeight });
+    img.onerror = reject;
+    img.src = dataUrl;
+  });
+}
+function hexToRgb(hex){
+  const h = (hex || '#1f5c3a').replace('#','');
+  const full = h.length === 3 ? h.split('').map(c=>c+c).join('') : h;
+  const n = parseInt(full, 16);
+  if(isNaN(n)) return [31,92,58];
+  return [(n>>16)&255, (n>>8)&255, n&255];
+}
+
+let PDF_DATA = null;
+let SPONSOR_MAP = {};
+
+async function init(){
+  const params = new URLSearchParams(window.location.search);
+  const team = params.get("team");
+  document.getElementById('backLink').href = team ? `team.html?team=${encodeURIComponent(team)}` : 'teams.html';
+
+  if(!team){
+    document.getElementById('teamName').textContent = "No Team Specified";
+    document.getElementById('statusMsg').textContent = "Go back to the team page you came from and use the download link there.";
+    return;
+  }
+
+  try {
+    const [teamRows, rosterRows, scheduleRows, sponsorRows] = await Promise.all([
+      loadCSV(DATA_CSV_URLS.teams),
+      loadCSV(DATA_CSV_URLS.roster),
+      loadCSV(DATA_CSV_URLS.schedule),
+      loadCSV(DATA_CSV_URLS.sponsors),
+    ]);
+
+    const teamRow = teamRows.find(r => r.Team === team);
+    if(!teamRow){
+      document.getElementById('teamName').textContent = "Team Not Found";
+      document.getElementById('statusMsg').textContent = "That team name doesn't match our records.";
+      return;
+    }
+    const info = {
+      logo: teamRow.LogoPath, div: teamRow.Division, c1: teamRow.PrimaryColor,
+      c2: teamRow.SecondaryColor, t1: teamRow.TextColor,
+    };
+
+    sponsorRows.forEach(row => {
+      if(!SPONSOR_MAP[row.SponsorTag]) SPONSOR_MAP[row.SponsorTag] = [];
+      SPONSOR_MAP[row.SponsorTag].push({ name: row.Name, url: row.URL, logo: row.LogoPath || "" });
+    });
+
+    document.title = `Download: ${team} | Vermont Football Network`;
+    document.getElementById('teamName').textContent = team;
+    document.getElementById('teamDiv').textContent = info.div || '';
+    document.documentElement.style.setProperty('--team-primary', info.c1 || 'var(--gold)');
+    if(info.logo){
+      const crest = document.getElementById('teamCrest');
+      crest.src = info.logo; crest.alt = team; crest.style.display = '';
+    }
+
+    const roster = rosterRows.filter(r => r["Team"] === team && r["Player Name"]);
+    roster.sort((a, b) => {
+      const an = parseInt(a["Number"], 10), bn = parseInt(b["Number"], 10);
+      const aValid = !isNaN(an), bValid = !isNaN(bn);
+      if(aValid && bValid && an !== bn) return an - bn;
+      if(aValid !== bValid) return aValid ? -1 : 1;
+      return (a["Player Name"] || "").localeCompare(b["Player Name"] || "");
+    });
+
+    const games = scheduleRows.filter(r => r["Team1"] === team || r["Team2"] === team)
+      .sort((a,b) => Number(a["Week"]) - Number(b["Week"]));
+    let wins = 0, losses = 0;
+    games.forEach(g => {
+      const isT1 = g["Team1"] === team;
+      const my = isT1 ? g["Team1Score"] : g["Team2Score"];
+      const opp = isT1 ? g["Team2Score"] : g["Team1Score"];
+      if(my !== "" && opp !== ""){
+        if(Number(my) > Number(opp)) wins++;
+        else if(Number(my) < Number(opp)) losses++;
+      }
+    });
+
+    PDF_DATA = { team, info, games, roster, wins, losses, classLabel };
+    document.getElementById('statusMsg').textContent =
+      `${games.length} game${games.length===1?'':'s'} on the schedule, ${roster.length} player${roster.length===1?'':'s'} on the roster.`;
+    document.getElementById('downloadBtn').disabled = false;
+
+  } catch(err){
+    console.error(err);
+    document.getElementById('teamName').textContent = team;
+    document.getElementById('statusMsg').textContent = "Could not load schedule/roster data. Try again in a moment.";
+  }
+}
+
+async function generateTeamPDF(){
+  if(!PDF_DATA) return;
+  if(!window.jspdf){
+    alert("The PDF tool is still loading — please wait a couple seconds and try again.");
+    return;
+  }
+  const btn = document.getElementById('downloadBtn');
+  const originalHTML = btn.innerHTML;
+  btn.disabled = true;
+  btn.innerHTML = '<span>Generating&hellip;</span>';
+  try {
+    const { team, info, games, roster, wins, losses, classLabel } = PDF_DATA;
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit: 'pt', format: 'letter' });
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const margin = 40;
+    const [pr, pg, pb] = hexToRgb(info.c1);
+
+    doc.setFillColor(pr, pg, pb);
+    doc.rect(0, 0, pageWidth, 70, 'F');
+
+    let crestDataUrl = null;
+    if(info.logo){ crestDataUrl = await imgToDataURL(info.logo); }
+    if(crestDataUrl){
+      try { doc.addImage(crestDataUrl, undefined, margin, 12, 46, 46); } catch(e){ console.warn('Crest could not be embedded:', e); }
+    }
+
+    const textX = crestDataUrl ? margin + 58 : margin;
+    doc.setTextColor(255, 255, 255);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(20);
+    doc.text(team.toUpperCase(), textX, 34);
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(10);
+    doc.text(info.div || '', textX, 50);
+
+    const sponsorEntries = SPONSOR_MAP[`TeamPDF-${team}`];
+    if(sponsorEntries && sponsorEntries.length){
+      const logoPath = (sponsorEntries[0].logo || "").trim();
+      let sponsorLogoDataUrl = null;
+      if(logoPath){ sponsorLogoDataUrl = await imgToDataURL(logoPath); }
+
+      if(sponsorLogoDataUrl){
+        try {
+          const dims = await getImageDims(sponsorLogoDataUrl);
+          const maxW = 100, maxH = 46;
+          const scale = Math.min(maxW / dims.w, maxH / dims.h, 1);
+          const w = dims.w * scale, h = dims.h * scale;
+          doc.setFontSize(7);
+          doc.text('PRESENTED BY', pageWidth - margin, 14, { align: 'right' });
+          doc.addImage(sponsorLogoDataUrl, undefined, pageWidth - margin - w, 18, w, h);
+        } catch(e){
+          console.warn('Sponsor logo could not be embedded, falling back to text:', e);
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(11);
+          doc.text(sponsorEntries.map(s => s.name).join(' & '), pageWidth - margin, 40, { align: 'right' });
+        }
+      } else {
+        doc.setFontSize(8);
+        doc.text('Presented by', pageWidth - margin, 24, { align: 'right' });
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(11);
+        doc.text(sponsorEntries.map(s => s.name).join(' & '), pageWidth - margin, 40, { align: 'right' });
+      }
+    }
+
+    let y = 92;
+    doc.setTextColor(20, 24, 26);
+
+    const schedBody = games.map(g => {
+      const isTeam1 = g["Team1"] === team;
+      const opponent = isTeam1 ? g["Team2"] : g["Team1"];
+      const myScoreStr = isTeam1 ? g["Team1Score"] : g["Team2Score"];
+      const oppScoreStr = isTeam1 ? g["Team2Score"] : g["Team1Score"];
+      let result = '\u2014', scoreLine = '\u2014';
+      if(myScoreStr !== "" && oppScoreStr !== ""){
+        const my = Number(myScoreStr), opp = Number(oppScoreStr);
+        result = my > opp ? 'W' : (my < opp ? 'L' : 'T');
+        scoreLine = `${my}-${opp}`;
+      }
+      return [g["Week"], g["Date"], opponent, result, scoreLine];
+    });
+
+    const ROSTER_COMPACT_THRESHOLD = 25;
+    const compact = roster.length > ROSTER_COMPACT_THRESHOLD;
+
+    if(!compact){
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(13);
+      doc.text('2026 Schedule', margin, y);
+
+      doc.autoTable({
+        startY: y + 10,
+        margin: { left: margin, right: margin },
+        head: [['Week', 'Date', 'Opponent', 'Result', 'Score']],
+        body: schedBody.length ? schedBody : [['\u2014', '\u2014', 'No games scheduled yet', '', '']],
+        theme: 'striped',
+        headStyles: { fillColor: [pr, pg, pb], textColor: 255, fontStyle: 'bold', fontSize: 8 },
+        styles: { fontSize: 8, cellPadding: 4 },
+      });
+
+      y = doc.lastAutoTable.finalY + 22;
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(13);
+      doc.text('Roster', margin, y);
+
+      const rosterBody = roster.map(p => [
+        p["Number"] || '', p["Player Name"] || '', p["Grad Year"] || '',
+        classLabel(p["Grad Year"]), p["Off Position"] || '', p["Def Position"] || ''
+      ]);
+
+      doc.autoTable({
+        startY: y + 10,
+        margin: { left: margin, right: margin },
+        head: [['#', 'Name', 'YOG', 'Grade', 'Off. Pos', 'Def. Pos']],
+        body: rosterBody.length ? rosterBody : [['', 'Roster not entered yet', '', '', '', '']],
+        theme: 'striped',
+        headStyles: { fillColor: [pr, pg, pb], textColor: 255, fontStyle: 'bold', fontSize: 8 },
+        styles: { fontSize: 8, cellPadding: 4 },
+      });
+      y = doc.lastAutoTable.finalY;
+
+    } else {
+      const colGap = 16;
+      const colWidth = (pageWidth - margin * 2 - colGap) / 2;
+      const leftX = margin;
+      const rightX = margin + colWidth + colGap;
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(12);
+      doc.text('2026 Schedule', leftX, y);
+
+      doc.autoTable({
+        startY: y + 8,
+        margin: { left: leftX, right: pageWidth - leftX - colWidth },
+        head: [['Wk', 'Date', 'Opponent', 'Res', 'Score']],
+        body: schedBody.length ? schedBody : [['\u2014', '\u2014', 'No games scheduled yet', '', '']],
+        theme: 'striped',
+        headStyles: { fillColor: [pr, pg, pb], textColor: 255, fontStyle: 'bold', fontSize: 7 },
+        styles: { fontSize: 7, cellPadding: 2.5 },
+      });
+
+      const leftRosterStartY = doc.lastAutoTable.finalY + 18;
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(12);
+      doc.text('Roster', leftX, leftRosterStartY);
+
+      const splitAt = Math.ceil(roster.length / 2);
+      const leftRoster = roster.slice(0, splitAt);
+      const rightRoster = roster.slice(splitAt);
+
+      const rowsFor = (list) => list.map(p => [
+        p["Number"] || '', p["Player Name"] || '', classLabel(p["Grad Year"]),
+        p["Off Position"] || '', p["Def Position"] || ''
+      ]);
+      const rosterHead = [['#', 'Name', 'Grade', 'Off', 'Def']];
+      const rosterStyle = {
+        theme: 'striped',
+        headStyles: { fillColor: [pr, pg, pb], textColor: 255, fontStyle: 'bold', fontSize: 7 },
+        styles: { fontSize: 7, cellPadding: 2.2 },
+      };
+
+      doc.autoTable(Object.assign({}, rosterStyle, {
+        startY: leftRosterStartY + 8,
+        margin: { left: leftX, right: pageWidth - leftX - colWidth },
+        head: rosterHead,
+        body: rowsFor(leftRoster).length ? rowsFor(leftRoster) : [['', 'Roster not entered yet', '', '', '']],
+      }));
+      let finalY = doc.lastAutoTable.finalY;
+
+      if(rightRoster.length){
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(12);
+        doc.text('Roster (cont.)', rightX, y);
+        doc.autoTable(Object.assign({}, rosterStyle, {
+          startY: y + 8,
+          margin: { left: rightX, right: margin },
+          head: rosterHead,
+          body: rowsFor(rightRoster),
+        }));
+        finalY = Math.max(finalY, doc.lastAutoTable.finalY);
+      }
+      y = finalY;
+    }
+
+    const pageCount = doc.internal.getNumberOfPages();
+    for(let i = 1; i <= pageCount; i++){
+      doc.setPage(i);
+      const h = doc.internal.pageSize.getHeight();
+      doc.setDrawColor(200, 200, 200);
+      doc.line(margin, h - 38, pageWidth - margin, h - 38);
+      doc.setFontSize(8);
+      doc.setTextColor(120, 120, 120);
+      doc.setFont('helvetica', 'normal');
+      doc.text('Vermont Football Network \u2014 A Northeast Sports Network Production  \u2022  www.nsnsports.net', margin, h - 24);
+      doc.text(`Generated ${new Date().toLocaleDateString()}`, pageWidth - margin, h - 24, { align: 'right' });
+    }
+
+    doc.save(`${team.replace(/[^a-z0-9]+/gi, '-')}-Schedule-Roster.pdf`);
+  } catch(err){
+    console.error('PDF generation failed:', err);
+    alert('Sorry, the PDF could not be generated. Please try again.');
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = originalHTML;
+  }
+}
+
+init();
+</script>
+
+<!-- Loaded only here — not on team.html — since this is the one page that actually needs them. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+
+</body>
+</html>
