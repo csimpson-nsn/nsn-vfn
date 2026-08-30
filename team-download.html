@@ -254,6 +254,19 @@ async function generateTeamPDF(){
     doc.setFontSize(10);
     doc.text(info.div || '', textX, 50);
 
+    // VFN logo, centered in the header band — small enough to clear the team crest on the
+    // left and the sponsor slot on the right at their widest.
+    const vfnLogoDataUrl = await imgToDataURL('assets/vfn-logo.jpg');
+    if(vfnLogoDataUrl){
+      try {
+        const dims = await getImageDims(vfnLogoDataUrl);
+        const maxH = 40;
+        const scale = Math.min(maxH / dims.h, 1);
+        const w = dims.w * scale, h = dims.h * scale;
+        doc.addImage(vfnLogoDataUrl, undefined, (pageWidth - w) / 2, (70 - h) / 2, w, h);
+      } catch(e){ console.warn('VFN logo could not be embedded:', e); }
+    }
+
     const sponsorEntries = SPONSOR_MAP[`TeamPDF-${team}`];
     if(sponsorEntries && sponsorEntries.length){
       const logoPath = (sponsorEntries[0].logo || "").trim();
@@ -459,6 +472,17 @@ async function generateTeamPDF(){
       y = finalY;
     }
 
+    // NSN logo for the footer — measured once here, then stamped on every page below.
+    let nsnLogoW = 0, nsnLogoH = 0;
+    const nsnLogoDataUrl = await imgToDataURL('assets/nsn-logo.png');
+    if(nsnLogoDataUrl){
+      try {
+        const dims = await getImageDims(nsnLogoDataUrl);
+        nsnLogoH = 11;
+        nsnLogoW = dims.w * (nsnLogoH / dims.h);
+      } catch(e){ console.warn('NSN logo could not be measured:', e); }
+    }
+
     const pageCount = doc.internal.getNumberOfPages();
     for(let i = 1; i <= pageCount; i++){
       doc.setPage(i);
@@ -468,7 +492,25 @@ async function generateTeamPDF(){
       doc.setFontSize(8);
       doc.setTextColor(120, 120, 120);
       doc.setFont('helvetica', 'normal');
-      doc.text('Vermont Football Network \u2014 A Northeast Sports Network Production  \u2022  www.nsnsports.net', margin, h - 24);
+
+      // Same footer height/position as before either way — this just swaps the left-aligned
+      // text for a centered logo+URL group so the tested one/two-column page-fit math holds.
+      const urlText = 'www.nsnsports.net';
+      const urlTextW = doc.getTextWidth(urlText);
+      if(nsnLogoDataUrl && nsnLogoW){
+        const gap = 6;
+        const totalW = nsnLogoW + gap + urlTextW;
+        const startX = (pageWidth - totalW) / 2;
+        try {
+          doc.addImage(nsnLogoDataUrl, undefined, startX, h - 34, nsnLogoW, nsnLogoH);
+          doc.text(urlText, startX + nsnLogoW + gap, h - 24);
+        } catch(e){
+          console.warn('NSN logo could not be embedded, falling back to text:', e);
+          doc.text('Vermont Football Network \u2014 A Northeast Sports Network Production  \u2022  ' + urlText, margin, h - 24);
+        }
+      } else {
+        doc.text('Vermont Football Network \u2014 A Northeast Sports Network Production  \u2022  ' + urlText, margin, h - 24);
+      }
       doc.text(`Generated ${new Date().toLocaleDateString()}`, pageWidth - margin, h - 24, { align: 'right' });
     }
 
