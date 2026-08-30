@@ -738,7 +738,7 @@ async function init(){
     ).join('');
 
     // --- Division rank band (hero) — split into Offense / Defense halves ---
-    const divisionTeams = new Set(rosterRows.filter(r => r["Division"] === info.div).map(r => r["Team"]));
+    const divisionTeams = new Set(Object.keys(TEAMS).filter(t => TEAMS[t].div === info.div));
     const divOffense = allTeamOffense.filter(t => divisionTeams.has(t.team) && !(TEAMS[t.team] && TEAMS[t.team].cancelled));
     const divDefense = allTeamDefense.filter(t => divisionTeams.has(t.team) && !(TEAMS[t.team] && TEAMS[t.team].cancelled));
     const offenseItems = [
