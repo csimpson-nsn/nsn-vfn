@@ -493,23 +493,15 @@ async function generateTeamPDF(){
       doc.setTextColor(120, 120, 120);
       doc.setFont('helvetica', 'normal');
 
-      // Same footer height/position as before either way — this just swaps the left-aligned
-      // text for a centered logo+URL group so the tested one/two-column page-fit math holds.
-      const urlText = 'www.nsnsports.net';
-      const urlTextW = doc.getTextWidth(urlText);
+      // Full original text, left-aligned as before; logo tacked on right after it rather than
+      // centered — keeps the left/right footer symmetry against the right-aligned date below.
+      const fullFooterText = 'Vermont Football Network \u2014 A Northeast Sports Network Production  \u2022  www.nsnsports.net';
+      doc.text(fullFooterText, margin, h - 24);
       if(nsnLogoDataUrl && nsnLogoW){
-        const gap = 6;
-        const totalW = nsnLogoW + gap + urlTextW;
-        const startX = (pageWidth - totalW) / 2;
         try {
-          doc.addImage(nsnLogoDataUrl, undefined, startX, h - 34, nsnLogoW, nsnLogoH);
-          doc.text(urlText, startX + nsnLogoW + gap, h - 24);
-        } catch(e){
-          console.warn('NSN logo could not be embedded, falling back to text:', e);
-          doc.text('Vermont Football Network \u2014 A Northeast Sports Network Production  \u2022  ' + urlText, margin, h - 24);
-        }
-      } else {
-        doc.text('Vermont Football Network \u2014 A Northeast Sports Network Production  \u2022  ' + urlText, margin, h - 24);
+          const textW = doc.getTextWidth(fullFooterText);
+          doc.addImage(nsnLogoDataUrl, undefined, margin + textW + 8, h - 33, nsnLogoW, nsnLogoH);
+        } catch(e){ console.warn('NSN logo could not be embedded:', e); }
       }
       doc.text(`Generated ${new Date().toLocaleDateString()}`, pageWidth - margin, h - 24, { align: 'right' });
     }
