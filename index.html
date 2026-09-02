@@ -250,28 +250,10 @@ function toggleMobileMenu(){
 <section class="page-sponsor-banner" id="sponsors">
   <div class="wrap">
     <span class="eyebrow" style="display:block; text-align:center; margin-bottom:20px; color:var(--steel);">Brought to you by</span>
-    <div class="sponsor-ticker" style="margin-bottom:22px;">
-      <div class="sponsor-ticker-track">
-        <a href="https://www.littletonchevrolet.com/" target="_blank" rel="noopener">Littleton Chevrolet</a>
-        <a href="https://www.crosstownmotors.net/" target="_blank" rel="noopener">Crosstown Motors</a>
-        <a href="https://www.northwesternmedicalcenter.org/" target="_blank" rel="noopener">Northwest Medical Center</a>
-        <a href="https://www.mioseklaw.com/" target="_blank" rel="noopener">Miosek Law</a>
-        <a href="https://newtonerac.com/" target="_blank" rel="noopener">Dennis Newton</a>
-        <a href="https://www.larkinrealty.net/" target="_blank" rel="noopener">Larkin Realty</a>
-        <a href="https://lovellfarmsvt.com/" target="_blank" rel="noopener">Lovell Farm</a>
-        <a href="https://www.therockwoodagency.com/" target="_blank" rel="noopener">The Rockwood Agency</a>
-        <a href="https://hartfordautovt.com/repair-services/" target="_blank" rel="noopener">Hartford Auto</a>
-        <!-- duplicated for seamless scroll loop -->
-        <a href="https://www.littletonchevrolet.com/" target="_blank" rel="noopener">Littleton Chevrolet</a>
-        <a href="https://www.crosstownmotors.net/" target="_blank" rel="noopener">Crosstown Motors</a>
-        <a href="https://www.northwesternmedicalcenter.org/" target="_blank" rel="noopener">Northwest Medical Center</a>
-        <a href="https://www.mioseklaw.com/" target="_blank" rel="noopener">Miosek Law</a>
-        <a href="https://newtonerac.com/" target="_blank" rel="noopener">Dennis Newton</a>
-        <a href="https://www.larkinrealty.net/" target="_blank" rel="noopener">Larkin Realty</a>
-        <a href="https://lovellfarmsvt.com/" target="_blank" rel="noopener">Lovell Farm</a>
-        <a href="https://www.therockwoodagency.com/" target="_blank" rel="noopener">The Rockwood Agency</a>
-        <a href="https://hartfordautovt.com/repair-services/" target="_blank" rel="noopener">Hartford Auto</a>
-      </div>
+    <div class="sponsor-ticker" id="sponsorTickerWrap" style="margin-bottom:22px;">
+      <!-- Populated live from the "VFN Data Hub" Google Sheet, SponsorDirectory tab (see renderSponsorTicker()).
+           Rows with no URL (e.g. PDF-only sponsors) are skipped since there's nothing to link to. -->
+      <div class="sponsor-ticker-track" id="sponsorTickerTrack"></div>
     </div>
     <!-- MATCHUP OF THE WEEK: pulled live from the Schedule tab's GameOfWeek column (mark exactly
          one game "Yes" per week) and the same TitleSponsors.csv lookup used for per-game badges. -->
@@ -348,9 +330,11 @@ function gameMeta(t1, t2){
 }
 // Sponsor tag -> full name(s) + link now lives in the "VFN Data Hub" Google Sheet, SponsorDirectory tab
 let SPONSOR_MAP = {};
+let SPONSOR_ROWS = []; // raw rows, used to build the homepage scrolling ticker
 async function loadSponsorDirectory(){
   SPONSOR_MAP = {}; // reset each call — this runs every 45s via the live-score poll, so without
                     // resetting, sponsor names would pile up duplicates the longer the page stays open
+  SPONSOR_ROWS = [];
   const r = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=1074127502&single=true&output=csv");
   if(!r.ok) throw new Error("Could not load the SponsorDirectory tab from the VFN Data Hub sheet");
   const lines = (await r.text()).trim().split(/\r?\n/);
@@ -361,7 +345,22 @@ async function loadSponsorDirectory(){
     headers.forEach((h,i) => row[h.trim()] = cells[i] !== undefined ? cells[i].trim() : "");
     if(!SPONSOR_MAP[row.SponsorTag]) SPONSOR_MAP[row.SponsorTag] = [];
     SPONSOR_MAP[row.SponsorTag].push({name: row.Name, url: row.URL});
+    SPONSOR_ROWS.push(row);
   });
+}
+// Builds the homepage scrolling ticker straight from SponsorDirectory rows.
+// Rows with no URL (e.g. a PDF-only sponsor, tagged like "TeamPDF-...") are skipped —
+// nothing for the ticker to link to. Only runs once (see the "already rendered" guard
+// in renderHomeSchedule) so the 45s live-score poll doesn't restart the scroll animation.
+function renderSponsorTicker(){
+  const track = document.getElementById('sponsorTickerTrack');
+  const wrap = document.getElementById('sponsorTickerWrap');
+  if(!track || !wrap) return;
+  const withUrl = SPONSOR_ROWS.filter(row => row.URL && row.URL.trim() !== "");
+  if(!withUrl.length){ wrap.style.display = 'none'; return; }
+  const linksHTML = withUrl.map(row => `<a href="${row.URL}" target="_blank" rel="noopener">${row.Name}</a>`).join('');
+  // Duplicated once so the CSS scroll animation (translateX -50%) loops seamlessly.
+  track.innerHTML = linksHTML + linksHTML;
 }
 let TITLE_SPONSORS = [];
 function findTitleSponsor(week, teamA, teamB){
@@ -515,7 +514,10 @@ async function renderHomeSchedule(){
     // publish hiccup, a temporary Google issue, anything), the schedule and games still
     // render — just without logos and/or sponsor badges — instead of the whole section breaking.
     try { await loadTeamsCSV(); } catch(e) { console.warn("Could not load Teams data:", e); }
-    try { await loadSponsorDirectory(); } catch(e) { console.warn("Could not load Sponsor directory:", e); }
+    try {
+      await loadSponsorDirectory();
+      if(!window._sponsorTickerRendered){ renderSponsorTicker(); window._sponsorTickerRendered = true; }
+    } catch(e) { console.warn("Could not load Sponsor directory:", e); }
     // Schedule now lives in the "VFN Data Hub" Google Sheet (Schedule tab), published to web as CSV.
     // To swap sources later, change this one URL — no other code needs to change.
     const res = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vS1heOQogBSu2XBHcC_eBhScf_tjc8bIL2blVPXrSa0M97veW9aesiwPVud1fvmpX2axBSeth3hhNXD/pub?gid=128915362&single=true&output=csv");
