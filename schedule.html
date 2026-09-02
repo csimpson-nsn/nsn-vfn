@@ -92,6 +92,7 @@ header{background:var(--granite); border-bottom:3px solid var(--broadcast-red); 
 .team-row{display:flex; align-items:center; justify-content:space-between;}
 .team{display:flex; align-items:center; gap:10px; font-weight:600; font-size:1.045rem;}
 .team:hover{color:var(--gold);}
+.hw-tag{color:var(--steel); font-weight:600; font-size:0.9em;}
 .score{font-family:'Anton',sans-serif; font-size:1.225rem; color:var(--steel);}
 .score.final{color:var(--snow);}
 .team-score-wrap{display:flex; align-items:center; gap:8px;}
@@ -256,14 +257,14 @@ async function loadCSV(url){
   return parseCSV(await r.text());
 }
 
-function teamChip(name, isAway){
+function teamChip(name, role){
   const info = TEAMS[name];
   const logoImg = info && info.logo
     ? `<img src="${info.logo}" alt="${name}" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px;">`
     : `<span class="team-dot c1" style="width:14px;height:14px;border-radius:4px;background:var(--field-green-light);display:inline-block;"></span>`;
   const href = info ? `team.html?team=${encodeURIComponent(name)}` : null;
-  // "@" prefix marks the away team — Team1 is always Home, Team2 is always Away in the Schedule sheet.
-  const label = isAway ? `@ ${name}` : name;
+  // role is 'H' or 'A' — Team1 is always Home, Team2 is always Away in the Schedule sheet.
+  const label = role ? `${name} <span class="hw-tag">(${role})</span>` : name;
   const inner = `${logoImg}${label}`;
   return href ? `<a href="${href}" class="team">${inner}</a>` : `<div class="team">${inner}</div>`;
 }
@@ -311,8 +312,8 @@ function gameCardHTML(g){
   return `<div class="game-card">
     <span class="game-status">${status}</span>
     <div class="matchup">
-      <div class="team-row">${teamChip(g["Team1"])}<span class="team-score-wrap">${wl1}<span class="${scoreClass}">${score1}</span></span></div>
-      <div class="team-row">${teamChip(g["Team2"], true)}<span class="team-score-wrap">${wl2}<span class="${scoreClass}">${score2}</span></span></div>
+      <div class="team-row">${teamChip(g["Team1"], 'H')}<span class="team-score-wrap">${wl1}<span class="${scoreClass}">${score1}</span></span></div>
+      <div class="team-row">${teamChip(g["Team2"], 'A')}<span class="team-score-wrap">${wl2}<span class="${scoreClass}">${score2}</span></span></div>
     </div>
     <div class="game-meta">Week ${g["Week"]}</div>
     ${sponsorBadgeHTML(sponsors)}
