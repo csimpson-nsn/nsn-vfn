@@ -460,15 +460,17 @@ function resultClass(r){
   return "result-u";
 }
 
-function opponentChip(name){
+function opponentChip(name, isAway){
   const info = TEAMS[name];
   const logoImg = info && info.logo
     ? `<img src="${info.logo}" alt="${name}" style="width:20px; height:20px; object-fit:contain; background:#fff; border-radius:6px; padding:3px; display:inline-block; vertical-align:middle; margin-right:8px;">`
     : `<span style="width:14px;height:14px;border-radius:4px;background:var(--steel);display:inline-block; vertical-align:middle; margin-right:8px;"></span>`;
+  // "@" marks games where this team played on the road — Team1 is Home, Team2 is Away in the Schedule sheet.
+  const label = isAway ? `@ ${name}` : name;
   if(info){
-    return `<a href="team.html?team=${encodeURIComponent(name)}" style="color:inherit; display:inline-flex; align-items:center;">${logoImg}${name}</a>`;
+    return `<a href="team.html?team=${encodeURIComponent(name)}" style="color:inherit; display:inline-flex; align-items:center;">${logoImg}${label}</a>`;
   }
-  return `<span style="display:inline-flex; align-items:center;">${logoImg}${name}</span>`;
+  return `<span style="display:inline-flex; align-items:center;">${logoImg}${label}</span>`;
 }
 
 // Title sponsor short-tag -> full name(s) + link. LC/CM is a joint two-sponsor tag.
@@ -584,7 +586,7 @@ async function init(){
         if(result === "L") losses++;
       }
       const sponsors = findTitleSponsor(g["Week"], g["Team1"], g["Team2"]);
-      schedHTML += `<tr><td>${g["Week"]}</td><td>${g["Date"]}</td><td>${opponentChip(opponent)}${sponsorBadgeHTML(sponsors)}</td><td class="${resultClass(result)}">${result}</td><td>${scoreLine}</td></tr>`;
+      schedHTML += `<tr><td>${g["Week"]}</td><td>${g["Date"]}</td><td>${opponentChip(opponent, !isTeam1)}${sponsorBadgeHTML(sponsors)}</td><td class="${resultClass(result)}">${result}</td><td>${scoreLine}</td></tr>`;
     });
     schedHTML += '</tbody></table>';
     document.getElementById('scheduleWrap').innerHTML = games.length ? schedHTML : '<p class="empty-note">No games found for this team in the schedule data yet.</p>';
